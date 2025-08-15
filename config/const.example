@@ -1,0 +1,27 @@
+<?php
+# ROUTE
+const SERVER = "localhost";
+const PROJECT = "/inventariogastos";
+
+# ROUTE DATABASE
+const SERVER_DB = "localhost";
+const USER_DB  = "root";
+const PASS_DB = "20975144";
+const NAME_DB = "project_inventario";
+
+//ROUTE PRINCIPAL APP
+const URI = "http://" . SERVER . PROJECT;
+const URL_APP = URI . "/app";
+const URL_ASSETS  = URI . "/assets";
+
+//ROUTE PRINCIPAL APP
+const MAIL_SERVER = "mail.serviciosnavalesdelsur.com";
+const MAIL_USER = "coordinacionrrhh@serviciosnavalesdelsur.com";
+const MAIL_PASS  = "Murcielago2020";
+
+define("PATH_APP", $_SERVER['DOCUMENT_ROOT'] . PROJECT . "/app");
+define("PATH_ASSETS", $_SERVER['DOCUMENT_ROOT'] . PROJECT . "/assets");
+define("PATH_CONFIG", $_SERVER['DOCUMENT_ROOT'] . PROJECT . "/config");
+define("PATH_VENDOR", $_SERVER['DOCUMENT_ROOT'] . PROJECT . "/vendor");
+
+date_default_timezone_set('america/caracas');
