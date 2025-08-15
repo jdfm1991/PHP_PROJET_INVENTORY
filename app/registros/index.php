@@ -67,7 +67,6 @@ require_once(PATH_APP . "/head.php");
   </a>
   <?php
   require_once(PATH_APP . "/plugins.php");
-  require_once(PATH_ASSETS . '/components/modal.php');
   ?>
   <script src="registrogasto.js"></script>
 </body>

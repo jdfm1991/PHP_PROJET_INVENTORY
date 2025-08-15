@@ -42,8 +42,8 @@ const loadSidebarMenu = async () => {
     opt.modules.forEach((mod, idx) => {
       const a = document.createElement('a');
       a.classList.add('collapse-item');
-      a.setAttribute('href', URI + mod.nameModule);
-      a.innerHTML = `${mod.nameListModule}`;
+      a.setAttribute('href', URI + mod.m_name);
+      a.innerHTML = `${mod.m_namelist}`;
       divContainerInner.appendChild(a);
     })
     li.appendChild(divContainer);
@@ -114,6 +114,11 @@ const chargeDayRate = async () => {
   }
 }
 $(document).ready(function () {
+  $(".modal").css("background-color", "rgba(78, 78, 78, 0.36)");
+  $(".modal-content").css("background-color", "rgba(67, 67, 67, 0.79)");
+  $(".modal-content").css("color", "rgba(245, 245, 245, 1)");
+  
+
   $('#btnLogin').click(function (e) {
     e.preventDefault();
     $('.modal-title').text('Iniciar Sesion');
@@ -156,7 +161,6 @@ $(document).ready(function () {
   });
 
   loadSidebarMenu();
-  //chargeDayRate();
 });
 
 

@@ -60,8 +60,8 @@ $(document).ready(function () {
       },
       columns: [
         { data: "date" },
-        { data: "exchange" },
-        { data: "type" },
+        { data: "dollar" },
+        { data: "euro" },
         {
           data: "id", render: (data, _, __, meta) =>
             `<button id="b_edit_rate" class="btn btn-outline-primary btn-sm" data-value="${data}"><i class="fa fa-edit"></i></button>`, className: "text-center"

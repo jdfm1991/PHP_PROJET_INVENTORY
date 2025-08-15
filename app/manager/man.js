@@ -17,7 +17,7 @@ $(document).ready(function () {
         button.setAttribute('data-value', opt.id);
         button.setAttribute('type', 'button');
         button.setAttribute('value', opt.name);
-        button.innerHTML = `${opt.name}`;
+        button.innerHTML = `${opt.listname}`;
         container.appendChild(button);
       })
     } catch (error) {
@@ -75,7 +75,7 @@ $(document).ready(function () {
           button.setAttribute('id', 'b_unassign_module');
           button.setAttribute('data-value', mod.m_id);
           button.setAttribute('type', 'button');
-          button.setAttribute('value', mod.id);
+          button.setAttribute('value', mod.m_name);
           button.innerHTML = `${mod.m_namelist}`;
           DivBody.appendChild(button);
         })

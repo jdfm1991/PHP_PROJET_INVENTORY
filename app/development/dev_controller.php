@@ -5,7 +5,7 @@ require_once("dev_module.php");
 
 $dev = new Development();
 
-$id = (isset($_POST['id'])) ? $_POST['id'] : '689f2e9d4a761';
+$id = (isset($_POST['id'])) ? $_POST['id'] : '';
 $cont_name = (isset($_POST['container'])) ? $_POST['container'] : '';
 $module = (isset($_POST['module'])) ? $_POST['module'] : '';
 $namelist = (isset($_POST['namelist'])) ? $_POST['namelist'] : '';

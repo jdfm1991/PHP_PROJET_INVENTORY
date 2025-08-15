@@ -1,10 +1,4 @@
 $(document).ready(function () {
-  
-  const removeAccentsFromString = (str) => {
-    str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    return str.toUpperCase();
-  }
-
   const removeHyphenFromString = (str) => {
     return str.replace(/-/g, "");
   }
@@ -17,7 +11,7 @@ $(document).ready(function () {
       paging: true,
       lengthChange: true,
       searching: true,
-      ordering: true,
+      ordering: false,
       displayLength: 10,
       lengthMenu: [10, 25, 50, 100],
       pageLength: 10,
@@ -47,13 +41,11 @@ $(document).ready(function () {
       columns: [
         { data: "name" },
         { data: "dni" },
-        { data: "email" },
         { data: "phone" },
-        { data: "phonealt" },
         {
           data: "id", render: (data, _, __, meta) =>
-            `<button id="b_edit_client" class="btn btn-outline-primary btn-sm" data-value="${data}"><i class="fa fa-edit"></i></button>
-            <button id="b_delete_client" class="btn btn-outline-danger btn-sm" data-value="${data}"><i class="fa fa-trash"></i></button>`, className: "text-center"
+            `<button id="b_update" class="btn btn-outline-primary btn-sm" data-value="${data}"><i class="fa fa-edit"></i></button>
+            <button id="b_delete" class="btn btn-outline-danger btn-sm" data-value="${data}"><i class="fa fa-trash"></i></button>`, className: "text-center"
         }
       ],
       columnsDefs: [
@@ -63,11 +55,9 @@ $(document).ready(function () {
 
   }
   /* Accion para Guardar o Actualizar Informacion del Cliente en la Base de Datos */
-  $('#formClient').submit(function (e) {
+  $('#formclient').submit(function (e) {
     e.preventDefault();
-    sfdni = removeHyphenFromString($('#clientDni').val()); // Numero de DNI Sin Formatear
-    sfphone = $('#clientPhone').val(); // Numero de Telefono Sin Formatear
-    sfname = $('#clientName').val() // Nombre de Cliente Sin Formatear
+    sfdni = removeHyphenFromString($('#c_identity').val()); // Numero de DNI Sin Formatear
     fc = sfdni.charAt(0); // Primer Caracter del DNI
     if (!fc.match(/[a-zA-Z]/)) { // Si el Primer Caracter del DNI no es una Letra Arroja Mensaje de Error
       $('#m_client_cont').removeClass('d-none');
@@ -78,32 +68,17 @@ $(document).ready(function () {
       }, 2000);
       return false;
     }
-    if (sfphone.length < 10) { // Si el Numero de Telefono no tiene 10 Digitos Arroja Mensaje de Error
-      $('#m_client_cont').removeClass('d-none');
-      $('#m_client_text').addClass('text-danger font-weight-bold text-center');
-      $('#m_client_text').text('El Numero de Telefono debe tener 10 Digitos');
-      setTimeout(() => {
-        $('#m_client_cont').addClass('d-none');
-      }, 2000);
-      return false;
-    } 
-    if (sfphone.length == 10) { // Si el Numero de Telefono tiene 10 Digitos Le Agrega el 58 al Comienzo
-      sfphone = '58' + sfphone;
-    }
-    id = $('#clientId').val();
-    name = removeAccentsFromString(sfname);
     nfdni = sfdni.charAt(0) + '-' + sfdni.substring(1); // Numero de DNI Formato Previo
+
+    id = $('#c_id').val();
+    name = $('#c_name').val();
     dni = nfdni.toUpperCase(); // Numero de DNI Formateado
-    phone = sfphone.replace(/(\d{2})(\d{3})(\d{3})(\d{4})/, '+($1) $2-$3-$4'); // Numero de Telefono Formateado
-    phonealt = $('#clientPhoneAlt').val();
-    email = $('#clientEmail').val();
+    phone = $('#c_phone').val();
     dato = new FormData();
     dato.append('id', id);
     dato.append('name', name);
     dato.append('dni', dni);
     dato.append('phone', phone);
-    dato.append('phonealt', phonealt);
-    dato.append('email', email);
     $.ajax({
       url: 'clientes_controller.php?op=new_client',
       method: 'POST',
@@ -120,7 +95,7 @@ $(document).ready(function () {
             timer: 1500
           });
           $('#client_table').DataTable().ajax.reload();
-          $('#formClient')[0].reset();
+          $('#formclient')[0].reset();
           $('#newClientModal').modal('hide');
         } else {
           Swal.fire({
@@ -135,7 +110,7 @@ $(document).ready(function () {
 
   });
   /* Accion para Eliminar Usuario de la Lista de usuario Visibles */
-  $(document).on('click', '#b_edit_client', function () {
+  $(document).on('click', '#b_update', function () {
     var id = $(this).data('value');
     $.ajax({
       url: 'clientes_controller.php?op=get_data_client',
@@ -143,21 +118,17 @@ $(document).ready(function () {
       dataType: 'json',
       data: { id: id },
       success: function (response) {
-        $.each(response, function (idx, opt) {
-          $('#clientId').val(opt.id);
-          $('#clientName').val(opt.name);
-          $('#clientDni').val(opt.dni);
-          $('#clientPhone').val(opt.phone);
-          $('#clientPhoneAlt').val(opt.phonealt);
-          $('#clientEmail').val(opt.email);
-        });
+        $('#c_id').val(response.id);
+        $('#c_name').val(response.name);
+        $('#c_identity').val(response.dni);
+        $('#c_phone').val(response.phone);
         $('.modal-title').text('Editar Informacion del Cliente');
         $('#newClientModal').modal('show');
       }
     });
   })
-   /* Accion para Eliminar Usuario de la Lista de usuario Visibles */
-  $(document).on('click', '#b_delete_client', function () {
+  /* Accion para Eliminar Usuario de la Lista de usuario Visibles */
+  $(document).on('click', '#b_delete', function () {
     var id = $(this).data('value');
     Swal.fire({
       title: 'Estas seguro de eliminar el cliente?',

@@ -43,6 +43,7 @@ $(document).ready(function () {
             timer: 1500
           });
           $('#listContainer').click()
+          loadSidebarMenu();
         } else {
           Swal.fire({
             icon: "error",
@@ -50,7 +51,6 @@ $(document).ready(function () {
             showConfirmButton: false,
             timer: 1500
           });
-          $('#listContainer').click()
         }
       }
     });
@@ -83,35 +83,6 @@ $(document).ready(function () {
       }
     });
   });
-  /* Cambiar el estatus de los departamentos en el sistema */
-  $(document).on('click', '#b_enable_container', function () {
-    var depart = $(this).data('value');
-    $.ajax({
-      url: "dev_controller.php?op=enable_depart",
-      method: "POST",
-      dataType: "json",
-      data: { depart: depart },
-      success: function (response) {
-        if (response.status == true) {
-          Swal.fire({
-            icon: "success",
-            title: response.message,
-            showConfirmButton: false,
-            timer: 1500
-          });
-          $('#listContainer').click()
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: response.message,
-            showConfirmButton: false,
-            timer: 1500
-          });
-          $('#listContainer').click()
-        }
-      }
-    });
-  })
   /* Actualizar los nombres de los Departamentos en el sistema*/
   $(document).on('click', '#b_update', function () {
     var container = $(this).data('value');
@@ -155,6 +126,7 @@ $(document).ready(function () {
                 timer: 1500
               });
               $('#listContainer').click()
+              loadSidebarMenu();
             } else {
               Swal.fire({
                 title: "¡Eliminado!",
@@ -172,7 +144,6 @@ $(document).ready(function () {
       }
     });
   });
-
 
   /* Funcion para escoger como crear los modulos del sistema */
   $('#newModule').click(function (e) {
@@ -245,7 +216,7 @@ $(document).ready(function () {
               <h6 class="font-weight-bold d-inline">${opt.folder}</h6>
             </div>
             <div class="btn-group" role="group" aria-label="Button group name">
-              <button id="b_active_module" type="button" class="btn btn-outline-info btn-group-sm buttonActive" data-value="${opt.folder}"  title="Activar Modulo"><i class="bi bi-folder-symlink-fill"></i></button>
+              <button id="b_active_module" type="button" class="btn btn-outline-info btn-group-sm" data-value="${opt.folder}"  title="Activar Modulo"><i class="bi bi-folder-symlink-fill"></i></button>
             </div>
           </li>`
         );

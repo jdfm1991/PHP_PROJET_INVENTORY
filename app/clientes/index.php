@@ -36,9 +36,7 @@ require_once(PATH_APP . "/head.php");
                     <tr>
                       <th>Nombre</th>
                       <th>N° Documento</th>
-                      <th>Correo Electronico</th>
                       <th>Telefono Pricipal</th>
-                      <th>Telefono Secundario</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -65,7 +63,6 @@ require_once(PATH_APP . "/head.php");
   </a>
   <?php
   require_once(PATH_APP . "/plugins.php");
-  require_once(PATH_ASSETS . '/components/modal.php');
   ?>
   <script src="clientes.js"></script>
 </body>

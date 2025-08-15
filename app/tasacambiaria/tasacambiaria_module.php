@@ -15,8 +15,7 @@ class Exchange extends Conectar
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->prepare("SELECT A.id, dateRate, exchRate, acronym FROM rate_data_table AS A 
-                                  INNER JOIN rate_types_data_table AS B ON A.typeRate=B.id ORDER BY dateRate DESC");
+    $stmt = $conectar->prepare("SELECT * FROM rate_data_table ORDER BY r_date DESC");
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }

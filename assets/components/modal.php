@@ -3,7 +3,7 @@
   Modal Nuevo Contenedor del Sistema 
   *************************************************
 -->
-<div class="modal fade" id="NewContainerModal" tabindex="-1" aria-labelledby="NewContainerModalLabel" aria-hidden="true">
+<div class="modal fade" id="NewContainerModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -34,7 +34,7 @@
 Modal Nuevo Modulo 
 *************************************************
 -->
-<div class="modal fade" id="newModuleModal" tabindex="-1" aria-labelledby="NewModuleModalLabel" aria-hidden="true">
+<div class="modal fade" id="newModuleModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -67,7 +67,7 @@ Modal Nuevo Modulo
 Modal Listado de Modulos 
 ************************************************
 -->
-<div class="modal fade" id="listModuleModal" tabindex="-1" aria-labelledby="listModuleModalLabel" aria-hidden="true">
+<div class="modal fade" id="listModuleModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
@@ -102,8 +102,7 @@ Modal Listado de Modulos
 Modal Para Asignacion de Modulo 
 ************************************************
 -->
-<div class="modal fade" id="assignModuleModal" tabindex="-1" aria-labelledby="assignModuleModalLabel"
-  aria-hidden="true">
+<div class="modal fade" id="assignModuleModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -141,6 +140,61 @@ Modal Para Asignacion de Modulo
     </div>
   </div>
 </div>
+<!-- 
+***********************************************
+Modal Nuevo Cliente 
+***********************************************
+-->
+<div class="modal fade" id="newClientModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newUserModalLabel">Nuevo Cliente</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="modal_body">
+        <form id="formclient">
+          <div class="modal-body form-row">
+            <input type="hidden" id="c_id">
+            <div class="form-group col-md-6">
+              <label for="c_name" class="form-label">Nombre Completo</label>
+              <input type="text" class="form-control" id="c_name" placeholder="Nombre y Apellido" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="c_identity" class="form-label">N° Cedula</label>
+              <input type="text" class="form-control" id="c_identity" placeholder="N° Cedula de Identidad" maxlength="20">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="c_phone" class="form-label">N° Telefonico Principal</label>
+              <input type="text" class="form-control" id="c_phone" name="onlynumber" placeholder="N° Telefonico" maxlength="11">
+              <small id="c_phoneHelp" class="form-text text-white">Escriba Codigo de Area Sin el Primer 0 + N° Telefonico</small>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-danger btn-light" data-bs-dismiss="modal"
+              aria-label="Close">Cancelar</button>
+            <button type="submit" class="btn btn-outline-primary btn-light">Guardar</button>
+          </div>
+          <div id="m_client_cont" class="alert alert-warning d-none" role="alert">
+            <p id="m_client_text" class="mb-0">Alert Description</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
 <!-- 
 ************************************************
 Modal Nuevo Usuario 
@@ -249,59 +303,7 @@ Modal para Iniciar Sesion
     </div>
   </div>
 </div>
-<!-- 
-***********************************************
-Modal Nuevo Cliente 
-***********************************************
--->
-<div class="modal fade" id="newClientModal" tabindex="-1" aria-labelledby="newClientModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="newUserModalLabel">Nuevo Cliente</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" id="modal_body">
-        <form id="formClient">
-          <div class="modal-body form-row">
-            <input type="hidden" id="clientId">
-            <div class="form-group col-md-6">
-              <label for="clientName" class="form-label">Nombre Completo</label>
-              <input type="text" class="form-control" id="clientName" placeholder="Nombre y Apellido" required>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="clientDni" class="form-label">N° DNI // Cedula</label>
-              <input type="text" class="form-control" id="clientDni" placeholder="N° DNI // Cedula de Identidad" maxlength="20">
-            </div>
-            <div class="form-group col-md-6">
-              <label for="clientPhone" class="form-label">N° Telefonico Principal</label>
-              <input type="text" class="form-control" id="clientPhone" name="onlynumber" placeholder="N° Telefonico" maxlength="11">
-              <small id="clientPhoneHelp" class="form-text text-muted">Escriba Codigo de Area Sin el Primer 0 + N° Telefonico</small>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="clientPhoneAlt" class="form-label">N° Telefonico Alternativo</label>
-              <input type="text" class="form-control" id="clientPhoneAlt" placeholder="N° Telefonico" maxlength="20">
-            </div>
-            <div class="form-group col-md-6">
-              <label for="clientEmail" class="form-label">Email</label>
-              <input type="email" class="form-control" id="clientEmail" placeholder="Correo Electronico">
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-outline-danger btn-light" data-bs-dismiss="modal"
-              aria-label="Close">Cancelar</button>
-            <button type="submit" class="btn btn-outline-primary btn-light">Guardar</button>
-          </div>
-          <div id="m_client_cont" class="alert alert-warning d-none" role="alert">
-            <p id="m_client_text" class="mb-0">Alert Description</p>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+
 <!-- 
 ***********************************************
 Modal Nueva Tasa de Cambio 

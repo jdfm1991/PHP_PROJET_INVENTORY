@@ -59,10 +59,10 @@ switch ($_GET["op"]) {
     $data = $exchange->getListExchangeRatesDB();
     foreach ($data as $row) {
       $sub_array = array();
-      $sub_array['id'] = $row['id'];
-      $sub_array['date'] = $row['dateRate'];
-      $sub_array['exchange'] = $row['exchRate'];
-      $sub_array['type'] = $row['acronym'];
+      $sub_array['id'] = $row['r_id'];
+      $sub_array['date'] = $row['r_date'];
+      $sub_array['dollar'] = $row['r_exchange_d'];
+      $sub_array['euro'] = $row['r_exchange_e'];
       $dato[] = $sub_array;
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
