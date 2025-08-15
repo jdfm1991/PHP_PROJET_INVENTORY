@@ -11,8 +11,6 @@ class Development extends Conectar
     $stmt->execute(['id' => $id, 'name' => $cont_name, 'tag' => $cont_tag]);
     return $stmt->rowCount();
   }
-
-
   public function updateContainerDB($id, $cont_name, $cont_tag)
   {
     $conectar = parent::conexion();
@@ -36,7 +34,6 @@ class Development extends Conectar
     $stmt->execute(['id' => $id]);
     return $stmt->fetchColumn();
   }
-
   function validateContainerModuleDB($id)
   {
     $conectar = parent::conexion();
@@ -45,7 +42,6 @@ class Development extends Conectar
     $stmt->execute(['id' => $id]);
     return $stmt->fetchColumn();
   }
-
   public function deleteContainerDB($id)
   {
     $conectar = parent::conexion();
@@ -53,46 +49,47 @@ class Development extends Conectar
     $stmt->execute(['status' => 0, 'id' => $id]);
     return $stmt->rowCount();
   }
-
-
   function createNewModuleDB($id, $module, $namelist)
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->prepare("INSERT INTO module_data_table(id, nameModule, nameListModule) VALUES (:id, :module, :namelist)");
+    $stmt = $conectar->prepare("INSERT INTO module_data_table(m_id, m_name, m_namelist) VALUES (:id, :module, :namelist)");
     $stmt->execute(['id' => $id, 'module' => $module, 'namelist' => $namelist]);
+    return $stmt->rowCount();
+  }
+  public function updateNewModuleDB($id, $namelist)
+  {
+    $conectar = parent::conexion();
+    $stmt = $conectar->prepare("UPDATE module_data_table SET m_namelist = :namelist WHERE m_id = :id");
+    $stmt->execute(['namelist' => $namelist, 'id' => $id]);
     return $stmt->rowCount();
   }
   function getListNameModulesDB()
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->query("SELECT nameModule FROM module_data_table");
+    $stmt = $conectar->query("SELECT m_name FROM module_data_table");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
   function getListModulesDB()
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->query("SELECT * FROM module_data_table");
+    $stmt = $conectar->query("SELECT * FROM module_data_table WHERE m_status=1");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
-
   function getListModulesDB2()
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->query("SELECT * FROM module_data_table WHERE statusModule=1");
+    $stmt = $conectar->query("SELECT * FROM module_data_table WHERE m_status=1");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
-
-  
-
   function getValitedModuleDB($id)
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->prepare("SELECT id FROM model_container_data_table WHERE module = :id");
+    $stmt = $conectar->prepare("SELECT id FROM container_model_data_table WHERE m_id = :id");
     $stmt->execute(['id' => $id]);
     return $stmt->fetchColumn();
   }
@@ -101,8 +98,8 @@ class Development extends Conectar
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->prepare("DELETE FROM module_data_table WHERE id = :id");
-    $stmt->execute(['id' => $id]);
+    $stmt = $conectar->prepare("UPDATE module_data_table SET m_status = :status WHERE m_id = :id");
+    $stmt->execute(['status' => 0, 'id' => $id]);
     return $stmt->rowCount();
   }
 }

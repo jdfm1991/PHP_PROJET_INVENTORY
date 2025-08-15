@@ -3,25 +3,25 @@ require_once("../../config/conexion.php");
 
 class Manager extends Conectar
 {
-  function createRelationDepartmentModuleDB($depart, $module)
+  function createRelationDepartmentModuleDB($container, $module)
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->prepare("INSERT INTO model_department_data_table(department,module) VALUES (?,?)");
-    $stmt->execute([$depart, $module]);
+    $stmt = $conectar->prepare("INSERT INTO container_model_data_table(cont_id,m_id) VALUES (:cont, :module)");
+    $stmt->execute(['cont' => $container, 'module' => $module]);
     return $stmt;
   }
   public function availabilityModuleOffDB($id)
   {
     $conectar = parent::conexion();
-    $stmt = $conectar->prepare("UPDATE module_data_table SET statusModule = :available WHERE id = :id");
+    $stmt = $conectar->prepare("UPDATE module_data_table SET m_status = :available WHERE m_id = :id");
     $stmt->execute(['available' => 0, 'id' => $id]);
     return $stmt->rowCount();
   }
   public function availabilityModuleOnDB($id)
   {
     $conectar = parent::conexion();
-    $stmt = $conectar->prepare("UPDATE module_data_table SET statusModule = :available WHERE id = :id");
+    $stmt = $conectar->prepare("UPDATE module_data_table SET m_status = :available WHERE m_id = :id");
     $stmt->execute(['available' => 1, 'id' => $id]);
     return $stmt->rowCount();
   }
@@ -38,7 +38,7 @@ class Manager extends Conectar
   public function deleteRelationDepartmentModuleDB($id)
   {
     $conectar = parent::conexion();
-    $stmt = $conectar->prepare("DELETE FROM model_department_data_table WHERE id = :id");
+    $stmt = $conectar->prepare("DELETE FROM container_model_data_table WHERE id = :id");
     $stmt->execute(['id' => $id]);
     return $stmt->rowCount();
   }

@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  const namemodule1 = document.getElementById('nameNewModule');
-  const namemodule2 = document.getElementById('nameNewModule2');
+  const namemodule1 = document.getElementById('m_name');
+  const namemodule2 = document.getElementById('m_name2');
   var alertcontainer = $('#alert_container');
   var text_alert = $('#text_alert');
   alertcontainer.hide();
@@ -196,9 +196,9 @@ $(document).ready(function () {
     });
   });
   /* Funcion para Crear todos los modulos que seran utilizados en el sistema */
-  $('#formNewModule').submit(function (e) {
+  $('#formModule').submit(function (e) {
     e.preventDefault();
-    var module = $('#nameNewModule').val();
+    var module = $('#m_name').val();
     $.ajax({
       url: "dev_controller.php?op=new_folder_module",
       method: "POST",
@@ -207,7 +207,7 @@ $(document).ready(function () {
       success: function (response) {
         if (response.status == true) {
           $('#newModuleModal').modal('hide');
-          $('#formNewModule').trigger('reset');
+          $('#formModule').trigger('reset');
           Swal.fire({
             icon: "success",
             title: response.message,
@@ -260,7 +260,7 @@ $(document).ready(function () {
       url: "dev_controller.php?op=get_name_module",
       method: "POST",
       dataType: "json",
-      success: function (response) {       
+      success: function (response) {
         const $module_body = $('#module_body').empty();
         const items = response.map((opt, idx) =>
           `<li class="list-group-item d-flex justify-content-between lh-sm">
@@ -271,7 +271,8 @@ $(document).ready(function () {
               </div>   
             </div>
             <div class="btn-group" role="group" aria-label="Button group">
-                <button id="b_trash_module" type="button" class="btn btn-outline-danger btn-group-sm" data-value="${opt.id}" value="${opt.name}"><i class="bi bi-trash3"></i></button>
+              <button id="b_update_module" type="button" class="btn btn-outline-info btn-group-sm" data-value="${opt.id}" value="${opt.listname}"><i class="bi bi-arrow-repeat"></i></button>
+              <button id="b_trash_module" type="button" class="btn btn-outline-danger btn-group-sm" data-value="${opt.id}" value="${opt.name}"><i class="bi bi-trash3"></i></button>
             </div>
           </li>`
         );
@@ -280,7 +281,7 @@ $(document).ready(function () {
     });
 
   });
-  
+
   /* Funcion para activar modulos en el sistema, registrando en la base de datos del sistemas */
   $(document).on('click', '#b_active_module', function () {
     var module = $(this).data('value');
@@ -330,7 +331,7 @@ $(document).ready(function () {
   /* Funcion para copiar contenido de un modulo a otro */
   $(document).on('click', '#b_copy_module', function () {
     var modulecopy = $(this).data('value');
-    var module = $('#nameNewModule2').val();
+    var module = $('#m_name2').val();
     if (module == "") {
       text_alert.text('Debe Ingresar el Nombre del Modulo a Crear');
       alertcontainer.show();
@@ -353,7 +354,7 @@ $(document).ready(function () {
               timer: 1500
             });
             $('#listModules').click()
-            $('#nameNewModule2').val('');
+            $('#m_name2').val('');
           } else {
             Swal.fire({
               icon: "error",
@@ -368,10 +369,56 @@ $(document).ready(function () {
     }
   })
 
+  /* Actualizar los nombres de los Departamentos en el sistema*/
+  $(document).on('click', '#b_update_module', function () {
+    var id = $(this).data('value');
+    var module = $(this).attr('value');
+    Swal.fire({
+      title: "Ingrese el Nuevo Nombre del Modulo",
+      input: "text",
+      inputValue: module,
+      inputAttributes: {
+        autocapitalize: "off"
+      },
+      showDenyButton: true,
+      confirmButtonText: "Registrar",
+      denyButtonText: `No Registar`
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: "dev_controller.php?op=new_module",
+          method: "POST",
+          dataType: "json",
+          data: { id: id, namelist: result.value },
+          success: function (response) {
+            if (response.status == true) {
+              Swal.fire({
+                icon: "success",
+                title: response.message,
+                showConfirmButton: false,
+                timer: 1500
+              });
+              $('#listModulesdb').click()
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: response.message,
+                showConfirmButton: false,
+                timer: 1500
+              });
+            }
+          }
+        });
+      } else if (result.isDenied) {
+        Swal.fire("No Se Realizo Nungun Cambio en el Sistemas", "", "info");
+      }
+    });
+
+  })
+
   /* Eliminar Modulos de las Lista de Modulos Creador */
   $(document).on('click', '#b_trash_module', function () {
     var id = $(this).data('value');
-    var module = $(this).attr('value');
     Swal.fire({
       title: "¿Estas seguro que deseas eliminarlo?",
       text: "No podrás revertir esto!",
@@ -383,31 +430,29 @@ $(document).ready(function () {
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-          url: "dev_controller.php?op=trash_module",
+          url: "dev_controller.php?op=delete_module",
           method: "POST",
           dataType: "json",
-          data: { id: id, module: module },
+          data: { id: id },
           success: function (response) {
             if (response.status == true) {
+              $('#listModulesdb').click()
               Swal.fire({
                 title: "¡Eliminado!",
                 text: response.message,
                 icon: "success",
                 showConfirmButton: false,
                 timer: 1500
-              });
-              $('#listModulesdb').click()
+              });   
             } else {
               Swal.fire({
-                title: "¡Eliminado!",
+                title: "Error!",
                 text: response.message,
                 icon: "error",
                 showConfirmButton: false,
                 timer: 1500
               });
-              $('#listModulesdb').click()
             }
-
           }
         });
 
@@ -440,7 +485,6 @@ $(document).ready(function () {
         `;
         container.appendChild(li);
       });
-
     } catch (error) {
       console.log('Error', error);
     }
@@ -448,8 +492,7 @@ $(document).ready(function () {
   }
   $('.closemodal').click(function (e) {
     e.preventDefault();
-    $('#nameNewModule').val('');
-    $('#nameNewModule2').val('');
-
+    $('#m_name').val('');
+    $('#m_name2').val('');
   });
 });

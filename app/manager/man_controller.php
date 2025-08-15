@@ -8,44 +8,11 @@ $dev = new Development();
 
 $id = (isset($_POST['id'])) ? $_POST['id'] : '';
 $module = (isset($_POST['module'])) ? $_POST['module'] : '';
-$depart = (isset($_POST['depart'])) ? $_POST['depart'] : '';
+$container = (isset($_POST['container'])) ? $_POST['container'] : '';
 
 switch ($_GET["op"]) {
-  case 'get_name_module':
-    $dato = array();
-    $data = $dev->getListModulesDB();
-    foreach ($data as $row) {
-      $sub_array = array();
-      $sub_array['id'] = $row['id'];
-      $sub_array['name'] = $row['nameListModule'];
-      $dato[] = $sub_array;
-    }
-    echo json_encode($dato, JSON_UNESCAPED_UNICODE);
-    break;
-  case 'get_name_module2':
-    $dato = array();
-    $data = $dev->getListModulesDB2();
-    foreach ($data as $row) {
-      $sub_array = array();
-      $sub_array['id'] = $row['id'];
-      $sub_array['name'] = $row['nameListModule'];
-      $dato[] = $sub_array;
-    }
-    echo json_encode($dato, JSON_UNESCAPED_UNICODE);
-    break;
-  case 'get_name_depart':
-    $dato = array();
-    $data = $dev->getListDepartmentDB();
-    foreach ($data as $row) {
-      $sub_array = array();
-      $sub_array['id'] = $row['id'];
-      $sub_array['name'] = $row['nameDepartment'];
-      $dato[] = $sub_array;
-    }
-    echo json_encode($dato, JSON_UNESCAPED_UNICODE);
-    break;
   case 'assign_module':
-    $data = $man->createRelationDepartmentModuleDB($depart, $module);
+    $data = $man->createRelationDepartmentModuleDB($container, $module);
     if ($data) {
       $uptmodule = $man->availabilityModuleOffDB($module);
       $dato['status'] = true;
@@ -59,7 +26,7 @@ switch ($_GET["op"]) {
     break;
   case 'list_modules_by_depart':
     $dato = array();
-    $data = $dev->getListDepartmentDB();
+    $data = $dev->getListContainerDB();
     foreach ($data as $row) {
       $sub_array = array();
       $sub_array['id'] = $row['cont_id'];

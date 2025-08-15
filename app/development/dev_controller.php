@@ -5,7 +5,7 @@ require_once("dev_module.php");
 
 $dev = new Development();
 
-$id = (isset($_POST['id'])) ? $_POST['id'] : '';
+$id = (isset($_POST['id'])) ? $_POST['id'] : '689f2e9d4a761';
 $cont_name = (isset($_POST['container'])) ? $_POST['container'] : '';
 $module = (isset($_POST['module'])) ? $_POST['module'] : '';
 $namelist = (isset($_POST['namelist'])) ? $_POST['namelist'] : '';
@@ -54,6 +54,17 @@ switch ($_GET["op"]) {
         $sub_array['icon'] = '<i class="bi bi-lightbulb-off-fill"></i>';
         $sub_array['color'] = 'dark';
       }
+      $dato[] = $sub_array;
+    }
+    echo json_encode($dato, JSON_UNESCAPED_UNICODE);
+    break;
+  case 'get_container_data':
+    $dato = array();
+    $data = $dev->getListContainerDB();
+    foreach ($data as $row) {
+      $sub_array = array();
+      $sub_array['id'] = $row['cont_id'];
+      $sub_array['name'] = $row['cont_name'];
       $dato[] = $sub_array;
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
@@ -116,7 +127,7 @@ switch ($_GET["op"]) {
     $data = $dev->getListNameModulesDB();
     foreach ($data as $row) {
       $sub_array = array();
-      $dato1[] = $row['nameModule'];
+      $dato1[] = $row['m_name'];
     }
     if (is_dir($path)) {
       $elementos = scandir($path);
@@ -145,15 +156,27 @@ switch ($_GET["op"]) {
 
   case 'new_module':
     $dato = array();
-    $id = uniqid();
-    $data = $dev->createNewModuleDB($id, $module, $namelist);
-    if ($data) {
-      $dato['status'] = true;
-      $dato['message'] = "El Modulo " . $namelist . " Fue Creado Satisfactoriamente \n";
+    if (empty($id)) {
+      $id = uniqid();
+      $data = $dev->createNewModuleDB($id, $module, $namelist);
+      if ($data) {
+        $dato['status'] = true;
+        $dato['message'] = "El Modulo " . $namelist . " Fue Creado Satisfactoriamente \n";
+      } else {
+        $dato['status'] = false;
+        $dato['message'] = "Error Al Crear Modulo" . $namelist . ", Por Favor Intente Nuevamente \n";
+      }
     } else {
-      $dato['status'] = false;
-      $dato['message'] = "Error Al Crear Modulo" . $namelist . ", Por Favor Intente Nuevamente \n";
+      $data = $dev->updateNewModuleDB($id, $namelist);
+      if ($data) {
+        $dato['status'] = true;
+        $dato['message'] = "El Modulo " . $namelist . " Fue Actualizado Satisfactoriamente \n";
+      } else {
+        $dato['status'] = false;
+        $dato['message'] = "Error Al Actualizar Modulo" . $namelist . ", Por Favor Intente Nuevamente \n";
+      }
     }
+
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
   case 'copy_module':
@@ -191,10 +214,10 @@ switch ($_GET["op"]) {
     $data = $dev->getListModulesDB();
     foreach ($data as $row) {
       $sub_array = array();
-      $sub_array['id'] = $row['id'];
-      $sub_array['name'] = $row['nameModule'];
-      $sub_array['listname'] = $row['nameListModule'];
-      if ($row['statusModule'] == 1) {
+      $sub_array['id'] = $row['m_id'];
+      $sub_array['name'] = $row['m_name'];
+      $sub_array['listname'] = $row['m_namelist'];
+      if ($row['m_status'] == 1) {
         $sub_array['icon'] = '<i class="bi bi-lightbulb-fill"></i>';
         $sub_array['color'] = 'warning';
       } else {
@@ -205,7 +228,7 @@ switch ($_GET["op"]) {
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
-  case 'trash_module':
+  case 'delete_module':
     $dato = array();
     $valited = $dev->getValitedModuleDB($id);
     if ($valited) {
@@ -216,7 +239,7 @@ switch ($_GET["op"]) {
     }
     $data = $dev->deleteModuleDB($id);
     if ($data) {
-      $root = PATH_APP . '/' . $module;
+      /* $root = PATH_APP . '/' . $module;
       $files = glob(PATH_APP . '/' . $module . '/*'); //obtenemos todos los nombres de los ficheros
       foreach ($files as $file) {
         if (is_file($file))
@@ -224,7 +247,7 @@ switch ($_GET["op"]) {
       }
       if (is_dir($root)) {
         rmdir($root);
-      }
+      } */
       $dato['status'] = true;
       $dato['message'] = "El Contenedor Se Elimino Satisfactoriamente \n";
     } else {

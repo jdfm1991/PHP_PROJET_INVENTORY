@@ -1,9 +1,9 @@
 <!--
   *************************************************
-  Modal Nuevo Departamento 
+  Modal Nuevo Contenedor del Sistema 
   *************************************************
 -->
-<div class="modal fade" id="NewContainerModal" tabindex="-1" aria-labelledby="NewDepartModalLabel" aria-hidden="true">
+<div class="modal fade" id="NewContainerModal" tabindex="-1" aria-labelledby="NewContainerModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -44,11 +44,13 @@ Modal Nuevo Modulo
         </button>
       </div>
       <div class="modal-body" id="modal_body">
-        <form id="formNewModule">
+        <form id="formModule">
+          <input type="hidden" id="m_id">
           <div class="form-group">
-            <label for="nameNewModule">Nombre del Modulo</label>
-            <input type="text" class="form-control" id="nameNewModule" aria-describedby="nameNewHelp" required>
-            <small id="nameNewHelp" class="form-text text-muted">Escriba el Nombre que tendra la carpeta dentro de
+            <label for="m_name">Nombre del Modulo</label>
+            <input type="text" class="form-control" id="m_name" aria-describedby="m_nameHelp" required>
+            <input type="text" class="form-control" id="m_namelist" aria-describedby="m_namelistHelp" hidden>
+            <small id="m_nameHelp" class="form-text text-muted">Escriba el Nombre que tendra la carpeta dentro de
               sistema</small>
           </div>
           <div class="modal-footer">
@@ -77,8 +79,8 @@ Modal Listado de Modulos
       <div class="container-sm !justify !spacing">
         <div class="form-group">
           <label for="nameNewDepart">Nombre del Modulo</label>
-          <input type="text" class="form-control" id="nameNewModule2" aria-describedby="nameNewModule2Help" required>
-          <small id="nameNewModule2Help" class="form-text text-muted">Escriba el Nombre del Modulo que Desea
+          <input type="text" class="form-control" id="m_name2" aria-describedby="m_name2Help" required>
+          <small id="m_name2Help" class="form-text text-muted">Escriba el Nombre del Modulo que Desea
             Crear</small>
         </div>
       </div>
@@ -112,11 +114,11 @@ Modal Para Asignacion de Modulo
       </div>
       <div class="modal-body" id="modal_body">
         <form id="formAssignModule">
-          <input type="hidden" id="idModuleByAssign">
+          <input type="hidden" id="ma_id">
           <div class="form-row">
             <div class="col-md-6">
               <label for="validationCustom03">Modulo</label>
-              <input type="text" class="form-control" id="nameModuleByAssign" required disabled>
+              <input type="text" class="form-control" id="ma_name" required disabled>
             </div>
             <div class="col-md-6">
               <label for="nameDepartAssign">Departamentos</label>

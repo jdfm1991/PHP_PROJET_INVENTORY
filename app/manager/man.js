@@ -2,7 +2,7 @@ $(document).ready(function () {
   /* Funcion para listar todos los modulos existentes en la base de datos */
   const loadListModulesAvailableDB = async () => {
     try {
-      const response = await fetch('man_controller.php?op=get_name_module2');
+      const response = await fetch(URI + 'development/dev_controller.php?op=get_name_module');
       const data = await response.json();
       const container = document.getElementById('modulescontainer');
       container.innerHTML = '';
@@ -27,7 +27,7 @@ $(document).ready(function () {
   /* Funcion para Cargar Select de los departamentos */
   const loadSelectDepartmentsAvailableDB = async () => {
     try {
-      const response = await fetch('man_controller.php?op=get_name_depart');
+      const response = await fetch(URI + 'development/dev_controller.php?op=get_container_data');
       const data = await response.json();
       const container = document.getElementById('nameDepartAssign');
       container.innerHTML = '';
@@ -73,10 +73,10 @@ $(document).ready(function () {
           button.classList.add('btn-outline-info');
           button.classList.add('btn-group-sm');
           button.setAttribute('id', 'b_unassign_module');
-          button.setAttribute('data-value', mod.module);
+          button.setAttribute('data-value', mod.m_id);
           button.setAttribute('type', 'button');
           button.setAttribute('value', mod.id);
-          button.innerHTML = `${mod.nameListModule}`;
+          button.innerHTML = `${mod.m_namelist}`;
           DivBody.appendChild(button);
         })
         container.appendChild(DivBody);
@@ -88,11 +88,11 @@ $(document).ready(function () {
   /* */
   $('#formAssignModule').submit(function (e) {
     e.preventDefault();
-    var module = $('#idModuleByAssign').val();
-    var depart = $('#nameDepartAssign').val();
+    var module = $('#ma_id').val();
+    var container = $('#nameDepartAssign').val();
     var formData = new FormData();
     formData.append('module', module);
-    formData.append('depart', depart);
+    formData.append('container', container);
     $.ajax({
       url: 'man_controller.php?op=assign_module',
       method: 'POST',
@@ -126,10 +126,10 @@ $(document).ready(function () {
   });
   /* Accion para asignar modulo */
   $(document).on('click', '#b_assign_module', function () {
-    var module = $(this).data('value');
-    var value = $(this).attr('value');
-    $('#nameModuleByAssign').val(value); //Cargamos el nombre
-    $('#idModuleByAssign').val(module); //Cargamos el id
+    var id = $(this).data('value');
+    var name = $(this).attr('value');
+    $('#ma_id').val(id); //Cargamos el id
+    $('#ma_name').val(name); //Cargamos el nombre
     $('#assignModuleModal').modal('show') //mostramos el modal
     loadListModulesAvailableDB(); //cargamos los modulos
     loadSelectDepartmentsAvailableDB(); //cargamos los departamentos
