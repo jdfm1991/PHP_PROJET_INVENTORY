@@ -1,5 +1,5 @@
 <?php
-require_once(PATH_CONFIG . "/abrir_sesion.php");
+require_once("C:/Apache24/htdocs/inventariogastos/config/const.php");
 //require_once("../config/sesion_activa.php");
 ?>
 <head>

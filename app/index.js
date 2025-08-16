@@ -50,47 +50,6 @@ const loadSidebarMenu = async () => {
     container.appendChild(li);
   })
 };
-
-const loadPenaltiesFreeInterest = async () => {
-  const response = await fetch(URI + 'recibocobro/recibocobro_controller.php?op=get_interest_free_penalties');
-  const data = await response.json();
-  $(".mr-auto").text("Procesos Exitoso");
-  $(".toast").css("background-color", "rgba(8, 140, 201, 0.842)");
-  $(".toast").css("color", "black");
-  $(".toast").attr("background-color", "");
-  $("#toastText").text(data.message);
-  $('.toast').toast('show');
-}
-
-const loadPenaltiesWhithInterest = async () => {
-  Swal.fire({
-    title: 'Loading...',
-    allowEscapeKey: false,
-    allowOutsideClick: false,
-    showConfirmButton: false,
-    willOpen: () => {
-      Swal.showLoading();
-    }
-  });
-  const response = await fetch(URI + 'recibocobro/recibocobro_controller.php?op=get_interest_whith_penalties');
-  const data = await response.json();
-  if (data) {
-    Swal.close();
-    $(".mr-auto").text("Procesos Exitoso");
-    $(".toast").css("background-color", "rgba(8, 140, 201, 0.842)");
-    $(".toast").css("color", "black");
-    $(".toast").attr("background-color", "");
-    $("#toastText").text(data.message);
-    $('.toast').toast('show');
-  }
-
-}
-
-const getPenaltiesByReceipt = async (id) => {
-  const response = await fetch(URI + 'recibocobro/recibocobro_controller.php?op=get_penalties_receipt&id=' + id);
-  const data = await response.json();
-}
-
 /* Funcion para Ingresar Solo los Numeros en el Input de Telefono */
 $(function () {
   $("input[name='onlynumber']").on("input", function (e) {
@@ -101,24 +60,12 @@ $(function () {
     );
   });
 });
-const chargeDayRate = async () => {
-  const response = await fetch(URI + 'tasacambiaria/tasacambiaria_controller.php?op=web_scraping');
-  const data = await response.json();
-  if (data.status == false) {
-    $(".mr-auto").text("Procesos Exitoso");
-    $(".toast").css("background-color", "rgba(8, 140, 201, 0.842)");
-    $(".toast").css("color", "black");
-    $(".toast").attr("background-color", "");
-    $("#toastText").text(data.message);
-    $('.toast').toast('show');
-  }
-}
+
 $(document).ready(function () {
   $(".modal").css("background-color", "rgba(78, 78, 78, 0.36)");
   $(".modal-content").css("background-color", "rgba(67, 67, 67, 0.79)");
   $(".modal-content").css("color", "rgba(245, 245, 245, 1)");
   
-
   $('#btnLogin').click(function (e) {
     e.preventDefault();
     $('.modal-title').text('Iniciar Sesion');

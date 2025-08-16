@@ -3,26 +3,26 @@ require_once("../../config/conexion.php");
 
 class Supliers extends Conectar
 {
-  public function createNewSuplierDB($id, $name)
+  public function createNewSuplierDB($id, $name, $dni, $phone)
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->prepare("INSERT INTO suplier_data_table(id, nameSuplier) VALUES (:id, :name)");
-    $stmt->execute(['id' => $id, 'name' => $name]);
+    $stmt = $conectar->prepare("INSERT INTO supplier_data_table(s_id, s_name, s_indentity, s_numphone) VALUES (:id, :name, :dni, :phone)");
+    $stmt->execute(['id' => $id, 'name' => $name, 'dni' => $dni, 'phone' => $phone]);
     return $stmt->rowCount();
   }
-  public function updateDataSuplierDB($id, $name)
+  public function updateDataSuplierDB($id, $name, $dni, $phone)
   {
     $conectar = parent::conexion();
-    $stmt = $conectar->prepare("UPDATE suplier_data_table SET nameSuplier=:name WHERE id = :id");
-    $stmt->execute(['name' => $name, 'id' => $id]);
+    $stmt = $conectar->prepare("UPDATE supplier_data_table SET s_name=:name, s_indentity=:dni, s_numphone=:phone WHERE s_id = :id");
+    $stmt->execute(['name' => $name, 'dni' => $dni, 'phone' => $phone, 'id' => $id]);
     return $stmt->rowCount();
   }
   public function getListSupliersDB()
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->prepare("SELECT * FROM suplier_data_table WHERE statusSuplier = 1 ORDER BY nameSuplier ASC");
+    $stmt = $conectar->prepare("SELECT * FROM supplier_data_table WHERE s_status = 1 ORDER BY s_name ASC");
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
@@ -30,42 +30,15 @@ class Supliers extends Conectar
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->prepare("SELECT * FROM suplier_data_table WHERE id = :id");
+    $stmt = $conectar->prepare("SELECT * FROM supplier_data_table WHERE s_id = :id");
     $stmt->execute(['id' => $id]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
   public function deleteDataSuplierDB($id)
   {
     $conectar = parent::conexion();
-    $stmt = $conectar->prepare("UPDATE suplier_data_table SET statusSuplier = :status WHERE id = :id");
+    $stmt = $conectar->prepare("UPDATE supplier_data_table SET s_status = :status WHERE s_id = :id");
     $stmt->execute(['status' => 0, 'id' => $id]);
-    return $stmt->rowCount();
-  }
-
-  public function createRelationClientSuplierDB($suplier, $client)
-  {
-    $conectar = parent::conexion();
-    parent::set_names();
-    $stmt = $conectar->prepare("INSERT INTO client_suplier_data_table(client, suplier) VALUES (:client, :suplier)");
-    $stmt->execute(['client' => $client, 'suplier' => $suplier]);
-    return $stmt->rowCount();
-  }
-
-  public function deleteRelationClientSuplierDB($id)
-  {
-    $conectar = parent::conexion();
-    parent::set_names();
-    $stmt = $conectar->prepare("DELETE FROM client_suplier_data_table WHERE id = :id");
-    $stmt->execute(['id' => $id]);
-    return $stmt->rowCount();
-  }
-
-   public function validedRelationClientSuplierDB($id)
-  {
-    $conectar = parent::conexion();
-    parent::set_names();
-    $stmt = $conectar->prepare("SELECT * FROM client_suplier_data_table WHERE suplier = :suplier");
-    $stmt->execute(['suplier' => $id]);
     return $stmt->rowCount();
   }
 }

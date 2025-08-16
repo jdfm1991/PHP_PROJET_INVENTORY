@@ -2,7 +2,7 @@ $(document).ready(function () {
   /* Funcion para listar todos los modulos existentes en la base de datos */
   const loadListModulesAvailableDB = async () => {
     try {
-      const response = await fetch(URI + 'development/dev_controller.php?op=get_name_module');
+      const response = await fetch(URI + 'development/dev_controller.php?op=get_name_module2');
       const data = await response.json();
       const container = document.getElementById('modulescontainer');
       container.innerHTML = '';
@@ -73,9 +73,9 @@ $(document).ready(function () {
           button.classList.add('btn-outline-info');
           button.classList.add('btn-group-sm');
           button.setAttribute('id', 'b_unassign_module');
-          button.setAttribute('data-value', mod.m_id);
+          button.setAttribute('data-value', mod.id);
           button.setAttribute('type', 'button');
-          button.setAttribute('value', mod.m_name);
+          button.setAttribute('value', mod.m_id);
           button.innerHTML = `${mod.m_namelist}`;
           DivBody.appendChild(button);
         })
@@ -136,8 +136,8 @@ $(document).ready(function () {
   })
   /* Accion para desasignar modulo */
   $(document).on('click', '#b_unassign_module', function () {
-    var module = $(this).data('value');
-    var id = $(this).attr('value');
+    var id = $(this).data('value');
+    var module = $(this).attr('value');    
     Swal.fire({
       title: 'Estas seguro de desasignar el modulo?',
       icon: 'warning',

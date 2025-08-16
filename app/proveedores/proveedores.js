@@ -1,4 +1,7 @@
 $(document).ready(function () {
+   const removeHyphenFromString = (str) => {
+    return str.replace(/-/g, "");
+  }
   /* Arrow Function Que se Encarga de Cargar los Datos del Cliente en la Tabla */
   const loadDataTableSuppliers = async () => {
     const table = $('#supplier_table').DataTable({
@@ -37,40 +40,17 @@ $(document).ready(function () {
       },
       columns: [
         { data: "name" },
-        {
-          data: null, render: (data, type, row, meta) =>
-            data.clients.length > 0 ? data.clients.map((client) => client.nameClient).join(', ') : 'Sin Clientes'
-        },
+        { data: "dni" },
+        { data: "phone" },
+        
         {
           data: "id", render: (data, _, __, meta) =>
-            `<button id="b_edit_supplier" class="btn btn-outline-primary btn-sm" data-value="${data}"><i class="fa fa-edit"></i></button>
-          <button id="b_delete_supplier" class="btn btn-outline-danger btn-sm" data-value="${data}"><i class="fa fa-trash"></i></button>`, className: "text-center"
+            `<button id="b_update" class="btn btn-outline-primary btn-sm" data-value="${data}"><i class="fa fa-edit"></i></button>
+          <button id="b_delete" class="btn btn-outline-danger btn-sm" data-value="${data}"><i class="fa fa-trash"></i></button>`, className: "text-center"
         }
       ]
     });
 
-  }
-  const loadRelacionSuppliers = async (id) => {
-    $.ajax({
-      url: 'proveedores_controller.php?op=get_data_relationship_suplier',
-      method: 'POST',
-      dataType: 'json',
-      data: { id: id },
-      success: function (response) {
-        $("#liked").empty();
-        $.each(response, function (idx, opt) {
-          $("#liked").append(`<li class=" d-flex justify-content-between lh-sm">
-                  <div>
-                    <small class="text-body-secondary d-inline">${idx + 1} - </small>
-                    <h6 class="font-weight-bold d-inline">${opt.client}</h6>
-                  </div>
-                  <div class="btn-group" role="group" aria-label="Button group name">
-                    <button id="b_trash_link" type="button" class="btn btn-outline-danger btn-group-sm" data-value="${opt.id}" value="${opt.suplier}" title="Eliminar Vinculo"><i class="bi bi-dash"></i></button>
-                  </div>
-                </li>`);
-        });
-      }
-    });
   }
   /* Funcion para llamar a la carga de los select de niveles y alicuotas al crear una unidad departamental */
   $('#newSupplier').click(function (e) {
@@ -79,68 +59,34 @@ $(document).ready(function () {
     $('#nameSuplier').val("");
     $('#container_link').hide();
     $('.modal-title').text('Nuevo Proveedor');
-    $('#newSuplierModal').modal('show');
+    $('#newClientModal').modal('show');
   });
-  $('#searchClient').keyup(function (e) {
-    e.preventDefault();
-    search = $('#searchClient').val();
-    $.ajax({
-      url: URI + 'relafidu/relafidu_controller.php?op=get_list_related_clients',
-      method: 'POST',
-      dataType: 'json',
-      data: { search: search },
-      success: function (response) {
-        $("#listClients").empty();
-        $.each(response, function (idx, opt) {
-          $("#listClients").append(`<option value="${opt.unit} ${opt.name} - ${opt.iclient}">`);
-        });
-      }
-    });
-  });
-
-  $('#newLink').click(function (e) {
-    e.preventDefault();
-    id = $('#idSuplier').val();
-    client = $('#searchClient').val().split(' - ')[1];
-    $.ajax({
-      url: 'proveedores_controller.php?op=new_link',
-      method: 'POST',
-      dataType: 'json',
-      data: { id: id, client: client },
-      success: function (response) {
-        if (response.status == true) {
-          $(".mr-auto").text("Procesos Exitoso");
-          $(".toast").css("background-color", "rgb(29 255 34 / 85%)");
-          $(".toast").css("color", "white");
-          $(".toast").attr("background-color", "");
-          $("#toastText").text(response.message);
-          $('.toast').toast('show');
-          $('#searchClient').val("");
-          loadRelacionSuppliers(id);
-          $('#supplier_table').DataTable().ajax.reload();
-        } else {
-          $(".mr-auto").text("Procesos Fallido");
-          $(".toast").css("background-color", "rgb(255 80 80 / 85%)");
-          $(".toast").css("color", "white");
-          $(".toast").attr("background-color", "");
-          $("#toastText").text(response.message);
-          $('.toast').toast('show');
-        }
-      }
-    });
-  });
-
 
   /* Accion para Guardar o Actualizar Informacion del Cliente en la Base de Datos */
-  $('#formNewSuplier').submit(function (e) {
+  $('#formclient').submit(function (e) {
     e.preventDefault();
-    id = $('#idSuplier').val();
-    name = $('#nameSuplier').val().toUpperCase();
-    link = $('#selectClient').val();
+    sfdni = removeHyphenFromString($('#c_identity').val()); // Numero de DNI Sin Formatear
+    fc = sfdni.charAt(0); // Primer Caracter del DNI
+    if (!fc.match(/[a-zA-Z]/)) { // Si el Primer Caracter del DNI no es una Letra Arroja Mensaje de Error
+      $('#m_client_cont').removeClass('d-none');
+      $('#m_client_text').addClass('text-danger font-weight-bold text-center');
+      $('#m_client_text').text('Primer Caracter debe ser una Letra del Alfabeto Indicando la Naturalidad del DNI (V E J G etc)');
+      setTimeout(() => {
+        $('#m_client_cont').addClass('d-none');
+      }, 2000);
+      return false;
+    }
+    nfdni = sfdni.charAt(0) + '-' + sfdni.substring(1); // Numero de DNI Formato Previo
+
+    id = $('#c_id').val();
+    name = $('#c_name').val();
+    dni = nfdni.toUpperCase(); // Numero de DNI Formateado
+    phone = $('#c_phone').val();
     dato = new FormData();
     dato.append('id', id);
     dato.append('name', name);
-    dato.append('link', link);
+    dato.append('dni', dni);
+    dato.append('phone', phone);
     $.ajax({
       url: 'proveedores_controller.php?op=new_supplier',
       method: 'POST',
@@ -157,8 +103,8 @@ $(document).ready(function () {
             timer: 1500
           });
           $('#supplier_table').DataTable().ajax.reload();
-          $('#formNewSuplier')[0].reset();
-          $('#newSuplierModal').modal('hide');
+          $('#formclient')[0].reset();
+          $('#newClientModal').modal('hide');
         } else {
           Swal.fire({
             icon: "error",
@@ -173,7 +119,7 @@ $(document).ready(function () {
 
   });
   /* Accion para Eliminar Usuario de la Lista de usuario Visibles */
-  $(document).on('click', '#b_edit_supplier', function () {
+  $(document).on('click', '#b_update', function () {
     var id = $(this).data('value');
     $.ajax({
       url: 'proveedores_controller.php?op=get_data_supplier',
@@ -181,17 +127,18 @@ $(document).ready(function () {
       dataType: 'json',
       data: { id: id },
       success: function (response) {
-        loadRelacionSuppliers(response.id);
-        $('#idSuplier').val(response.id);
-        $('#nameSuplier').val(response.name);
+        $('#c_id').val(response.id);
+        $('#c_name').val(response.name);
+        $('#c_identity').val(response.dni);
+        $('#c_phone').val(response.phone);
         $('#container_link').show();
         $('.modal-title').text('Editar Informacion del Proveedor');
-        $('#newSuplierModal').modal('show');
+        $('#newClientModal').modal('show');
       }
     });
   })
   /* Accion para Eliminar Usuario de la Lista de usuario Visibles */
-  $(document).on('click', '#b_delete_supplier', function () {
+  $(document).on('click', '#b_delete', function () {
     var id = $(this).data('value');
     Swal.fire({
       title: 'Estas seguro de eliminar este proveedor?',

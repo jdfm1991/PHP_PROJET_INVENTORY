@@ -228,6 +228,25 @@ switch ($_GET["op"]) {
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
+  case 'get_name_module2':
+    $dato = array();
+    $data = $dev->getListModulesDB2();
+    foreach ($data as $row) {
+      $sub_array = array();
+      $sub_array['id'] = $row['m_id'];
+      $sub_array['name'] = $row['m_name'];
+      $sub_array['listname'] = $row['m_namelist'];
+      if ($row['m_status'] == 1) {
+        $sub_array['icon'] = '<i class="bi bi-lightbulb-fill"></i>';
+        $sub_array['color'] = 'warning';
+      } else {
+        $sub_array['icon'] = '<i class="bi bi-lightbulb-off-fill"></i>';
+        $sub_array['color'] = 'dark';
+      }
+      $dato[] = $sub_array;
+    }
+    echo json_encode($dato, JSON_UNESCAPED_UNICODE);
+    break;
   case 'delete_module':
     $dato = array();
     $valited = $dev->getValitedModuleDB($id);

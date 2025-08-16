@@ -34,9 +34,9 @@ require_once(PATH_APP . "/head.php");
               <table id="supplier_table" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                   <tr>
-                    <th>Nombre de Proveedor</th>
-                    <th>Cliente Asociado</th>
-                    <th>Correo Electronico</th>
+                    <th>Nombre</th>
+                    <th>N° Documento</th>
+                    <th>Telefono Pricipal</th>
                   </tr>
                 </thead>
                 <tbody>

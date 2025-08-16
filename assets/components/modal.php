@@ -185,8 +185,53 @@ Modal Nuevo Cliente
     </div>
   </div>
 </div>
-
-
+<!-- 
+***********************************************
+Modal Nueva Tasa de Cambio 
+***********************************************
+-->
+<div class="modal fade" id="newRateModal" tabindex="-1" aria-labelledby="newRateModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="NewDepartModalLabel">Nueva Tasa de Cambio</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body " id="modal_body">
+        <form id="formNewRate">
+          <input type="hidden" id="idRate">
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="exchangeRate">Mont de la Tasa</label>
+              <input type="text" class="form-control" id="exchangeRate" name="onlynumber" aria-describedby="exchangeRateHelp" required>
+              <small id="exchangeRateHelp" class="form-text text-muted">Monto de la Tasa de Cambio</small>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="dateRate">Fecha de la Tasa</label>
+              <input type="date" class="form-control" id="dateRate" aria-describedby="dateRateHelp" max="<?php echo date('Y-m-d'); ?>" required>
+              <small id="dateRateHelp" class="form-text text-muted">Fecha de la Tasa de Cambio</small>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="validationCustom04">Tipo de Cambio</label>
+              <select class="custom-select" id="exchange_rate" required>
+                <!-- El Contenido  se carga a traves de Ajax Mediante Archivo js -->
+              </select>
+            </div>
+          </div>
+          <div id="m_rate_cont" class="alert alert-warning d-none" role="alert">
+            <p id="m_rate_text" class="mb-0">Alert Description</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
@@ -304,101 +349,8 @@ Modal para Iniciar Sesion
   </div>
 </div>
 
-<!-- 
-***********************************************
-Modal Nueva Tasa de Cambio 
-***********************************************
--->
-<div class="modal fade" id="newRateModal" tabindex="-1" aria-labelledby="newRateModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="NewDepartModalLabel">Nueva Tasa de Cambio</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body " id="modal_body">
-        <form id="formNewRate">
-          <input type="hidden" id="idRate">
-          <div class="form-row">
-            <div class="form-group col-md-4">
-              <label for="exchangeRate">Mont de la Tasa</label>
-              <input type="text" class="form-control" id="exchangeRate" name="onlynumber" aria-describedby="exchangeRateHelp" required>
-              <small id="exchangeRateHelp" class="form-text text-muted">Monto de la Tasa de Cambio</small>
-            </div>
-            <div class="form-group col-md-4">
-              <label for="dateRate">Fecha de la Tasa</label>
-              <input type="date" class="form-control" id="dateRate" aria-describedby="dateRateHelp" max="<?php echo date('Y-m-d'); ?>" required>
-              <small id="dateRateHelp" class="form-text text-muted">Fecha de la Tasa de Cambio</small>
-            </div>
-            <div class="form-group col-md-4">
-              <label for="validationCustom04">Tipo de Cambio</label>
-              <select class="custom-select" id="exchange_rate" required>
-                <!-- El Contenido  se carga a traves de Ajax Mediante Archivo js -->
-              </select>
-            </div>
-          </div>
-          <div id="m_rate_cont" class="alert alert-warning d-none" role="alert">
-            <p id="m_rate_text" class="mb-0">Alert Description</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Guardar</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-<!--
-****************************************************************************
- Modal Nueva Unidad Departamental
-****************************************************************************
- -->
-<div class="modal fade" id="newUnitModal" tabindex="-1" aria-labelledby="newUnitModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="NewDepartModalLabel">Nueva Unidad Departamental</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body " id="modal_body">
-        <form id="formNewUnit">
-          <input type="hidden" id="idUnit">
-          <div class="form-row">
-            <div class="form-group col-md-3">
-              <label for="unitLevel" class="form-label">Nivel</label>
-              <select class="form-control" id="unitLevel">
-                <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectUnitLevel" -->
-              </select>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="unitname">Unidad Departamental</label>
-              <input type="text" class="form-control" id="unitname" aria-describedby="unitname" required>
-              <small id="unitnameHelp" class="form-text text-muted">Numeracion de la Unidad</small>
-            </div>
-            <div class="form-group col-md-3">
-              <label for="unitaliquots">% Alicuota</label>
-              <select class="custom-select" id="unitaliquots" required>
-                <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectAliquots" -->
-              </select>
-            </div>
-          </div>
-          <div id="m_unit_cont" class="alert alert-warning d-none" role="alert">
-            <p id="m_unit_text" class="mb-0">Alert Description</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Guardar</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+
+
 <!--
   *************************************************
   Notificacion Para visualizar proceso terminado
@@ -469,55 +421,7 @@ Modal Nueva Tasa de Cambio
     </div>
   </div>
 </div>
-<!--
-****************************************************************************
- Modal Nuevo Proveedor
-****************************************************************************
- -->
-<div class="modal fade" id="newSuplierModal" tabindex="-1" aria-labelledby="newSuplierModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="NewDepartModalLabel">Nueva Proveedor</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body " id="modal_body">
-        <form id="formNewSuplier">
-          <input type="hidden" id="idSuplier">
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <label for="nameSuplier">Nombre de Proveedor</label>
-              <input type="text" class="form-control" id="nameSuplier" aria-describedby="nameSuplierHelp" placeholder="Ingrese el Nombre del Proveedor" required>
-              <small id="nameSuplierHelp" class="form-text text-muted">Ingrese el Nombre del Proveedor</small>
-            </div>
-            <div id="container_link" class="container-fluid card">
-              <div class="d-flex justify-content-end mb-2 mt-2">
-                <input type="search" id="searchClient" class="form-control" list="listClients">
-                <datalist id="listClients">
-                  <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectUnitLevel" -->
-                </datalist>
-                <button id="newLink" type="button" class="btn btn-outline-success btn-group-sm" title="Crear Vinculo"><i class="fas fa-plus"></i></button>
-              </div>
-              <div id="liked" class="container-sm mb-2">
-                <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectUnitLevel" -->
-              </div>
-            </div>
-          </div>
 
-          <div id="m_unit_cont" class="alert alert-warning d-none" role="alert">
-            <p id="m_unit_text" class="mb-0">Alert Description</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Guardar</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
 <!--
 ****************************************************************************
  Modal Nueva Registro de Gasto

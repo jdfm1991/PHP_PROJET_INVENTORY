@@ -22,7 +22,7 @@ class Development extends Conectar
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->query("SELECT * FROM container_data_table WHERE cont_status=1");
+    $stmt = $conectar->query("SELECT * FROM container_data_table WHERE cont_status=1 ORDER BY cont_order ASC");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
@@ -75,14 +75,14 @@ class Development extends Conectar
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->query("SELECT * FROM module_data_table WHERE m_status=1");
+    $stmt = $conectar->query("SELECT * FROM module_data_table  WHERE m_status=1");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
   function getListModulesDB2()
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->query("SELECT * FROM module_data_table WHERE m_status=1");
+    $stmt = $conectar->query("SELECT * FROM module_data_table WHERE m_available=1 AND m_status=1");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
   function getValitedModuleDB($id)

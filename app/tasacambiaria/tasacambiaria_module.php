@@ -3,7 +3,7 @@ require_once("../../config/conexion.php");
 
 class Exchange extends Conectar
 {
-   public function getExchangeRateTypesDB()
+  public function getExchangeRateTypesDB()
   {
     $conectar = parent::conexion();
     parent::set_names();
@@ -27,28 +27,65 @@ class Exchange extends Conectar
     $stmt->execute(['id' => $id]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
-  public function updateRateDataDB($date, $rate, $type)
+
+  public function createDataRateDB($date, $dollar, $euro)
   {
     $conectar = parent::conexion();
-    $stmt = $conectar->prepare("UPDATE rate_data_table SET  exchRate=:rate  WHERE dateRate=:date AND typeRate=:type");
-    $stmt->execute(['rate' => $rate, 'date' => $date, 'type' => $type]);
+    $stmt = $conectar->prepare("INSERT INTO rate_data_table (r_date, r_exchange_d, r_exchange_e) VALUES (:date, :dollar, :euro)");
+    $stmt->execute(['date' => $date, 'dollar' => $dollar, 'euro' => $euro]);
     return $stmt->rowCount();
   }
 
-  public function createDataRateDB($date, $rate, $type)
+  public function createDataRateDollarDB($date, $rate)
   {
     $conectar = parent::conexion();
-    $stmt = $conectar->prepare("INSERT INTO rate_data_table (dateRate, exchRate, typeRate) VALUES (:date, :rate, :type)");
-    $stmt->execute(['date' => $date, 'rate' => $rate, 'type' => $type]);
+    $stmt = $conectar->prepare("INSERT INTO rate_data_table (r_date, r_exchange_d) VALUES (:date, :dollar)");
+    $stmt->execute(['date' => $date, 'dollar' => $rate]);
+    return $stmt->rowCount();
+  }
+  public function createDataRateEuroDB($date, $rate)
+  {
+    $conectar = parent::conexion();
+    $stmt = $conectar->prepare("INSERT INTO rate_data_table (r_date, r_exchange_e) VALUES (:date, :euro)");
+    $stmt->execute(['date' => $date, 'dollar' => $rate]);
+    return $stmt->rowCount();
+  }
+  public function createDataRatePreferenceDB($date, $rate)
+  {
+    $conectar = parent::conexion();
+    $stmt = $conectar->prepare("INSERT INTO rate_data_table (r_date, r_exchange_p) VALUES (:date, :pref)");
+    $stmt->execute(['date' => $date, 'pref' => $rate]);
+    return $stmt->rowCount();
+  }
+  public function updateRateDollarDataDB($date, $rate)
+  {
+    $conectar = parent::conexion();
+    $stmt = $conectar->prepare("UPDATE rate_data_table SET  r_exchange_d=:rate  WHERE r_date=:date");
+    $stmt->execute(['rate' => $rate, 'date' => $date]);
     return $stmt->rowCount();
   }
 
-  public function validateDateRateDB($date, $type)
+  public function updateRateEuroDataDB($date, $rate)
+  {
+    $conectar = parent::conexion();
+    $stmt = $conectar->prepare("UPDATE rate_data_table SET  r_exchange_e=:rate  WHERE r_date=:date");
+    $stmt->execute(['rate' => $rate, 'date' => $date]);
+    return $stmt->rowCount();
+  }
+  public function updateRatePreferenceDataDB($date, $rate)
+  {
+    $conectar = parent::conexion();
+    $stmt = $conectar->prepare("UPDATE rate_data_table SET  r_exchange_p=:rate  WHERE r_date=:date");
+    $stmt->execute(['rate' => $rate, 'date' => $date]);
+    return $stmt->rowCount();
+  }
+
+  public function validateDateRateDB($date)
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->prepare("SELECT * FROM rate_data_table WHERE dateRate = :date AND typeRate = :type");
-    $stmt->execute(['date' => $date, 'type' => $type]);
+    $stmt = $conectar->prepare("SELECT * FROM rate_data_table WHERE r_date = :date");
+    $stmt->execute(['date' => $date]);
     return $stmt->rowCount();
   }
 

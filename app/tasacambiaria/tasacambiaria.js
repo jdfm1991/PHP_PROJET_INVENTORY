@@ -62,10 +62,7 @@ $(document).ready(function () {
         { data: "date" },
         { data: "dollar" },
         { data: "euro" },
-        {
-          data: "id", render: (data, _, __, meta) =>
-            `<button id="b_edit_rate" class="btn btn-outline-primary btn-sm" data-value="${data}"><i class="fa fa-edit"></i></button>`, className: "text-center"
-        }
+        { data: "pref" },
       ]
     });
 
@@ -142,28 +139,6 @@ $(document).ready(function () {
       }
     });
   });
-  /* Accion para Eliminar Usuario de la Lista de usuario Visibles */
-  $(document).on('click', '#b_edit_rate', function () {
-    var id = $(this).data('value');
-    $.ajax({
-      url: 'tasacambiaria_controller.php?op=get_data_rate',
-      method: 'POST',
-      dataType: 'json',
-      data: { id: id },
-      success: function (response) {
-        $.each(response, function (idx, opt) {
-          $('#idRate').val(opt.id);
-          $('#exchangeRate').val(opt.exchange);
-          $('#dateRate').val(opt.date);
-          $('#dateRate').attr('disabled', true);
-          $('#exchange_rate').val(opt.type);
-        });
-        loadSelectExchangeRatesDB(id);
-        $('.modal-title').text('Actualizar Tasa de Cambio');
-        $('#newRateModal').modal('show');
-      }
-    });
-  })
 
   loadDataTableRates();
 });

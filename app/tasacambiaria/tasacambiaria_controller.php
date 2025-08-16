@@ -19,18 +19,26 @@ switch ($_GET["op"]) {
     $data = $exchange->getExchangeRateTypesDB();
     foreach ($data as $row) {
       $sub_array = array();
-      $sub_array['id'] = $row['id'];
-      $sub_array['type'] = $row['exchangeratetypes'];
-      $sub_array['acr'] = $row['acronym'];
+      $sub_array['id'] = $row['rt_id'];
+      $sub_array['type'] = $row['rt_exchange'];
+      $sub_array['acr'] = $row['rt_acronym'];
       $dato[] = $sub_array;
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
   case 'new_rate':
     $dato = array();
-    $datevalidate = $exchange->validateDateRateDB($date, $type); //Validar Fecha de Exchange
+    $datevalidate = $exchange->validateDateRateDB($date); //Validar Fecha de Exchange
     if ($datevalidate > 0) {
-      $data = $exchange->updateRateDataDB($date, $rate, $type);
+      if ($type == 1) {
+        $data = $exchange->updateRateDollarDataDB($date, $rate);
+      } 
+      if ($type == 2) {
+        $data = $exchange->updateRateEuroDataDB($date, $rate);
+      }
+      if ($type == 3) {
+        $data = $exchange->updateRatePreferenceDataDB($date, $rate);
+      }
       if ($data) {
         $dato['status'] = true;
         $dato['error'] = '200';
@@ -41,7 +49,15 @@ switch ($_GET["op"]) {
         $dato['message'] = "Error Al Actualizar Tasa Cambiaria del Dia " . $date . ", Por Favor Intente Nuevamente \n";
       }
     } else {
-      $data = $exchange->createDataRateDB($date, $rate, $type);
+      if ($type == 1) {
+        $data = $exchange->createDataRateDollarDB($date, $rate);
+      } 
+      if ($type == 2) {
+        $data = $exchange->createDataRateEuroDB($date, $rate);
+      }
+      if ($type == 3) {
+        $data = $exchange->createDataRatePreferenceDB($date, $rate);
+      }
       if ($data) {
         $dato['status'] = true;
         $dato['error'] = '200';
@@ -61,8 +77,9 @@ switch ($_GET["op"]) {
       $sub_array = array();
       $sub_array['id'] = $row['r_id'];
       $sub_array['date'] = $row['r_date'];
-      $sub_array['dollar'] = $row['r_exchange_d'];
-      $sub_array['euro'] = $row['r_exchange_e'];
+      $sub_array['dollar'] = number_format($row['r_exchange_d'], 2);
+      $sub_array['euro'] = number_format($row['r_exchange_e'], 2);
+      $sub_array['pref'] = number_format($row['r_exchange_p'], 2);
       $dato[] = $sub_array;
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
@@ -89,10 +106,18 @@ switch ($_GET["op"]) {
     $conectado = @fsockopen("www.google.com", 80, $errno, $errstr, 3);
     if ($conectado) {
       fclose($conectado);
-      $rate = $crawler->filter('#dolar')->each(function ($node) {
+      $dollar = $crawler->filter('#dolar')->each(function ($node) {
         $rate = $node->text() . "\n";
         $rate = str_replace(",", ".", $rate);
         $rate = str_replace("USD", "", $rate);
+        $rate = str_replace(" ", "", $rate);
+        $rate = floatval($rate);
+        return $rate;
+      });
+      $euro = $crawler->filter('#euro')->each(function ($node) {
+        $rate = $node->text() . "\n";
+        $rate = str_replace(",", ".", $rate);
+        $rate = str_replace("EUR", "", $rate);
         $rate = str_replace(" ", "", $rate);
         $rate = floatval($rate);
         return $rate;
@@ -105,14 +130,15 @@ switch ($_GET["op"]) {
         return $date;
       });
       $date = date("Y-m-d", strtotime($date[0]));
-      $rate = $rate[0];
-      $datevalidate = $exchange->validateDateRateDB($date, 1);
+      $dollar = $dollar[0];
+      $euro = $euro[0];
+      $datevalidate = $exchange->validateDateRateDB($date);
       if ($datevalidate > 0) {
         $dato['status'] = true;
         $dato['error'] = '200';
         $dato['message'] = "La Tasa Cambiaria del Dia  " . $date . " ya fue registrada previamente \n";
       } else {
-        $data = $exchange->createDataRateDB($date, $rate, 1);
+        $data = $exchange->createDataRateDB($date, $dollar, $euro);
         if ($data) {
           $dato['status'] = true;
           $dato['error'] = '200';
