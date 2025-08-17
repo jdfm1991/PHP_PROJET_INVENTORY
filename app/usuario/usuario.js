@@ -189,14 +189,10 @@ $(document).ready(function () {
         $('#userName').val(response.name);
         $('#userEmail').val(response.email);
         $('#userLogin').val(response.login);
-        $('#userpassword').val(response.password);
+        $('#userpassword').attr('required', false);
         $('#newUserModal').modal('show');
       }
     });
   })
-
   LoadDataTableUsers();
-
-  console.log(localStorage.getItem('login'));
-  
 });

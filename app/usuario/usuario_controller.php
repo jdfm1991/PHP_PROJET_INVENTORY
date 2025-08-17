@@ -5,12 +5,12 @@ require_once("usuario_module.php");
 
 $usuario = new Usuario();
 
-$id = (isset($_POST['id'])) ? $_POST['id'] : '';
-$name = (isset($_POST['name'])) ? $_POST['name'] : '';
-$email = (isset($_POST['email'])) ? $_POST['email'] : '';
-$login = (isset($_POST['login'])) ? $_POST['login'] : 'jfranco';
-$password = (isset($_POST['password'])) ? $_POST['password'] : '20975144';
-$type = (isset($_POST['type'])) ? $_POST['type'] : 0;
+$id = (isset($_POST['id'])) ? $_POST['id'] : '68a245a97e353';
+$name = (isset($_POST['name'])) ? $_POST['name'] : 'namo';
+$email = (isset($_POST['email'])) ? $_POST['email'] : 'mao';
+$login = (isset($_POST['login'])) ? $_POST['login'] : 'mano';
+$password = (isset($_POST['password'])) ? $_POST['password'] : '';
+$type = (isset($_POST['type'])) ? $_POST['type'] : 1;
 
 switch ($_GET["op"]) {
   case 'get_user_types':
@@ -18,8 +18,8 @@ switch ($_GET["op"]) {
     $data = $usuario->getNameUserTypes();
     foreach ($data as $row) {
       $sub_array = array();
-      $sub_array['id'] = $row['id'];
-      $sub_array['type'] = $row['nameusertype'];
+      $sub_array['id'] = $row['ut_id'];
+      $sub_array['type'] = $row['ut_name'];
       $dato[] = $sub_array;
     }
     echo json_encode($dato);
@@ -27,7 +27,7 @@ switch ($_GET["op"]) {
   case 'new_user':
     $dato = array();
     if (empty($id)) {
-      $loginexist = $usuario->loginUserExistsDB($login);
+      $loginexist = $usuario->getDataUsersDB($login);
       if ($loginexist) {
         $dato['status'] = false;
         $dato['error'] = '400';
@@ -47,8 +47,7 @@ switch ($_GET["op"]) {
         }
       }
     } else {
-      $pwhashdb = $usuario->getPasswordUserDB($id);
-      if ($pwhashdb == $password) {
+      if ($password == '') {
         $data = $usuario->updateUserDataDBPasswordOff($id, $name, $email, $login, $type);
         if ($data) {
           $dato['status'] = true;
@@ -81,11 +80,11 @@ switch ($_GET["op"]) {
     $data = $usuario->getListUsersDB();
     foreach ($data as $row) {
       $sub_array = array();
-      $sub_array['id'] = $row['id'];
-      $sub_array['name'] = $row['nameuser'];
-      $sub_array['email'] = $row['emailuser'];
-      $sub_array['login'] = $row['loginuser'];
-      $sub_array['type'] = $row['nameusertype'];
+      $sub_array['id'] = $row['u_id'];
+      $sub_array['name'] = $row['u_name'];
+      $sub_array['email'] = $row['u_email'];
+      $sub_array['login'] = $row['u_login'];
+      $sub_array['type'] = $row['ut_name'];
       $dato[] = $sub_array;
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
@@ -107,12 +106,12 @@ switch ($_GET["op"]) {
     $dato = array();
     $data = $usuario->getDataUsersDB($id);
     foreach ($data as $row) {
-      $dato['id'] = $row['id'];
-      $dato['name'] = $row['nameuser'];
-      $dato['email'] = $row['emailuser'];
-      $dato['login'] = $row['loginuser'];
-      $dato['password'] = $row['passworduser'];
-      $dato['type'] = $row['leveluser'];
+      $dato['id'] = $row['u_id'];
+      $dato['name'] = $row['u_name'];
+      $dato['email'] = $row['u_email'];
+      $dato['login'] = $row['u_login'];
+      $dato['password'] = $row['u_pass'];
+      $dato['type'] = $row['u_level'];
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;

@@ -142,7 +142,7 @@ Modal Para Asignacion de Modulo
 </div>
 <!-- 
 ***********************************************
-Modal Nuevo Cliente 
+Modal Nuevo Cliente || Proveedor
 ***********************************************
 -->
 <div class="modal fade" id="newClientModal" tabindex="-1">
@@ -232,14 +232,6 @@ Modal Nueva Tasa de Cambio
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
-
 <!-- 
 ************************************************
 Modal Nuevo Usuario 

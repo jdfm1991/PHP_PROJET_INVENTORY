@@ -77,9 +77,9 @@ switch ($_GET["op"]) {
       $sub_array = array();
       $sub_array['id'] = $row['r_id'];
       $sub_array['date'] = $row['r_date'];
-      $sub_array['dollar'] = number_format($row['r_exchange_d'], 2);
-      $sub_array['euro'] = number_format($row['r_exchange_e'], 2);
-      $sub_array['pref'] = number_format($row['r_exchange_p'], 2);
+      $sub_array['dollar'] = is_null($row['r_exchange_d']) ? 0 : number_format($row['r_exchange_d'], 2); 
+      $sub_array['euro'] = is_null($row['r_exchange_e']) ? 0 : number_format($row['r_exchange_e'], 2);
+      $sub_array['pref'] = is_null($row['r_exchange_p']) ? 0 : number_format($row['r_exchange_p'], 2);
       $dato[] = $sub_array;
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
