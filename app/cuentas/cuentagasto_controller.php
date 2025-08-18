@@ -1,13 +1,13 @@
 <?php
 require_once("../../config/abrir_sesion.php");
 require_once("../../config/conexion.php");
-//require_once(PATH_APP . "/registrogasto/registrogasto_module.php");
+require_once(PATH_APP . "/registros/registrogasto_module.php");
 require_once("cuentagasto_module.php");
 
 $accounts = new Accounts();
-//$names = new Expenses();
+$movements = new Movements();
 
-$id = (isset($_POST['id'])) ? $_POST['id'] : '68a285e7a09a4';
+$id = (isset($_POST['id'])) ? $_POST['id'] : '';
 $cate = (isset($_POST['cate'])) ? $_POST['cate'] : 0;
 $type = (isset($_POST['type'])) ? $_POST['type'] : 0;
 $code = (isset($_POST['code'])) ? $_POST['code'] : 0;
@@ -73,6 +73,20 @@ switch ($_GET["op"]) {
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
+  case 'get_list_accounts_by_category':
+    $dato = array();
+    $data = $accounts->getDataListAccountsByCateDB($_GET['cate']);
+    foreach ($data as $row) {
+      $sub_array = array();
+      $sub_array['id'] = $row['a_id'];
+      $sub_array['cate'] = ($row['ac_id'] == 1) ? 'Ingreso' : 'Egreso';
+      $sub_array['type'] = $row['at_name'];
+      $sub_array['code'] = $row['a_code'];
+      $sub_array['name'] = $row['a_name'];
+      $dato[] = $sub_array;
+    }
+    echo json_encode($dato, JSON_UNESCAPED_UNICODE);
+    break;
   case 'get_data_account':
     $dato = array();
     $data = $accounts->getDataAccountDB($id);
@@ -86,14 +100,14 @@ switch ($_GET["op"]) {
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
   case 'delete_account':
-    /* $valided = $names->validateAccountsRelatedExpensesDB($id);
+    $valided = $movements->validateAccountMovementsDB($id);
     if ($valided > 0) {
       $dato['status'] = false;
       $dato['error'] = '500';
-      $dato['message'] = "No Puede Eliminiar Esta Cuenta, Ya que Tiene Relacion Con Un Gasto, Por Favor Intente Con Un Cliente Diferente \n";
+      $dato['message'] = "No Puede Eliminiar Esta Cuenta, Ya que Tiene Relacion Con Uno o Mas Movimientos de Cuenta, Por Favor Intente Con Una Cuenta Diferente \n";
       echo json_encode($dato, JSON_UNESCAPED_UNICODE);
       return;
-    }  */
+    } 
     $data = $accounts->deleteDataAccountDB($id);
     if ($data) {
       $dato['status'] = true;

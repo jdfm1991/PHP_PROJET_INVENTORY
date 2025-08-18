@@ -1,5 +1,25 @@
 <!--
   *************************************************
+  Notificacion Para visualizar proceso terminado
+  *************************************************
+-->
+<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 9999; right: 0; bottom: 0;">
+  <div id="bodyToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
+    <div class="toast-header">
+      <img src="<?php echo  URL_ASSETS; ?>/img/undraw_rocket.svg" class="rounded mr-2" alt="alt" width="20">
+      <strong class="mr-auto"></strong>
+      <!-- <small>11 mins ago</small> -->
+      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="toast-body">
+      <p><span id="toastText" class="text-center"></span></p>
+    </div>
+  </div>
+</div>
+<!--
+  *************************************************
   Modal Nuevo Contenedor del Sistema 
   *************************************************
 -->
@@ -17,7 +37,8 @@
           <input type="hidden" id="cont_id">
           <div class="form-group">
             <label for="cont_name">Nombre del Contenedor</label>
-            <input type="text" class="form-control" id="cont_name" aria-describedby="cont_nameHelp" required>
+            <input type="text" class="form-control" id="cont_name" aria-describedby="cont_nameHelp"
+              required>
             <small id="cont_nameHelp" class="form-text text-muted">Escriba el Nombre del Contenedor</small>
           </div>
           <div class="modal-footer">
@@ -49,8 +70,10 @@ Modal Nuevo Modulo
           <div class="form-group">
             <label for="m_name">Nombre del Modulo</label>
             <input type="text" class="form-control" id="m_name" aria-describedby="m_nameHelp" required>
-            <input type="text" class="form-control" id="m_namelist" aria-describedby="m_namelistHelp" hidden>
-            <small id="m_nameHelp" class="form-text text-muted">Escriba el Nombre que tendra la carpeta dentro de
+            <input type="text" class="form-control" id="m_namelist" aria-describedby="m_namelistHelp"
+              hidden>
+            <small id="m_nameHelp" class="form-text text-muted">Escriba el Nombre que tendra la carpeta
+              dentro de
               sistema</small>
           </div>
           <div class="modal-footer">
@@ -126,7 +149,8 @@ Modal Para Asignacion de Modulo
                 <option>...</option>
               </select>
             </div>
-            <small id="nameNewHelp" class="form-text text-muted text-center">Escriba el Nombre que tendra la carpeta
+            <small id="nameNewHelp" class="form-text text-muted text-center">Escriba el Nombre que tendra la
+              carpeta
               dentro de
               sistema</small>
           </div>
@@ -160,16 +184,20 @@ Modal Nuevo Cliente || Proveedor
             <input type="hidden" id="c_id">
             <div class="form-group col-md-6">
               <label for="c_name" class="form-label">Nombre Completo</label>
-              <input type="text" class="form-control" id="c_name" placeholder="Nombre y Apellido" required>
+              <input type="text" class="form-control" id="c_name" placeholder="Nombre y Apellido"
+                required>
             </div>
             <div class="form-group col-md-6">
               <label for="c_identity" class="form-label">N° Cedula</label>
-              <input type="text" class="form-control" id="c_identity" placeholder="N° Cedula de Identidad" maxlength="20">
+              <input type="text" class="form-control" id="c_identity" placeholder="N° Cedula de Identidad"
+                maxlength="20">
             </div>
             <div class="form-group col-md-6">
               <label for="c_phone" class="form-label">N° Telefonico Principal</label>
-              <input type="text" class="form-control" id="c_phone" name="onlynumber" placeholder="N° Telefonico" maxlength="11">
-              <small id="c_phoneHelp" class="form-text text-white">Escriba Codigo de Area Sin el Primer 0 + N° Telefonico</small>
+              <input type="text" class="form-control" id="c_phone" name="onlynumber"
+                placeholder="N° Telefonico" maxlength="11">
+              <small id="c_phoneHelp" class="form-text text-white">Escriba Codigo de Area Sin el Primer 0
+                + N° Telefonico</small>
             </div>
           </div>
           <div class="modal-footer">
@@ -205,12 +233,14 @@ Modal Nueva Tasa de Cambio
           <div class="form-row">
             <div class="form-group col-md-4">
               <label for="exchangeRate">Mont de la Tasa</label>
-              <input type="text" class="form-control" id="exchangeRate" name="onlynumber" aria-describedby="exchangeRateHelp" required>
+              <input type="text" class="form-control" id="exchangeRate" name="onlynumber"
+                aria-describedby="exchangeRateHelp" required>
               <small id="exchangeRateHelp" class="form-text text-muted">Monto de la Tasa de Cambio</small>
             </div>
             <div class="form-group col-md-4">
               <label for="dateRate">Fecha de la Tasa</label>
-              <input type="date" class="form-control" id="dateRate" aria-describedby="dateRateHelp" max="<?php echo date('Y-m-d'); ?>" required>
+              <input type="date" class="form-control" id="dateRate" aria-describedby="dateRateHelp"
+                max="<?php echo date('Y-m-d'); ?>" required>
               <small id="dateRateHelp" class="form-text text-muted">Fecha de la Tasa de Cambio</small>
             </div>
             <div class="form-group col-md-4">
@@ -252,19 +282,23 @@ Modal Nuevo Usuario
             <input type="hidden" id="userId">
             <div class="form-group col-md-6">
               <label for="userName" class="form-label">Nombre Completo</label>
-              <input type="text" class="form-control" id="userName" placeholder="Nombre y Apellido" required>
+              <input type="text" class="form-control" id="userName" placeholder="Nombre y Apellido"
+                required>
             </div>
             <div class="form-group col-md-6">
               <label for="userEmail" class="form-label">Email</label>
-              <input type="email" class="form-control" id="userEmail" placeholder="Correo Electronico" required>
+              <input type="email" class="form-control" id="userEmail" placeholder="Correo Electronico"
+                required>
             </div>
             <div class="form-group col-lg-4">
               <label for="userLogin" class="form-label">Login</label>
-              <input type="text" class="form-control" id="userLogin" placeholder="Para Iniciar Sesion" required>
+              <input type="text" class="form-control" id="userLogin" placeholder="Para Iniciar Sesion"
+                required>
             </div>
             <div class="form-group col-lg-4">
               <label for="pass" class="form-label">Contraseña</label>
-              <input type="password" class="form-control" id="userpassword" placeholder="Para Iniciar Sesion" required>
+              <input type="password" class="form-control" id="userpassword"
+                placeholder="Para Iniciar Sesion" required>
             </div>
             <div class="form-group col-lg-4">
               <label for="usertypes" class="form-label">Tipo de Usuario</label>
@@ -324,8 +358,79 @@ Modal Nuevo Usuario
             </div>
             <div class="form-group col-md-12">
               <label for="a_name">Cuenta</label>
-              <input class="form-control" id="a_name" aria-describedby="a_nameHelp" placeholder="Ingrese el Nombre de la Cuenta" required>
-              <small id="a_nameHelp" class="form-text text-white">Detalle de la cuenta que se va a crear</small>
+              <input class="form-control" id="a_name" aria-describedby="a_nameHelp"
+                placeholder="Ingrese el Nombre de la Cuenta" required>
+              <small id="a_nameHelp" class="form-text text-white">Detalle de la cuenta que se va a
+                crear</small>
+            </div>
+          </div>
+          <div id="m_unit_cont" class="alert alert-warning d-none" role="alert">
+            <p id="m_unit_text" class="mb-0">Alert Description</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!--
+****************************************************************************
+ Modal Nueva Registro de detalle de Movimiento de Cuenta
+****************************************************************************
+ -->
+<div class="modal fade" id="newAccountMovementModal" tabindex="-1" aria-labelledby="newAccountMovementModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Registro de Movimiento</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body ">
+        <form id="formmovementaccount">
+          <input type="hidden" id="am_id">
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="ac_id2" class="form-label">Categorias</label>
+              <select class="form-control" id="ac_id2" required>
+                <option value="">Tipo</option>
+                <option value="1">INGRESOS</option>
+                <option value="2">EGRESOS</option>
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="am_date" class="form-label">Fecha del Gasto</label>
+              <input type="date" class="form-control" id="am_date" max="<?php echo date('Y-m-d'); ?>"
+                value="<?php echo date('Y-m-d'); ?>" required>
+            </div>
+            <div class="form-group col-md-5" id="e_content">
+              <label for="e_id" class="form-label">Sujeto</label>
+              <select class="form-control" id="e_id" size="3" required>
+                <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectUnitLevel" -->
+              </select>
+            </div>
+            <div class="form-group col-md-7" id="a_content">
+              <label for="a_id2" class="form-label">Cuenta de Gasto</label>
+              <select class="form-control" id="a_id2" size="3" required>
+                <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectUnitLevel" -->
+              </select>
+            </div>
+            <div class="form-group col-md-8">
+              <label for="am_name">Detalle del Gasto</label>
+              <textarea id="am_name" class="form-control" rows="3"
+                placeholder="Ingrese el Detalle del Gasto a Realizar"
+                aria-describedby="am_nameHelp" maxlength="150" required></textarea>
+              <small id="am_nameHelp" class="form-text text-white">Detalle del Gasto que se va a
+                realizar</small>
+              <label id="count" class="float-right"></label>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="am_amount">Monto Del Gasto</label>
+              <input type="text" class="form-control" id="am_amount" name="onlynumber" required>
             </div>
           </div>
           <div id="m_unit_cont" class="alert alert-warning d-none" role="alert">
@@ -386,13 +491,14 @@ Modal para Iniciar Sesion
                       aria-describedby="emailHelp" placeholder="Ingrese su Login...">
                   </div>
                   <div class="form-group">
-                    <input type="password" class="form-control form-control-user" id="sessionpassword"
-                      placeholder="Ingrese su Contraseña...">
+                    <input type="password" class="form-control form-control-user"
+                      id="sessionpassword" placeholder="Ingrese su Contraseña...">
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-danger btn-light" data-bs-dismiss="modal"
-                      aria-label="Close">Cancelar</button>
-                    <button type="submit" class="btn btn-outline-primary btn-light">Iniciar Sesion</button>
+                    <button type="button" class="btn btn-outline-danger btn-light"
+                      data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+                    <button type="submit" class="btn btn-outline-primary btn-light">Iniciar
+                      Sesion</button>
                   </div>
                   <div id="m_login_cont" class="alert alert-warning d-none" role="alert">
                     <p id="m_login_text" class="mb-0">Alert Description</p>
@@ -409,93 +515,10 @@ Modal para Iniciar Sesion
 
 
 
-<!--
-  *************************************************
-  Notificacion Para visualizar proceso terminado
-  *************************************************
--->
-<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 9999; right: 0; bottom: 0;">
-  <div id="bodyToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
-    <div class="toast-header">
-      <img src="<?php echo  URL_ASSETS; ?>/img/undraw_rocket.svg" class="rounded mr-2" alt="alt" width="20">
-      <strong class="mr-auto"></strong>
-      <!-- <small>11 mins ago</small> -->
-      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="toast-body">
-      <p><span id="toastText" class="text-center"></span></p>
-    </div>
-  </div>
-</div>
 
 
-<!--
-****************************************************************************
- Modal Nueva Registro de Gasto
-****************************************************************************
- -->
-<div class="modal fade" id="newExpenseModal" tabindex="-1" aria-labelledby="newExpenseModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Nueva Cuenta de Gasto</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body ">
-        <form id="formExpense">
-          <input type="hidden" id="idExp">
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <label for="suplierExpense" class="form-label">Proveedor</label>
-              <select class="form-control" id="suplierExpense" size="3" required>
-                <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectUnitLevel" -->
-              </select>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="accountExpense" class="form-label">Cuenta de Gasto</label>
-              <select class="form-control" id="accountExpense" size="3" required>
-                <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectUnitLevel" -->
-              </select>
-            </div>
-            <div class="form-group col-md-8">
-              <label for="datailExpense">Detalle del Gasto</label>
-              <textarea id="datailExpense" class="form-control" rows="3" placeholder="Ingrese el Detalle del Gasto a Realizar" aria-describedby="datailExpenseHelp" maxlength="150" required></textarea>
-              <small id="datailExpenseHelp" class="form-text text-muted">Detalle del Gasto que se va a realizar</small>
-              <label id="count" class="float-right"></label>
-            </div>
-            <div class="form-group col-md-4">
-              <label for="dateExpense">Fecha del Gasto</label>
-              <input type="date" class="form-control" id="dateExpense" max="<?php echo date('Y-m-d'); ?>" required>
-            </div>
-            <div class="form-group col-md-4">
-              <label for="montExpense">Monto Del Gasto</label>
-              <input type="text" class="form-control" id="montExpense" name="onlynumber" required>
-            </div>
-            <div class="form-check form-check-inline col-md-3 text-center">
-              <input class="form-check-input" type="checkbox" id="quotaExpense">
-              <label class="form-check-label" for="quotaExpense">Pago En Cuotas</label>
-            </div>
-            <div id="quota_content" class="form-group col-md-4">
-              <label for="montQuota">Cuota de Pago</label>
-              <input type="text" class="form-control" id="montQuota" name="onlynumber">
-            </div>
-          </div>
-          <div id="m_unit_cont" class="alert alert-warning d-none" role="alert">
-            <p id="m_unit_text" class="mb-0">Alert Description</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Guardar</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+
+
 <!--
 ****************************************************************************
  Modal Nueva Registro de Ingresos Penalizaciones
@@ -526,7 +549,8 @@ Modal para Iniciar Sesion
             </div>
             <div class="form-group col-md-8">
               <label for="datailIncome">Detalle del Ingreso</label>
-              <input type="text" class="form-control" id="datailIncome" placeholder="Ingrese el Detalle del Gasto a Realizar" maxlength="50" required>
+              <input type="text" class="form-control" id="datailIncome"
+                placeholder="Ingrese el Detalle del Gasto a Realizar" maxlength="50" required>
               <label id="count2" class="float-right"></label>
             </div>
             <div id="c_formula" class="form-check form-check-inline col-md-3 text-center d-none">
@@ -572,7 +596,8 @@ Modal para Iniciar Sesion
         <form id="formExpensePay">
           <input type="hidden" id="idcx">
           <div class="form-group row">
-            <label id="l_date" for="t_date" class="text-uppercase text-monospace col-sm-5">Fecha de Gasto: </label>
+            <label id="l_date" for="t_date" class="text-uppercase text-monospace col-sm-5">Fecha de Gasto:
+            </label>
             <p id="t_date" class="font-weight-bold text-uppercase col-sm-7"> </p>
             <label id="l_name" class="text-uppercase text-monospace col-sm-5">Proveedor: </label>
             <p id="t_name" class="font-weight-bold text-uppercase col-sm-7"> </p>
@@ -593,14 +618,16 @@ Modal para Iniciar Sesion
               <div class="form-group col-md-4">
                 <label for="refercxc">Numero de Ref:</label>
                 <input type="hidden" id="idrefer">
-                <input type="text" class="form-control" id="refercxc" name="onlynumber" list="listrefer">
+                <input type="text" class="form-control" id="refercxc" name="onlynumber"
+                  list="listrefer">
                 <datalist id="listrefer">
                   <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectUnitLevel" -->
                 </datalist>
               </div>
               <div class="form-group col-md-4">
                 <label for="datepaycxc">Fecha de Pago:</label>
-                <input type="date" class="form-control" id="datepaycxc" max="<?php echo date('Y-m-d'); ?>" disabled>
+                <input type="date" class="form-control" id="datepaycxc"
+                  max="<?php echo date('Y-m-d'); ?>" disabled>
               </div>
               <div class="form-group col-md-4">
                 <label for="amountpaycxc">Monto de Pago:</label>
@@ -641,7 +668,8 @@ Modal para Iniciar Sesion
  Modal Registro de Pago de Cuenta Por Pagar
 ****************************************************************************
  -->
-<div class="modal fade" id="rcIndividualModal" tabindex="-1" aria-labelledby="rcIndividualModalLabel" aria-hidden="true">
+<div class="modal fade" id="rcIndividualModal" tabindex="-1" aria-labelledby="rcIndividualModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
@@ -665,8 +693,12 @@ Modal para Iniciar Sesion
           <!-- Inicio de contenedor de cabezera de Recibo de Cobro -->
           <div class="container-sm !justify !spacing">
             <div class="form-row mb-3 mt-3 justify-content-between">
-              <div class="col-sm-8 mb-3 text-right text-uppercase text-monospace mb-3">N° de Recibo: </div>
-              <div class="col-sm-4 mb-3 text-left text-uppercase text-monospace mb-3"><i class="bi bi-geo"></i> <span id="n_rc" class="h4 font-weight-bold text-info"></span> <i class="bi bi-geo"></i></div>
+              <div class="col-sm-8 mb-3 text-right text-uppercase text-monospace mb-3">N° de Recibo:
+              </div>
+              <div class="col-sm-4 mb-3 text-left text-uppercase text-monospace mb-3"><i
+                  class="bi bi-geo"></i> <span id="n_rc" class="h4 font-weight-bold text-info"></span>
+                <i class="bi bi-geo"></i>
+              </div>
               <!-- Inicio de contenedor de datos de Recibo de Cobro -->
               <div class="form-row col-sm-8">
                 <label class="form-label col-sm-3 mb-2" for="p_cobro">Periodo de Cobro</label>
@@ -681,7 +713,8 @@ Modal para Iniciar Sesion
                   <input id="n_dpto" type="text" class="form-control" placeholder="N° Dpto">
                 </div>
                 <div class="col-sm-6 mb-2">
-                  <input id="name_client" type="text" class="form-control" placeholder="Nombre de Inquilino">
+                  <input id="name_client" type="text" class="form-control"
+                    placeholder="Nombre de Inquilino">
                 </div>
                 <div class="col-sm-2 mb-2">
                   <input id="l_dpto" type="text" class="form-control" placeholder="Piso">
@@ -700,49 +733,65 @@ Modal para Iniciar Sesion
                   <label class="col-sm-8 text-uppercase text-monospace">
                     Total Gastos Fijos
                   </label>
-                  <input type="text" id="amout_gf" class="form-control form-control-sm col-sm-4 text-uppercase text-monospace" disabled>
+                  <input type="text" id="amout_gf"
+                    class="form-control form-control-sm col-sm-4 text-uppercase text-monospace"
+                    disabled>
                 </div>
                 <div class="row col-sm-12">
                   <label class="col-sm-8 text-uppercase text-monospace">
                     Total Gastos Variables
                   </label>
-                  <input type="text" id="amout_gv" class="form-control form-control-sm col-sm-4 text-uppercase text-monospace" disabled>
+                  <input type="text" id="amout_gv"
+                    class="form-control form-control-sm col-sm-4 text-uppercase text-monospace"
+                    disabled>
                 </div>
                 <div class="row col-sm-12">
                   <label class="col-sm-8 text-uppercase text-monospace">
                     Total Penalizaciones
                   </label>
-                  <input type="text" id="amout_p" class="form-control form-control-sm col-sm-4 text-uppercase text-monospace" disabled>
+                  <input type="text" id="amout_p"
+                    class="form-control form-control-sm col-sm-4 text-uppercase text-monospace"
+                    disabled>
                 </div>
                 <div class="row col-sm-12">
                   <label class="col-sm-8 text-uppercase text-monospace">
                     Total Ingresos
                   </label>
-                  <input type="text" id="amout_i" class="form-control form-control-sm col-sm-4 text-uppercase text-monospace" disabled>
+                  <input type="text" id="amout_i"
+                    class="form-control form-control-sm col-sm-4 text-uppercase text-monospace"
+                    disabled>
                 </div>
                 <div class="row col-sm-12">
                   <label class="col-sm-8 text-uppercase text-monospace">
                     Saldo Anterior
                   </label>
-                  <input type="text" id="amout_a" class="form-control form-control-sm col-sm-4 text-uppercase text-monospace" disabled>
+                  <input type="text" id="amout_a"
+                    class="form-control form-control-sm col-sm-4 text-uppercase text-monospace"
+                    disabled>
                 </div>
                 <div class="row col-sm-12">
                   <label class="col-sm-8 text-uppercase text-monospace">
                     Monto Por Mora
                   </label>
-                  <input type="text" id="amout_m" class="form-control form-control-sm col-sm-4 text-uppercase text-monospace" disabled>
+                  <input type="text" id="amout_m"
+                    class="form-control form-control-sm col-sm-4 text-uppercase text-monospace"
+                    disabled>
                 </div>
                 <div class="row col-sm-12">
                   <label class="col-sm-8 text-uppercase text-monospace">
                     Monto Por Gastos Admtvo.
                   </label>
-                  <input type="text" id="amout_g" class="form-control form-control-sm col-sm-4 text-uppercase text-monospace" disabled>
+                  <input type="text" id="amout_g"
+                    class="form-control form-control-sm col-sm-4 text-uppercase text-monospace"
+                    disabled>
                 </div>
                 <div class="row col-sm-12">
                   <label class="col-sm-8 text-uppercase text-monospace">
                     Total General
                   </label>
-                  <input type="text" id="amout_tg" class="form-control form-control-sm col-sm-4 text-uppercase text-monospace" disabled>
+                  <input type="text" id="amout_tg"
+                    class="form-control form-control-sm col-sm-4 text-uppercase text-monospace"
+                    disabled>
                 </div>
               </div>
               <!-- Fin de contenedor de totales de Recibo de Cobro -->
@@ -759,7 +808,9 @@ Modal para Iniciar Sesion
 
                 </div>
                 <div class="card-footer text-muted text-right p-0">
-                  <p class="card-text mr-5">Total: <span id="total_fixed" class="font-weight-bold text-uppercase text-monospace text-right text-info h5"></span></p>
+                  <p class="card-text mr-5">Total: <span id="total_fixed"
+                      class="font-weight-bold text-uppercase text-monospace text-right text-info h5"></span>
+                  </p>
                 </div>
               </div>
               <!-- Fin de contenedor de los Items Gastos Fijos -->
@@ -770,7 +821,9 @@ Modal para Iniciar Sesion
 
                 </div>
                 <div class="card-footer text-muted text-right p-0">
-                  <p class="card-text mr-5">Total: <span id="total_non_fixed" class="font-weight-bold text-uppercase text-monospace text-right text-info h5"></span></p>
+                  <p class="card-text mr-5">Total: <span id="total_non_fixed"
+                      class="font-weight-bold text-uppercase text-monospace text-right text-info h5"></span>
+                  </p>
                 </div>
               </div>
               <!-- Fin de contenedor de los Items Gastos Variables -->
@@ -781,7 +834,9 @@ Modal para Iniciar Sesion
 
                 </div>
                 <div class="card-footer text-muted text-right p-0">
-                  <p class="card-text mr-5">Total: <span id="total_penalty" class="font-weight-bold text-uppercase text-monospace text-right text-info h5"></span></p>
+                  <p class="card-text mr-5">Total: <span id="total_penalty"
+                      class="font-weight-bold text-uppercase text-monospace text-right text-info h5"></span>
+                  </p>
                 </div>
               </div>
               <!-- Fin de contenedor de los Items Penalizaciones -->
@@ -792,19 +847,25 @@ Modal para Iniciar Sesion
 
                 </div>
                 <div class="card-footer text-muted text-right p-0">
-                  <p class="card-text mr-5">Total: <span id="total_income" class="font-weight-bold text-uppercase text-monospace text-right text-info h5"></span></p>
+                  <p class="card-text mr-5">Total: <span id="total_income"
+                      class="font-weight-bold text-uppercase text-monospace text-right text-info h5"></span>
+                  </p>
                 </div>
               </div>
               <!-- Fin de contenedor de los Items Ingresos -->
             </div>
             <div class="col-sm-4 p-0 mt-0 d-block">
               <div class="btn-group justify-content-center" role="group" aria-label="Botones de opciones">
-                <button id="b_gastos_f" type="button" class="btn btn-outline-info col-sm btnd"> Gastos Fijos </button>
-                <button id="b_gastos_v" type="button" class="btn btn-outline-info col-sm btnd"> Gastos Varios </button>
-                <button id="b_ingreso" type="button" class="btn btn-outline-info col-sm btnd"> Ingresos </button>
+                <button id="b_gastos_f" type="button" class="btn btn-outline-info col-sm btnd"> Gastos
+                  Fijos </button>
+                <button id="b_gastos_v" type="button" class="btn btn-outline-info col-sm btnd"> Gastos
+                  Varios </button>
+                <button id="b_ingreso" type="button" class="btn btn-outline-info col-sm btnd"> Ingresos
+                </button>
               </div>
               <div class="btn-group justify-content-center" role="group" aria-label="Botones de opciones">
-                <button id="b_penal" type="button" class="btn btn-outline-info col-sm btnp"> Penalizaciones </button>
+                <button id="b_penal" type="button" class="btn btn-outline-info col-sm btnp">
+                  Penalizaciones </button>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary x" data-dismiss="modal">Cerrar</button>

@@ -1,28 +1,27 @@
 <?php
 require_once("../../config/abrir_sesion.php");
 require_once("../../config/conexion.php");
-require_once(PATH_APP . "/banco/banco_module.php");
 require_once(PATH_APP . "/tasacambiaria/tasacambiaria_module.php");
 require_once("registrogasto_module.php");
 
-$expenses = new Expenses();
-$bankmov = new BankingMovements();
+$mov = new Movements();
 $exchange = new Exchange();
 
 $id = (isset($_POST['id'])) ? $_POST['id'] : '';
-$date = (isset($_POST['date'])) ? $_POST['date'] : '';
-$suplier = (isset($_POST['suplier'])) ? $_POST['suplier'] : '';
-$account = (isset($_POST['account'])) ? $_POST['account'] : '';
-$detail = (isset($_POST['detail'])) ? $_POST['detail'] : '';
-$mont = (isset($_POST['mont'])) ? $_POST['mont'] : '';
-$quota = (isset($_POST['quota']) && (!empty($_POST['quota']))) ? $_POST['quota'] : NULL;
+$cate = (isset($_POST['cate'])) ? $_POST['cate'] : 0;
+$date = (isset($_POST['date'])) ? $_POST['date'] : '0000-00-00';
+$entity = (isset($_POST['entity'])) ? $_POST['entity'] : 0;
+$account = (isset($_POST['account'])) ? $_POST['account'] : 0;
+$name = (isset($_POST['name'])) ? $_POST['name'] : '';
+$amount = (isset($_POST['amount'])) ? $_POST['amount'] : 0;
+
 
 switch ($_GET["op"]) {
-  case 'new_expense':
+  case 'new_account_movement':
     $dato = array();
     if (empty($id)) {
       $id = uniqid();
-      $data = $expenses->createExpenseDB($id, $date, $suplier, $account, $detail, $mont, $quota);
+      $data = $mov->createDataAccountMovementDB($id, $cate, $date, $entity, $account, $name, $amount);
       if ($data) {
         $dato['status'] = true;
         $dato['error'] = '200';
@@ -33,7 +32,7 @@ switch ($_GET["op"]) {
         $dato['message'] = "Error Al Crear El Gasto, Por Favor Intente Nuevamente \n";
       }
     } else {
-      $data = $expenses->updateDataExpenseDB($id, $date, $detail, $mont, $quota);
+      $data = $mov->updateDataAccountMovementDB($id, $date, $name, $amount);
       if ($data) {
         $dato['status'] = true;
         $dato['error'] = '200';
@@ -46,41 +45,40 @@ switch ($_GET["op"]) {
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
-  case 'get_list_expenses':
+  case 'get_list_account_movements':
     $dato = array();
-    $data = $expenses->getListExpensesDB();
+    $data = $mov->getDataListAccountMovementsDB();
     foreach ($data as $row) {
       $sub_array = array();
-      $sub_array['id'] = $row['id'];
-      $sub_array['date'] = $row['dateExpense'];
-      $sub_array['suplier'] = $row['nameSuplier'];
-      $sub_array['type'] = $row['typeaccount'];
-      $sub_array['account'] = $row['expenseaccount'];
-      $sub_array['expense'] = $row['expenseName'];
-      $sub_array['mont'] = number_format(($row['quotasExpense'] > 0) ? $row['quotasExpense']  : $row['montExpense'], 2);
+      $sub_array['id'] = $row['am_id'];
+      $sub_array['cate'] = ($row['ac_id'] == 1) ? 'Ingreso' : 'Egreso';
+      $sub_array['date'] = $row['am_date'];
+      $sub_array['account'] = $row['a_name'];
+      $sub_array['entity'] = is_null($row['client']) ? $row['supplier'] : $row['client'];
+      $sub_array['movement'] = $row['am_name'];
+      $sub_array['amount'] = number_format( $row['am_amount'] , 2);
       $dato[] = $sub_array;
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
-  case 'get_data_expense':
+  case 'get_data_account_movement':
     $dato = array();
-    $data = $expenses->getDataExpenseDB($id);
+    $data = $mov->getDataAccountMovementDB($id);
     foreach ($data as $data) {
-      $dato['id'] = $data['id'];
-      $dato['date'] = $data['dateExpense'];
-      $dato['suplier'] = $data['idSuplier'];
-      $dato['account'] = $data['idExpenseAccount'];
-      $dato['expense'] = $data['expenseName'];
-      $dato['mont'] = number_format($data['montExpense'], 2);
-      $dato['quota'] = ($data['quotasExpense'] != null) ? number_format($data['quotasExpense'], 2) : NULL;
-      $dato['dater'] = $data['dateRegExp'];
+      $dato['id'] = $data['am_id'];
+      $dato['cate'] = $data['ac_id'];
+      $dato['account'] = $data['a_id'];
+      $dato['entity'] = $data['e_id'];
+      $dato['date'] = $data['am_date'];
+      $dato['movement'] = $data['am_name'];
+      $dato['amount'] = number_format($data['am_amount'], 2);     
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
 
-  case 'delete_expense':
+  case 'delete_account_movement':
     $dato = array();
-    $data = $expenses->deleteClideleteExpenseDB($id);
+    $data = $mov->deleteDataAccountMovementDB($id);
     if ($data) {
       $dato['status'] = true;
       $dato['error'] = '200';
@@ -89,31 +87,6 @@ switch ($_GET["op"]) {
       $dato['status'] = false;
       $dato['error'] = '500';
       $dato['message'] = "Error Al Elminar La Cuenta, Por Favor Intente Nuevamente \n";
-    }
-    echo json_encode($dato, JSON_UNESCAPED_UNICODE);
-    break;
-
-  case 'get_sum_movement':
-    $dato = array();
-    $descrip = '';
-    $sum = 0;
-    $mov = $expenses->getNameAccountByIdDB($id);
-    if (strpos($mov, 'TRANSFERECIAS BA') !== false) {
-      $descrip = 'com.';
-    }
-    if (strpos($mov, 'TRANSACCIONES FIN') !== false) {
-      $descrip = 'ITF 20';
-    }
-    $sum = $bankmov->getSumMovementByMovementDB($descrip);
-    $data = $expenses->updateAmountExpenseByIdDB($id, $sum);
-    if ($data) {
-      $dato['status'] = true;
-      $dato['error'] = '200';
-      $dato['message'] = "La Actualizacion se realizo Satisfactoriamente \n";
-    } else {
-      $dato['status'] = false;
-      $dato['error'] = '500';
-      $dato['message'] = "No Hubo Informacion para actualizar \n";
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;

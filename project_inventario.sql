@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 18-08-2025 a las 02:25:26
+-- Tiempo de generación: 18-08-2025 a las 16:12:18
 -- Versión del servidor: 8.0.26
 -- Versión de PHP: 8.4.8
 
@@ -41,7 +41,36 @@ CREATE TABLE `account_data_table` (
 --
 
 INSERT INTO `account_data_table` (`a_id`, `ac_id`, `at_id`, `a_code`, `a_name`, `a_status`) VALUES
-('68a285e7a09a4', 1, 1, 'VENT-01', 'POMCPOMD', 0);
+('68a285e7a09a4', 1, 1, 'VENT-01', 'VENTA DE CHATARRA', 1),
+('68a331ed60853', 2, 2, 'COMP-01', 'COMPRA DE COMIDA', 1),
+('68a3322f2b656', 2, 2, 'COMP-02', 'COMPRA DE CHATARRA', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `account_movements_data_table`
+--
+
+CREATE TABLE `account_movements_data_table` (
+  `am_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `ac_id` int NOT NULL,
+  `a_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `e_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'proveedor o cliente',
+  `am_date` date NOT NULL,
+  `am_name` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `am_amount` decimal(28,4) NOT NULL,
+  `am_datereg` date NOT NULL,
+  `am_status` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `account_movements_data_table`
+--
+
+INSERT INTO `account_movements_data_table` (`am_id`, `ac_id`, `a_id`, `e_id`, `am_date`, `am_name`, `am_amount`, `am_datereg`, `am_status`) VALUES
+('68a3415d985e8', 1, '68a285e7a09a4', '68a3205f46ef5', '2025-08-18', 'VENTAS DE METALES VARIOS', 50.0000, '2025-08-18', 0),
+('68a34ec8899e4', 1, '68a285e7a09a4', '68a3205f46ef5', '2025-08-18', 'VENTAS DE HIERRO', 50.0000, '2025-08-18', 1),
+('68a34ee004542', 2, '68a3322f2b656', '689fb088ea0e9', '2025-08-18', 'COMPRA DE HIERRO', 40.0000, '2025-08-18', 1);
 
 -- --------------------------------------------------------
 
@@ -130,24 +159,8 @@ INSERT INTO `container_model_data_table` (`id`, `cont_id`, `m_id`) VALUES
 (4, '689f9bde2eaf6', '689f9ef20af38'),
 (5, '689f9bde2eaf6', '68a23fc2c66f4'),
 (6, '68a23ffa7db3f', '68a240171a3a3'),
-(7, '689f9bde2eaf6', '68a24ad85bc28');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `expense_data_table`
---
-
-CREATE TABLE `expense_data_table` (
-  `e_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `e_date` date NOT NULL,
-  `s_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `ea_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `e_name` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `e_amount` decimal(28,4) NOT NULL,
-  `e_datereg` date NOT NULL,
-  `e_status` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+(7, '689f9bde2eaf6', '68a24ad85bc28'),
+(8, '689f9bde2eaf6', '68a319ed13400');
 
 -- --------------------------------------------------------
 
@@ -220,7 +233,8 @@ INSERT INTO `module_data_table` (`m_id`, `m_name`, `m_namelist`, `m_status`, `m_
 ('689f9ef20af38', 'tasacambiaria', 'Control Cambiario', 1, 0),
 ('68a23fc2c66f4', 'proveedores', 'Gestion de Proveedor', 1, 0),
 ('68a240171a3a3', 'usuario', 'Gestion de Usuario', 1, 0),
-('68a24ad85bc28', 'cuentas', 'Gestion de Cuentas', 1, 0);
+('68a24ad85bc28', 'cuentas', 'Gestion de Cuentas', 1, 0),
+('68a319ed13400', 'registros', 'Movimiento de Capital', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -329,6 +343,13 @@ CREATE TABLE `supplier_data_table` (
   `s_status` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Volcado de datos para la tabla `supplier_data_table`
+--
+
+INSERT INTO `supplier_data_table` (`s_id`, `s_name`, `s_indentity`, `s_numphone`, `s_balance`, `s_status`) VALUES
+('68a3205f46ef5', 'jovanni franco', 'V-20975144', '4249568741', 0.0000, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -386,6 +407,12 @@ ALTER TABLE `account_data_table`
   ADD PRIMARY KEY (`a_id`);
 
 --
+-- Indices de la tabla `account_movements_data_table`
+--
+ALTER TABLE `account_movements_data_table`
+  ADD PRIMARY KEY (`am_id`);
+
+--
 -- Indices de la tabla `account_types_data_table`
 --
 ALTER TABLE `account_types_data_table`
@@ -408,12 +435,6 @@ ALTER TABLE `container_data_table`
 --
 ALTER TABLE `container_model_data_table`
   ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `expense_data_table`
---
-ALTER TABLE `expense_data_table`
-  ADD PRIMARY KEY (`e_id`);
 
 --
 -- Indices de la tabla `income_accounts_data_table`
@@ -495,7 +516,7 @@ ALTER TABLE `account_types_data_table`
 -- AUTO_INCREMENT de la tabla `container_model_data_table`
 --
 ALTER TABLE `container_model_data_table`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `income_type_data_table`

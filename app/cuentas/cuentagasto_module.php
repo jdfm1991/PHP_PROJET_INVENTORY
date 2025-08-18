@@ -44,6 +44,18 @@ class Accounts extends Conectar
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
+  /* FUNCION PARA EJECUTAR CONSULTAS SQL PARA TRAER INFORMACION DE LAS CUENTAS DE GASTOS EXISTENTES EN LA BASE DE DATOS */
+  public function getDataListAccountsByCateDB($cate)
+  {
+    $conectar = parent::conexion();
+    parent::set_names();
+    $stmt = $conectar->prepare("SELECT A.a_id, ac_id, B.at_name, a_code, a_name 
+                                  FROM account_data_table AS A
+                                  INNER JOIN account_types_data_table AS B ON A.at_id=B.at_id
+                                WHERE a_status = 1 AND ac_id = :cate");
+    $stmt->execute(['cate' => $cate]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
   /* FUNCION PARA EJECUTAR CONSULTAS SQL PARA TRAER INFORMACION UNA UNIDAD DEPARTAMENTAL EXISTENTE EN LA BASE DE DATOS */
   public function getDataAccountDB($id)
   {

@@ -20,11 +20,11 @@ require_once(PATH_APP . "/head.php");
         <!-- Begin Page Content -->
         <div class="container-fluid">
           <!-- Page Heading -->
-          <h1 class="h3 mb-4 text-gray-800 text-center">Modulo De Gastos <br> .::Creacion y Modificacion::.</h1>
+          <h1 class="h3 mb-4 text-gray-800 text-center">Modulo De Ingresos y Egresos <br> .::Creacion y Modificacion::.</h1>
           <div class="card mb-2">
             <div class="card-body">
               <div class="row list-group-item d-flex justify-content-end lh-sm align-items-center">
-                <button id="newExpense" type="button" class="btn btn-outline-success btn-group-sm" data-toggle="modal" data-target="#newExpenseModal"> Nuevo Gasto </button>
+                <button id="newExpense" type="button" class="btn btn-outline-success btn-group-sm" data-toggle="modal" data-target="#newAccountMovementModal"> Nuevo Gasto </button>
               </div>
             </div>
           </div>
@@ -34,9 +34,10 @@ require_once(PATH_APP . "/head.php");
                 <table id="expense_table" class="table table-striped table-bordered" style="width:100%">
                   <thead>
                     <tr>
+                      <th>Categoria</th>
                       <th>Fecha</th>
-                      <th>Provedor</th>
                       <th>Cuenta</th>
+                      <th>Sujeto o Entidad</th>
                       <th>Concepto</th>
                       <th>Monto</th>
                       <th>Accion</th>

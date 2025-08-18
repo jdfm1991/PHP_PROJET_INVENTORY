@@ -212,10 +212,10 @@ $(document).ready(function () {
               $('#expense_account_table').DataTable().ajax.reload();
             } else {
               Swal.fire({
-                icon: "error",
+                icon: "info",
                 title: response.message,
                 showConfirmButton: false,
-                timer: 1500
+                timer: 2500
               });
             }
           }

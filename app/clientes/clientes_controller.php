@@ -1,9 +1,11 @@
 <?php
 require_once("../../config/abrir_sesion.php");
 require_once("../../config/conexion.php");
+require_once(PATH_APP . "/registros/registrogasto_module.php");
 require_once("clientes_module.php");
 
 $cliente = new Clientes();
+$movements = new Movements();
 
 $id = (isset($_POST['id'])) ? $_POST['id'] : '';
 $name = (isset($_POST['name'])) ? $_POST['name'] : '';
@@ -65,6 +67,14 @@ switch ($_GET["op"]) {
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
   case 'delete_client':
+    $valided = $movements->validateAccountMovementsByEntityDB($id);
+    if ($valided > 0) {
+      $dato['status'] = false;
+      $dato['error'] = '500';
+      $dato['message'] = "No Puede Eliminiar Este Cliente, Ya que Tiene Relacion Con Uno o Mas Movimientos de Cuenta, Por Favor Intente Con Un Cliente Diferente \n";
+      echo json_encode($dato, JSON_UNESCAPED_UNICODE);
+      return;
+    } 
     $data = $cliente->deleteClientDB($id);
     if ($data) {
       $dato['status'] = true;

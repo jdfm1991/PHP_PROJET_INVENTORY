@@ -61,7 +61,6 @@ $(document).ready(function () {
     $('.modal-title').text('Nuevo Proveedor');
     $('#newClientModal').modal('show');
   });
-
   /* Accion para Guardar o Actualizar Informacion del Cliente en la Base de Datos */
   $('#formclient').submit(function (e) {
     e.preventDefault();
@@ -165,48 +164,16 @@ $(document).ready(function () {
               $('#supplier_table').DataTable().ajax.reload();
             } else {
               Swal.fire({
-                icon: "error",
+                icon: "info",
                 title: response.message,
                 showConfirmButton: false,
-                timer: 1500
+                timer: 2500
               });
             }
           }
         });
       }
     })
-
-  })
-
-  $(document).on('click', '#b_trash_link', function () {
-    id = $(this).data('value');
-    var suplier = $(this).attr('value');
-    $.ajax({
-      url: 'proveedores_controller.php?op=delete_link',
-      method: 'POST',
-      dataType: 'json',
-      data: { id: id },
-      success: function (response) {
-        if (response.status == true) {
-          $(".mr-auto").text("Procesos Exitoso");
-          $(".toast").css("background-color", "rgb(29 255 34 / 85%)");
-          $(".toast").css("color", "white");
-          $(".toast").attr("background-color", "");
-          $("#toastText").text(response.message);
-          $('.toast').toast('show');
-          $('#searchClient').val("");
-          loadRelacionSuppliers(suplier);
-          $('#supplier_table').DataTable().ajax.reload();
-        } else {
-          $(".mr-auto").text("Procesos Fallido");
-          $(".toast").css("background-color", "rgb(255 80 80 / 85%)");
-          $(".toast").css("color", "white");
-          $(".toast").attr("background-color", "");
-          $("#toastText").text(response.message);
-          $('.toast').toast('show');
-        }
-      }
-    });
 
   })
   loadDataTableSuppliers();
