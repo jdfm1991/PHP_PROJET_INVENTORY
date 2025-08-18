@@ -20,11 +20,11 @@ require_once(PATH_APP . "/head.php");
         <!-- Begin Page Content -->
         <div class="container-fluid">
           <!-- Page Heading -->
-          <h1 class="h3 mb-4 text-gray-800 text-center">Modulo de Cuenta De Gastos <br> .::Creacion y Modificacion::.</h1>
+          <h1 class="h3 mb-4 text-gray-800 text-center">Modulo de Cuentas <br> .::Creacion y Modificacion::.</h1>
           <div class="card mb-2">
             <div class="card-body">
               <div class="row list-group-item d-flex justify-content-end lh-sm align-items-center">
-                <button id="newExpense" type="button" class="btn btn-outline-success btn-group-sm" data-toggle="modal" data-target="#newExpenseAccountModal"> Nueva Cuenta </button>
+                <button id="newExpense" type="button" class="btn btn-outline-success btn-group-sm" data-toggle="modal" data-target="#newAccountModal"> Nueva Cuenta </button>
               </div>
             </div>
           </div>
@@ -34,10 +34,10 @@ require_once(PATH_APP . "/head.php");
                 <table id="expense_account_table" class="table table-striped table-bordered" style="width:100%">
                   <thead>
                     <tr>
-                      <th>Cuenta</th>
-                      <th>Codigo</th>
+                      <th>Categoria</th>
                       <th>Tipo</th>
-                      <th>Concepto</th>
+                      <th>Codigo</th>
+                      <th>Cuentas</th>
                       <th>Accion</th>
                     </tr>
                   </thead>

@@ -286,6 +286,72 @@ Modal Nuevo Usuario
     </div>
   </div>
 </div>
+<!--
+****************************************************************************
+ Modal Nueva Cuenta
+****************************************************************************
+ -->
+<div class="modal fade" id="newAccountModal" tabindex="-1" aria-labelledby="newAccountModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nueva Cuenta</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body ">
+        <form id="formaccount">
+          <input type="hidden" id="a_id">
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="ac_id" class="form-label">Categorias</label>
+              <select class="form-control" id="ac_id" required>
+                <option value="">Tipo</option>
+                <option value="1">INGRESOS</option>
+                <option value="2">EGRESOS</option>
+              </select>
+            </div>
+            <div class="form-group col-md-5">
+              <label for="at_id" class="form-label">Tipos de Cuenta</label>
+              <select class="form-control" id="at_id" required>
+                <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectUnitLevel" -->
+              </select>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="a_code" class="form-label">Codigo</label>
+              <input type="text" class="form-control" id="a_code" placeholder="Codigo" disabled>
+            </div>
+            <div class="form-group col-md-12">
+              <label for="a_name">Cuenta</label>
+              <input class="form-control" id="a_name" aria-describedby="a_nameHelp" placeholder="Ingrese el Nombre de la Cuenta" required>
+              <small id="a_nameHelp" class="form-text text-white">Detalle de la cuenta que se va a crear</small>
+            </div>
+          </div>
+          <div id="m_unit_cont" class="alert alert-warning d-none" role="alert">
+            <p id="m_unit_text" class="mb-0">Alert Description</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- 
 ***********************************************
 Modal para Iniciar Sesion 
@@ -363,56 +429,7 @@ Modal para Iniciar Sesion
     </div>
   </div>
 </div>
-<!--
-****************************************************************************
- Modal Nueva Cuenta de Gasto
-****************************************************************************
- -->
-<div class="modal fade" id="newExpenseAccountModal" tabindex="-1" aria-labelledby="newExpenseAccountModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Nueva Cuenta de Gasto</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body ">
-        <form id="formNewExpense">
-          <input type="hidden" id="idExpense">
-          <div class="form-row">
-            <div class="form-group col-md-5">
-              <label id="l_select" for="typeExpense" class="form-label">Tipo de Gasto</label>
-              <select class="form-control" id="typeExpense" required>
-                <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectUnitLevel" -->
-              </select>
-            </div>
-            <div class="form-group col-md-4">
-              <label id="l_codigo" for="codeExpense" class="form-label">Codigo de Gasto</label>
-              <input type="text" class="form-control" id="codeExpense" placeholder="Codigo de Gasto" disabled>
-            </div>
-            <div class="form-check form-check-inline col-md-2 text-center income">
-              <input class="form-check-input" type="checkbox" id="fixedExpense">
-              <label class="form-check-label" for="fixedExpense">Gasto Fijo</label>
-            </div>
-            <div class="form-group col-md-12">
-              <label id="l_cuenta" for="nameExpense">Cuenta del Gasto</label>
-              <input class="form-control" id="nameExpense" aria-describedby="nameExpenseHelp" placeholder="Ingrese el Nombre de la Cuenta de Gasto" required>
-              <small id="nameExpenseHelp" class="form-text text-muted">Detalle del Gasto que se va a realizar</small>
-            </div>
-          </div>
-          <div id="m_unit_cont" class="alert alert-warning d-none" role="alert">
-            <p id="m_unit_text" class="mb-0">Alert Description</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Guardar</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 <!--
 ****************************************************************************

@@ -1,15 +1,15 @@
 $(document).ready(function () {
-  const type = document.getElementById('typeExpense');
+  const at = document.getElementById('at_id');
   /* Funcion para Cargar Select de los tipos de gastos departamentales */
-  const loadDataSelectTypeExpenses = async (id) => {
+  const loadDataSelectAccontTypes = async (id) => {
     try {
-      const response = await fetch('cuentagasto_controller.php?op=get_type_expenses');
+      const response = await fetch('cuentagasto_controller.php?op=get_account_types');
       const data = await response.json();
-      const container = document.getElementById('typeExpense');
+      const container = document.getElementById('at_id');
       container.innerHTML = '';
       const defaultOption = document.createElement('option');
       defaultOption.setAttribute('value', '');
-      defaultOption.innerHTML = 'Tipo de Gasto...';
+      defaultOption.innerHTML = 'Tipo de Cuenta...';
       container.appendChild(defaultOption);
       data.forEach((opt, idx) => {
         const option = document.createElement('option');
@@ -29,7 +29,7 @@ $(document).ready(function () {
     }
   }
   /* Funcion para listar todos los unidades departamentales existentes en la base de datos */
-  const LoadDataTableExpenseAccounts = async () => {
+  const LoadDataTableAccounts = async () => {
     const table = $('#expense_account_table').DataTable({
       responsive: true,
       scrollX: true,
@@ -59,63 +59,63 @@ $(document).ready(function () {
         processing: "Procesando..."
       },
       ajax: {
-        url: "cuentagasto_controller.php?op=get_list_expense_accounts",
+        url: "cuentagasto_controller.php?op=get_list_accounts",
         type: "GET",
         dataType: "json",
         dataSrc: "",
       },
       columns: [
+        { data: "cate" },
         { data: "type" },
         { data: "code" },
-        { data: "fixed" },
-        { data: "expense" },
+        { data: "name" },
         {
           data: "id", render: (data, _, __, meta) =>
-            `<button id="b_edit_expense_account" class="btn btn-outline-primary btn-sm" data-value="${data}" data-toggle="tooltip" data-placement="top" title="Editar Cuenta"><i class="fa fa-edit"></i></button>
-            <button id="b_trash_expense_account" class="btn btn-outline-danger btn-sm" data-value="${data}" data-toggle="tooltip" data-placement="top" title="Eliminar Cuenta"><i class="bi bi-trash3"></i></button>`, className: "text-center"
+            `<button id="b_update" class="btn btn-outline-primary btn-sm" data-value="${data}" data-toggle="tooltip" data-placement="top" title="Editar Cuenta"><i class="fa fa-edit"></i></button>
+            <button id="b_delete" class="btn btn-outline-danger btn-sm" data-value="${data}" data-toggle="tooltip" data-placement="top" title="Eliminar Cuenta"><i class="bi bi-trash3"></i></button>`, className: "text-center"
         }
       ]
     });
   }
   /* Funcion para obtener el nombre del Tipo de Gasto seleccionado */
-  $('#typeExpense').change(function (e) {
+  $('#at_id').change(function (e) {
     e.preventDefault();
-    const id = type.value;
-    const text = type.options[type.selectedIndex].text;
+    var id = at.value;
+    var text = at.options[at.selectedIndex].text;
     $.ajax({
-      url: "cuentagasto_controller.php?op=get_code_expense_by_type",
+      url: "cuentagasto_controller.php?op=get_code_by_type",
       method: 'POST',
       dataType: "json",
       data: { id: id, type: text },
       success: function (response) {
-        $('#codeExpense').val(response);
+        $('#a_code').val(response);
       }
     });
   });
-  /* Accion para marcar la casilla de los gastos fijos */
-  $("#fixedExpense").change(function () {
-    if ($(this).is(":checked")) {
-      $("#fixedExpense").prop('checked', true);
-    } else {
-      $("#fixedExpense").prop('checked', false);
-    }
-  });
   /* Accion para Guardar o Actualizar Informacion de los Gastos en la Base de Datos */
-  $('#formNewExpense').submit(function (e) {
+  $('#formaccount').submit(function (e) {
     e.preventDefault();
-    id = $('#idExpense').val();
-    typed = $('#typeExpense').val();
-    code = $('#codeExpense').val();
-    fixed = $('#fixedExpense').is(':checked');
-    expense = $('#nameExpense').val().toUpperCase();
+    id = $('#a_id').val();
+    cate = $('#ac_id').val();
+    type = $('#at_id').val();
+    code = $('#a_code').val();
+    name = $('#a_name').val().toUpperCase();
+    if (cate == '' || type == '') {
+      $(".mr-auto").text("Procesos Fallido");
+      $(".toast").css("background-color", "rgb(36 113 163 / 85%)");
+      $(".toast").css("color", "white");
+      $("#toastText").text("Debe de Seleccionar Categoria y tipo para continuar");
+      $('.toast').toast('show');
+      return false;
+    }
     dato = new FormData();
     dato.append('id', id);
-    dato.append('type', typed);
+    dato.append('cate', cate);
+    dato.append('type', type);
     dato.append('code', code);
-    dato.append('fixed', fixed);
-    dato.append('expense', expense);
+    dato.append('name', name);
     $.ajax({
-      url: 'cuentagasto_controller.php?op=new_expense_account',
+      url: 'cuentagasto_controller.php?op=new_account',
       method: 'POST',
       dataType: "json",
       data: dato,
@@ -130,8 +130,8 @@ $(document).ready(function () {
             timer: 1500
           });
           $('#expense_account_table').DataTable().ajax.reload();
-          $('#formNewExpense')[0].reset();
-          $('#newExpenseAccountModal').modal('hide');
+          $('#formaccount')[0].reset();
+          $('#newAccountModal').modal('hide');
         } else {
           if (response.error === '400') {
             console.log(response);
@@ -153,42 +153,37 @@ $(document).ready(function () {
       }
     });
   });
-  /* Funcion Para Cargar El Contenido del Select "typeExpense" */
+  /* Funcion Para Cargar El Contenido del Select "at_id" */
   $('#newExpense').click(function (e) {
     e.preventDefault();
-    $('#typeExpense').attr('disabled', false);
-    $("#fixedExpense").prop('checked', false);
-    $('#idExpense').val('');
-    $('#codeExpense').val('');
-    $('#nameExpense').val('');
-    loadDataSelectTypeExpenses();
+    $('#at_id').attr('disabled', false);
+    $("#ac_id").prop('disabled', false);
+    $('#formaccount')[0].reset();
+    loadDataSelectAccontTypes();
   });
   /* Accion Para Editar Una Cuenta de Gasto Existente En La Lista de Cuentas de Gastos*/
-  $(document).on('click', '#b_edit_expense_account', function (e) {
+  $(document).on('click', '#b_update', function (e) {
     e.preventDefault();
     var id = $(this).data('value');
     $.ajax({
-      url: 'cuentagasto_controller.php?op=get_data_expense_account',
+      url: 'cuentagasto_controller.php?op=get_data_account',
       method: 'POST',
       dataType: 'json',
       data: { id: id },
-      success: function (response) {
-        loadDataSelectTypeExpenses(response.type);
-        $('#idExpense').val(response.id);
-        $('#codeExpense').val(response.code);
-        if (response.fixed == 1) {
-          $("#fixedExpense").prop('checked', true);
-        } else {
-          $("#fixedExpense").prop('checked', false);
-        }
-        $('#nameExpense').val(response.expense);
-        $('#typeExpense').attr('disabled', true);
-        $('#newExpenseAccountModal').modal('show');
+      success: function (response) {       
+        loadDataSelectAccontTypes(response.type);
+        $('#a_id').val(response.id);
+        $('#ac_id').val(response.cate);
+        $('#a_code').val(response.code);        
+        $('#a_name').val(response.name);
+        $('#at_id').attr('disabled', true);
+        $('#ac_id').attr('disabled', true);
+        $('#newAccountModal').modal('show');
       }
     });
   })
   /* Accion para cambiar el estado de la disponibilidad de unidad departamental */
-  $(document).on('click', '#b_trash_expense_account', function (e) {
+  $(document).on('click', '#b_delete', function (e) {
     e.preventDefault();
     var id = $(this).data('value');
     Swal.fire({
@@ -202,7 +197,7 @@ $(document).ready(function () {
       if (result.isConfirmed) {
 
         $.ajax({
-          url: 'cuentagasto_controller.php?op=delete_expense_account',
+          url: 'cuentagasto_controller.php?op=delete_account',
           method: 'POST',
           dataType: 'json',
           data: { id: id },
@@ -228,5 +223,5 @@ $(document).ready(function () {
       }
     })
   })
-  LoadDataTableExpenseAccounts();
+  LoadDataTableAccounts();
 });

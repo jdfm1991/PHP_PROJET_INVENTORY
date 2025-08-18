@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 15-08-2025 a las 22:35:25
+-- Tiempo de generación: 18-08-2025 a las 02:25:26
 -- Versión del servidor: 8.0.26
 -- Versión de PHP: 8.4.8
 
@@ -20,6 +20,48 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `project_inventario`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `account_data_table`
+--
+
+CREATE TABLE `account_data_table` (
+  `a_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `ac_id` int NOT NULL,
+  `at_id` int NOT NULL,
+  `a_code` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `a_name` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `a_status` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `account_data_table`
+--
+
+INSERT INTO `account_data_table` (`a_id`, `ac_id`, `at_id`, `a_code`, `a_name`, `a_status`) VALUES
+('68a285e7a09a4', 1, 1, 'VENT-01', 'POMCPOMD', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `account_types_data_table`
+--
+
+CREATE TABLE `account_types_data_table` (
+  `at_id` int NOT NULL,
+  `at_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `account_types_data_table`
+--
+
+INSERT INTO `account_types_data_table` (`at_id`, `at_name`) VALUES
+(1, 'VENTAS'),
+(2, 'COMPRAS'),
+(3, 'NOMINAS');
 
 -- --------------------------------------------------------
 
@@ -54,19 +96,18 @@ CREATE TABLE `container_data_table` (
   `cont_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `cont_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `cont_tag` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `cont_status` tinyint(1) NOT NULL DEFAULT '1'
+  `cont_status` tinyint(1) NOT NULL DEFAULT '1',
+  `cont_order` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `container_data_table`
 --
 
-INSERT INTO `container_data_table` (`cont_id`, `cont_name`, `cont_tag`, `cont_status`) VALUES
-('689e60a548f67', 'Gestion de Inventario', 'Inventario', 1),
-('689e60d3de842', '54', '54', 0),
-('689f9bde2eaf6', 'Gestion Administrativa', 'Administrativa', 1),
-('689f9c4b82882', 'cosaa', 'cosaa', 0),
-('689f9c6ce8a04', 'lkn', 'lkn', 0);
+INSERT INTO `container_data_table` (`cont_id`, `cont_name`, `cont_tag`, `cont_status`, `cont_order`) VALUES
+('689e60a548f67', 'Gestion de Inventario', 'Inventario', 1, 2),
+('689f9bde2eaf6', 'Gestion Administrativa', 'Administrativa', 1, 1),
+('68a23ffa7db3f', 'Gestion de Seguridad', 'Seguridad', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -86,21 +127,10 @@ CREATE TABLE `container_model_data_table` (
 
 INSERT INTO `container_model_data_table` (`id`, `cont_id`, `m_id`) VALUES
 (3, '689f9bde2eaf6', '689f9ee1e210d'),
-(4, '689f9bde2eaf6', '689f9ef20af38');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `expense_accounts_data_table`
---
-
-CREATE TABLE `expense_accounts_data_table` (
-  `ea_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `et_id` int NOT NULL,
-  `a_code` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `a_expense` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `a_status` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+(4, '689f9bde2eaf6', '689f9ef20af38'),
+(5, '689f9bde2eaf6', '68a23fc2c66f4'),
+(6, '68a23ffa7db3f', '68a240171a3a3'),
+(7, '689f9bde2eaf6', '68a24ad85bc28');
 
 -- --------------------------------------------------------
 
@@ -118,28 +148,6 @@ CREATE TABLE `expense_data_table` (
   `e_datereg` date NOT NULL,
   `e_status` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `expense_type_data_table`
---
-
-CREATE TABLE `expense_type_data_table` (
-  `et_id` int NOT NULL,
-  `et_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Volcado de datos para la tabla `expense_type_data_table`
---
-
-INSERT INTO `expense_type_data_table` (`et_id`, `et_name`) VALUES
-(1, 'NOMINA'),
-(2, 'MANTENIMIENTO'),
-(3, 'SERVICIO'),
-(4, 'SUMINISTRO'),
-(5, 'COMISIONES');
 
 -- --------------------------------------------------------
 
@@ -208,8 +216,11 @@ CREATE TABLE `module_data_table` (
 --
 
 INSERT INTO `module_data_table` (`m_id`, `m_name`, `m_namelist`, `m_status`, `m_available`) VALUES
-('689f9ee1e210d', 'clientes', 'Gestion de Clientes', 0, 1),
-('689f9ef20af38', 'tasacambiaria', 'Control Cambiario', 0, 1);
+('689f9ee1e210d', 'clientes', 'Gestion de Clientes', 1, 0),
+('689f9ef20af38', 'tasacambiaria', 'Control Cambiario', 1, 0),
+('68a23fc2c66f4', 'proveedores', 'Gestion de Proveedor', 1, 0),
+('68a240171a3a3', 'usuario', 'Gestion de Usuario', 1, 0),
+('68a24ad85bc28', 'cuentas', 'Gestion de Cuentas', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -235,8 +246,16 @@ CREATE TABLE `rate_data_table` (
   `r_id` int NOT NULL,
   `r_date` date NOT NULL,
   `r_exchange_d` decimal(28,4) DEFAULT NULL,
-  `r_exchange_e` decimal(28,4) DEFAULT NULL
+  `r_exchange_e` decimal(28,4) DEFAULT NULL,
+  `r_exchange_p` decimal(28,4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `rate_data_table`
+--
+
+INSERT INTO `rate_data_table` (`r_id`, `r_date`, `r_exchange_d`, `r_exchange_e`, `r_exchange_p`) VALUES
+(1, '2025-08-19', 136.8931, 160.2827, NULL);
 
 -- --------------------------------------------------------
 
@@ -333,7 +352,8 @@ CREATE TABLE `user_data_table` (
 INSERT INTO `user_data_table` (`u_id`, `u_name`, `u_email`, `u_login`, `u_pass`, `u_level`, `u_status`) VALUES
 ('685c635b19ebd', 'Jovanni Franco', 'jovannifranco@gmail.com', 'jfranco', '$2y$12$XWxnSHpB23ATbKEcEyqGtefN2RD01y79i61pNbWq7xkL/D6Kev2xS', 1, 1),
 ('685c64852c294', 'hbkjn', 'knkl', 'ljo', '$2y$12$tt4il3SmZ47ZkR47wUINeOuZkw9YB/.j8UIplGufFeWbae7z4hO02', 1, 0),
-('685c64cd90edc', 'Daniel Franco', 'jdfm1991@gmail.com', 'dfranco', '$2y$12$sjvnlUGE22myYPTUR1sWqOI46Jup1t7y8gVJ9Ed6.jsLqtz4SJhfm', 2, 1);
+('685c64cd90edc', 'Daniel Franco', 'jdfm1991@gmail.com', 'dfranco', '$2y$12$sjvnlUGE22myYPTUR1sWqOI46Jup1t7y8gVJ9Ed6.jsLqtz4SJhfm', 2, 1),
+('68a245a97e353', 'mano plas', 'mao@gmail.com', 'mano', '$2y$12$mQi8k1dB1aTosleewOO/MusD/L061oq3Oa1uvELLwBndr9jDkS8zy', 4, 0);
 
 -- --------------------------------------------------------
 
@@ -360,6 +380,18 @@ INSERT INTO `user_types_data_table` (`ut_id`, `ut_name`) VALUES
 --
 
 --
+-- Indices de la tabla `account_data_table`
+--
+ALTER TABLE `account_data_table`
+  ADD PRIMARY KEY (`a_id`);
+
+--
+-- Indices de la tabla `account_types_data_table`
+--
+ALTER TABLE `account_types_data_table`
+  ADD PRIMARY KEY (`at_id`);
+
+--
 -- Indices de la tabla `client_data_table`
 --
 ALTER TABLE `client_data_table`
@@ -378,22 +410,10 @@ ALTER TABLE `container_model_data_table`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `expense_accounts_data_table`
---
-ALTER TABLE `expense_accounts_data_table`
-  ADD PRIMARY KEY (`ea_id`);
-
---
 -- Indices de la tabla `expense_data_table`
 --
 ALTER TABLE `expense_data_table`
   ADD PRIMARY KEY (`e_id`);
-
---
--- Indices de la tabla `expense_type_data_table`
---
-ALTER TABLE `expense_type_data_table`
-  ADD PRIMARY KEY (`et_id`);
 
 --
 -- Indices de la tabla `income_accounts_data_table`
@@ -466,16 +486,16 @@ ALTER TABLE `user_types_data_table`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `account_types_data_table`
+--
+ALTER TABLE `account_types_data_table`
+  MODIFY `at_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT de la tabla `container_model_data_table`
 --
 ALTER TABLE `container_model_data_table`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT de la tabla `expense_type_data_table`
---
-ALTER TABLE `expense_type_data_table`
-  MODIFY `et_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `income_type_data_table`
@@ -487,7 +507,7 @@ ALTER TABLE `income_type_data_table`
 -- AUTO_INCREMENT de la tabla `rate_data_table`
 --
 ALTER TABLE `rate_data_table`
-  MODIFY `r_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `r_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `rate_types_data_table`

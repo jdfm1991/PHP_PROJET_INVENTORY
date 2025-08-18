@@ -1,102 +1,100 @@
 <?php
 require_once("../../config/abrir_sesion.php");
 require_once("../../config/conexion.php");
-require_once(PATH_APP . "/registrogasto/registrogasto_module.php");
+//require_once(PATH_APP . "/registrogasto/registrogasto_module.php");
 require_once("cuentagasto_module.php");
 
-$expaccount = new ExpenseAccounts();
-$expenses = new Expenses();
+$accounts = new Accounts();
+//$names = new Expenses();
 
-$id = (isset($_POST['id'])) ? $_POST['id'] : '6878e170425f1';
-$type = (isset($_POST['type'])) ? $_POST['type'] : '1';
-$code = (isset($_POST['code'])) ? $_POST['code'] : '';
-$fixe = (isset($_POST['fixed'])) ? $_POST['fixed'] : 'false';
-$expense = (isset($_POST['expense'])) ? $_POST['expense'] : '';
+$id = (isset($_POST['id'])) ? $_POST['id'] : '68a285e7a09a4';
+$cate = (isset($_POST['cate'])) ? $_POST['cate'] : 0;
+$type = (isset($_POST['type'])) ? $_POST['type'] : 0;
+$code = (isset($_POST['code'])) ? $_POST['code'] : 0;
+$name = (isset($_POST['name'])) ? $_POST['name'] : '';
 
 switch ($_GET["op"]) {
-  case 'get_type_expenses':
+  case 'get_account_types':
     $dato = array();
-    $data = $expaccount->getTypeExpensesBD();
+    $data = $accounts->getTypeExpensesBD();
     foreach ($data as $row) {
       $sub_array = array();
-      $sub_array['id'] = $row['id'];
-      $sub_array['type'] = $row['expensetypename'];
+      $sub_array['id'] = $row['at_id'];
+      $sub_array['type'] = $row['at_name'];
       $dato[] = $sub_array;
     }
     echo json_encode($dato);
     break;
-  case 'get_code_expense_by_type':
+  case 'get_code_by_type':
     $prefix = substr($type, 0, 4);
-    $code = $expaccount->getNewCodeExpenseByTypeDB($id, $prefix);
+    $code = $accounts->getNewCodeExpenseByTypeDB($id, $prefix);
     echo json_encode($code, JSON_UNESCAPED_UNICODE);
     break;
-  case 'new_expense_account':
+  case 'new_account':
     $dato = array();
     if (empty($id)) {
       $id = uniqid();
-      $fixed = ($fixe == 'true') ? 1 : 0;
-      $data = $expaccount->createExpenseAccountDB($id, $type, $code, $fixed, $expense);
+      $data = $accounts->createDataAccountDB($id, $cate, $type, $code, $name);
       if ($data) {
         $dato['status'] = true;
         $dato['error'] = '200';
-        $dato['message'] = "La Cuenta de Gasto " . $expense . " Fue Creada Satisfactoriamente \n";
+        $dato['message'] = "La Cuenta de Gasto " . $name . " Fue Creada Satisfactoriamente \n";
       } else {
         $dato['status'] = false;
         $dato['error'] = '500';
-        $dato['message'] = "Error Al Crear La Cuenta de Gasto" . $expense . ", Por Favor Intente Nuevamente \n";
+        $dato['message'] = "Error Al Crear La Cuenta de Gasto" . $name . ", Por Favor Intente Nuevamente \n";
       }
     } else {
-      $fixed = ($fixe == 'true') ? 1 : 0;
-      $data = $expaccount->updateDataExpenseAccountDB($id, $type, $code, $fixed, $expense);
+      $data = $accounts->updateDataAccountDB($id, $name);
       if ($data) {
         $dato['status'] = true;
         $dato['error'] = '200';
-        $dato['message'] = "La Cuenta de Gastol " . $expense . " Fue Actiualizado Satisfactoriamente \n";
+        $dato['message'] = "La Cuenta de Gastol " . $name . " Fue Actiualizado Satisfactoriamente \n";
       } else {
         $dato['status'] = false;
         $dato['error'] = '500';
-        $dato['message'] = "Error Al Actualizar La Cuenta de Gasto" . $expense . ", Por Favor Intente Nuevamente \n";
+        $dato['message'] = "Error Al Actualizar La Cuenta de Gasto" . $name . ", Por Favor Intente Nuevamente \n";
       }
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
 
-  case 'get_list_expense_accounts':
+  case 'get_list_accounts':
     $dato = array();
-    $data = $expaccount->getListExpenseAccountsDB();
+    $data = $accounts->getDataListAccountsDB();
     foreach ($data as $row) {
       $sub_array = array();
-      $sub_array['id'] = $row['id'];
-      $sub_array['type'] = $row['type'];
-      $sub_array['code'] = $row['code'];
-      $sub_array['fixed'] = ($row['fixed'] == 1) ? 'GASTO FIJO' : 'GASTO VARIABLE';
-      $sub_array['expense'] = $row['expense'];
+      $sub_array['id'] = $row['a_id'];
+      $sub_array['cate'] = ($row['ac_id'] == 1) ? 'Ingreso' : 'Egreso';
+      $sub_array['type'] = $row['at_name'];
+      $sub_array['code'] = $row['a_code'];
+      $sub_array['name'] = $row['a_name'];
       $dato[] = $sub_array;
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
-  case 'get_data_expense_account':
+  case 'get_data_account':
     $dato = array();
-    $data = $expaccount->getDataExpenseAccountDB($id);
+    $data = $accounts->getDataAccountDB($id);
     foreach ($data as $data) {
-      $dato['id'] = $data['id'];
-      $dato['type'] = $data['typeaccount'];
-      $dato['code'] = $data['codeaccount'];
-      $dato['fixed'] = $data['fixedaccount'];
-      $dato['expense'] = $data['expenseaccount'];
+      $dato['id'] = $data['a_id'];
+      $dato['cate'] = $data['ac_id'];
+      $dato['type'] = $data['at_id'];
+      $dato['code'] = $data['a_code'];
+      $dato['name'] = $data['a_name'];
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
-  case 'delete_expense_account':
-    $valided = $expenses->validateAccountsRelatedExpensesDB($id);
+  case 'delete_account':
+    /* $valided = $names->validateAccountsRelatedExpensesDB($id);
     if ($valided > 0) {
       $dato['status'] = false;
       $dato['error'] = '500';
       $dato['message'] = "No Puede Eliminiar Esta Cuenta, Ya que Tiene Relacion Con Un Gasto, Por Favor Intente Con Un Cliente Diferente \n";
       echo json_encode($dato, JSON_UNESCAPED_UNICODE);
       return;
-    } 
-    $data = $expaccount->deleteExpenseAccountDB($id);
+    }  */
+    $data = $accounts->deleteDataAccountDB($id);
     if ($data) {
       $dato['status'] = true;
       $dato['error'] = '200';
