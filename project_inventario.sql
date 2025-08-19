@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 18-08-2025 a las 16:12:18
+-- Tiempo de generación: 19-08-2025 a las 16:16:47
 -- Versión del servidor: 8.0.26
 -- Versión de PHP: 8.4.8
 
@@ -59,6 +59,8 @@ CREATE TABLE `account_movements_data_table` (
   `am_date` date NOT NULL,
   `am_name` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `am_amount` decimal(28,4) NOT NULL,
+  `am_rate` decimal(28,4) NOT NULL,
+  `am_change` decimal(28,4) NOT NULL,
   `am_datereg` date NOT NULL,
   `am_status` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -67,10 +69,62 @@ CREATE TABLE `account_movements_data_table` (
 -- Volcado de datos para la tabla `account_movements_data_table`
 --
 
-INSERT INTO `account_movements_data_table` (`am_id`, `ac_id`, `a_id`, `e_id`, `am_date`, `am_name`, `am_amount`, `am_datereg`, `am_status`) VALUES
-('68a3415d985e8', 1, '68a285e7a09a4', '68a3205f46ef5', '2025-08-18', 'VENTAS DE METALES VARIOS', 50.0000, '2025-08-18', 0),
-('68a34ec8899e4', 1, '68a285e7a09a4', '68a3205f46ef5', '2025-08-18', 'VENTAS DE HIERRO', 50.0000, '2025-08-18', 1),
-('68a34ee004542', 2, '68a3322f2b656', '689fb088ea0e9', '2025-08-18', 'COMPRA DE HIERRO', 40.0000, '2025-08-18', 1);
+INSERT INTO `account_movements_data_table` (`am_id`, `ac_id`, `a_id`, `e_id`, `am_date`, `am_name`, `am_amount`, `am_rate`, `am_change`, `am_datereg`, `am_status`) VALUES
+('68a3415d985e8', 1, '68a285e7a09a4', '68a3205f46ef5', '2025-08-18', 'VENTAS DE METALES VARIOS', 50.0000, 0.0000, 0.0000, '2025-08-18', 0),
+('68a34ec8899e4', 1, '68a285e7a09a4', '68a3205f46ef5', '2025-08-18', 'VENTAS DE HIERRO', 50.0000, 0.0000, 0.0000, '2025-08-18', 1),
+('68a34ee004542', 2, '68a3322f2b656', '689fb088ea0e9', '2025-08-18', 'COMPRA DE HIERRO', 40.0000, 0.0000, 0.0000, '2025-08-18', 1),
+('68a47824d110e', 1, '68a285e7a09a4', '68a3205f46ef5', '2025-08-19', 'KJIN', 42.0000, 0.0000, 0.0000, '2025-08-19', 1),
+('68a4785c07db9', 1, '68a285e7a09a4', '68a3205f46ef5', '2025-08-19', 'KJIN', 35.0000, 0.0000, 0.0000, '2025-08-19', 1),
+('68a4969de6415', 1, '68a285e7a09a4', '68a3205f46ef5', '2025-08-19', 'COSAS VARIAS DE PRUEBA', 42.0000, 136.8900, 5749.3800, '2025-08-19', 1),
+('68a49d2f3fc23', 2, '68a3322f2b656', '689fb088ea0e9', '2025-08-19', 'MERCANCIA NUEVA', 34.5000, 136.8900, 4722.7000, '2025-08-19', 1),
+('68a49d972877f', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
+('68a49e2ae44d2', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
+('68a49e63275b4', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
+('68a49e7194426', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
+('68a49ef7891a1', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
+('68a49fc695522', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
+('68a4a02235b68', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
+('68a4a08b4064d', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
+('68a4a09e3efdb', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
+('68a4a0c13639f', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
+('68a4a0f5e1608', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
+('68a4a1170958d', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
+('68a4a15496f8f', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
+('68a4a173e85ce', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
+('68a4a1e42f4b6', 2, '68a331ed60853', '689fb088ea0e9', '2025-08-14', 'COMPRA DE COSAS', 54.5000, 136.8900, 7460.5000, '2025-08-19', 1),
+('68a4a2d8ba6e2', 2, '68a3322f2b656', '689fb088ea0e9', '2025-08-19', 'CHATARRA', 30.0000, 136.8900, 4106.7000, '2025-08-19', 1),
+('68a4a2daeaa50', 2, '68a3322f2b656', '689fb088ea0e9', '2025-08-19', 'CHATARRA', 30.0000, 136.8900, 4106.7000, '2025-08-19', 1),
+('68a4a3128e245', 2, '68a3322f2b656', '689fb088ea0e9', '2025-08-19', 'CHATARRA', 30.0000, 136.8900, 4106.7000, '2025-08-19', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `account_movement_items_data_table`
+--
+
+CREATE TABLE `account_movement_items_data_table` (
+  `ami_id` int NOT NULL,
+  `ami_movement` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `ami_producto` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `ami_rate` decimal(28,4) NOT NULL,
+  `ami_amount` decimal(28,4) NOT NULL,
+  `ami_quantity` decimal(28,4) NOT NULL,
+  `ami_total` decimal(28,4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `account_movement_items_data_table`
+--
+
+INSERT INTO `account_movement_items_data_table` (`ami_id`, `ami_movement`, `ami_producto`, `ami_rate`, `ami_amount`, `ami_quantity`, `ami_total`) VALUES
+(1, '68a4a173e85ce', '0', 0.0000, 0.0000, 0.0000, 0.0000),
+(2, '68a4a173e85ce', '0', 0.0000, 0.0000, 0.0000, 0.0000),
+(3, '68a4a173e85ce', '0', 0.0000, 0.0000, 0.0000, 0.0000),
+(4, '68a4a1e42f4b6', '0', 136.8900, 0.0000, 0.0000, 0.0000),
+(5, '68a4a1e42f4b6', '0', 136.8900, 0.0000, 0.0000, 0.0000),
+(6, '68a4a1e42f4b6', '0', 136.8900, 0.0000, 0.0000, 0.0000),
+(7, '68a4a3128e245', '68a3911971564', 136.8900, 0.5000, 50.0000, 25.0000),
+(8, '68a4a3128e245', '68a3824a50b6e', 136.8900, 0.1000, 50.0000, 5.0000);
 
 -- --------------------------------------------------------
 
@@ -160,55 +214,8 @@ INSERT INTO `container_model_data_table` (`id`, `cont_id`, `m_id`) VALUES
 (5, '689f9bde2eaf6', '68a23fc2c66f4'),
 (6, '68a23ffa7db3f', '68a240171a3a3'),
 (7, '689f9bde2eaf6', '68a24ad85bc28'),
-(8, '689f9bde2eaf6', '68a319ed13400');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `income_accounts_data_table`
---
-
-CREATE TABLE `income_accounts_data_table` (
-  `ia_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `it_id` int NOT NULL,
-  `a_code` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `a_income` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `a_status` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `income_data_table`
---
-
-CREATE TABLE `income_data_table` (
-  `i_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `i_datereg` date NOT NULL,
-  `ia_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `i_name` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `i_amount` decimal(28,4) DEFAULT NULL,
-  `incomebalance` decimal(28,4) NOT NULL DEFAULT '0.0000',
-  `i_status` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `income_type_data_table`
---
-
-CREATE TABLE `income_type_data_table` (
-  `it_id` int NOT NULL,
-  `it_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Volcado de datos para la tabla `income_type_data_table`
---
-
-INSERT INTO `income_type_data_table` (`it_id`, `it_name`) VALUES
-(1, 'VENTA');
+(8, '689f9bde2eaf6', '68a319ed13400'),
+(9, '689f9bde2eaf6', '68a37189e2633');
 
 -- --------------------------------------------------------
 
@@ -234,7 +241,27 @@ INSERT INTO `module_data_table` (`m_id`, `m_name`, `m_namelist`, `m_status`, `m_
 ('68a23fc2c66f4', 'proveedores', 'Gestion de Proveedor', 1, 0),
 ('68a240171a3a3', 'usuario', 'Gestion de Usuario', 1, 0),
 ('68a24ad85bc28', 'cuentas', 'Gestion de Cuentas', 1, 0),
-('68a319ed13400', 'registros', 'Movimiento de Capital', 1, 0);
+('68a319ed13400', 'registros', 'Movimiento de Capital', 1, 0),
+('68a37189e2633', 'productos', 'Gestion de Productos', 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `product_category_data_table`
+--
+
+CREATE TABLE `product_category_data_table` (
+  `pc_id` int NOT NULL,
+  `pc_name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `product_category_data_table`
+--
+
+INSERT INTO `product_category_data_table` (`pc_id`, `pc_name`) VALUES
+(1, 'Material Ferroso'),
+(2, 'Material no Ferroso');
 
 -- --------------------------------------------------------
 
@@ -245,10 +272,23 @@ INSERT INTO `module_data_table` (`m_id`, `m_name`, `m_namelist`, `m_status`, `m_
 CREATE TABLE `product_data_table` (
   `p_id` varchar(20) NOT NULL,
   `pc_id` int NOT NULL DEFAULT '1',
+  `p_code` varchar(10) NOT NULL,
   `p_name` varchar(150) NOT NULL,
-  `p_price_kilo` decimal(28,4) NOT NULL,
-  `p_quantity` float NOT NULL DEFAULT '0'
+  `p_price_p` decimal(28,4) NOT NULL,
+  `p_price_s` decimal(28,4) NOT NULL,
+  `p_quantity` float NOT NULL DEFAULT '0',
+  `p_status` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `product_data_table`
+--
+
+INSERT INTO `product_data_table` (`p_id`, `pc_id`, `p_code`, `p_name`, `p_price_p`, `p_price_s`, `p_quantity`, `p_status`) VALUES
+('68a3824a50b6e', 1, 'MF-01', 'HIERRO', 0.1000, 0.1400, 0, 1),
+('68a3911971564', 1, 'MF-02', 'ALUMINIO', 0.5000, 0.6000, 0, 1),
+('68a39606a2b78', 1, 'MF-03', 'COBRE', 0.0900, 0.1000, 0, 1),
+('68a3963b2e948', 2, 'MnF-01', 'BATERIA', 0.5000, 0.6000, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -269,7 +309,8 @@ CREATE TABLE `rate_data_table` (
 --
 
 INSERT INTO `rate_data_table` (`r_id`, `r_date`, `r_exchange_d`, `r_exchange_e`, `r_exchange_p`) VALUES
-(1, '2025-08-19', 136.8931, 160.2827, NULL);
+(1, '2025-08-19', 136.8931, 160.2827, NULL),
+(2, '2025-08-18', 136.8900, 160.2800, NULL);
 
 -- --------------------------------------------------------
 
@@ -413,6 +454,12 @@ ALTER TABLE `account_movements_data_table`
   ADD PRIMARY KEY (`am_id`);
 
 --
+-- Indices de la tabla `account_movement_items_data_table`
+--
+ALTER TABLE `account_movement_items_data_table`
+  ADD PRIMARY KEY (`ami_id`);
+
+--
 -- Indices de la tabla `account_types_data_table`
 --
 ALTER TABLE `account_types_data_table`
@@ -437,28 +484,22 @@ ALTER TABLE `container_model_data_table`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `income_accounts_data_table`
---
-ALTER TABLE `income_accounts_data_table`
-  ADD PRIMARY KEY (`ia_id`);
-
---
--- Indices de la tabla `income_data_table`
---
-ALTER TABLE `income_data_table`
-  ADD PRIMARY KEY (`i_id`);
-
---
--- Indices de la tabla `income_type_data_table`
---
-ALTER TABLE `income_type_data_table`
-  ADD PRIMARY KEY (`it_id`);
-
---
 -- Indices de la tabla `module_data_table`
 --
 ALTER TABLE `module_data_table`
   ADD PRIMARY KEY (`m_id`);
+
+--
+-- Indices de la tabla `product_category_data_table`
+--
+ALTER TABLE `product_category_data_table`
+  ADD PRIMARY KEY (`pc_id`);
+
+--
+-- Indices de la tabla `product_data_table`
+--
+ALTER TABLE `product_data_table`
+  ADD PRIMARY KEY (`p_id`);
 
 --
 -- Indices de la tabla `rate_data_table`
@@ -507,6 +548,12 @@ ALTER TABLE `user_types_data_table`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `account_movement_items_data_table`
+--
+ALTER TABLE `account_movement_items_data_table`
+  MODIFY `ami_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT de la tabla `account_types_data_table`
 --
 ALTER TABLE `account_types_data_table`
@@ -516,19 +563,19 @@ ALTER TABLE `account_types_data_table`
 -- AUTO_INCREMENT de la tabla `container_model_data_table`
 --
 ALTER TABLE `container_model_data_table`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT de la tabla `income_type_data_table`
+-- AUTO_INCREMENT de la tabla `product_category_data_table`
 --
-ALTER TABLE `income_type_data_table`
-  MODIFY `it_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `product_category_data_table`
+  MODIFY `pc_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `rate_data_table`
 --
 ALTER TABLE `rate_data_table`
-  MODIFY `r_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `r_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `rate_types_data_table`

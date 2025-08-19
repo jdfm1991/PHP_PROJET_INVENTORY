@@ -14,15 +14,39 @@ $entity = (isset($_POST['entity'])) ? $_POST['entity'] : 0;
 $account = (isset($_POST['account'])) ? $_POST['account'] : 0;
 $name = (isset($_POST['name'])) ? $_POST['name'] : '';
 $amount = (isset($_POST['amount'])) ? $_POST['amount'] : 0;
-
+$rate = (isset($_POST['rate'])) ? $_POST['rate'] : 0;
+$change = (isset($_POST['change'])) ? $_POST['change'] : 0;
+$items = (isset($_POST['items'])) ? $_POST['items'] : [
+  0 => [
+    'id' => 0,
+    'amount' => 0,
+    'quantity' => 0,
+    'total' => 0
+  ],
+  1 => [
+    'id' => 0,
+    'amount' => 0,
+    'quantity' => 0,
+    'total' => 0
+  ],
+  2 => [
+    'id' => 0,
+    'amount' => 0,
+    'quantity' => 0,
+    'total' => 0
+  ]
+];
 
 switch ($_GET["op"]) {
   case 'new_account_movement':
     $dato = array();
     if (empty($id)) {
       $id = uniqid();
-      $data = $mov->createDataAccountMovementDB($id, $cate, $date, $entity, $account, $name, $amount);
+      $data = $mov->createDataAccountMovementDB($id, $cate, $date, $entity, $account, $name, $amount, $rate, $change);
       if ($data) {
+        foreach (json_decode($items, true) as $row) {
+          $dataitems = $mov->createDataAccountMovementItemsDB($id, $row['id'], $rate, $row['amount'], $row['quantity'], $row['total']);
+        }
         $dato['status'] = true;
         $dato['error'] = '200';
         $dato['message'] = "El Gasto Fue Creada Satisfactoriamente \n";
@@ -56,7 +80,7 @@ switch ($_GET["op"]) {
       $sub_array['account'] = $row['a_name'];
       $sub_array['entity'] = is_null($row['client']) ? $row['supplier'] : $row['client'];
       $sub_array['movement'] = $row['am_name'];
-      $sub_array['amount'] = number_format( $row['am_amount'] , 2);
+      $sub_array['amount'] = number_format($row['am_amount'], 2);
       $dato[] = $sub_array;
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
@@ -71,7 +95,7 @@ switch ($_GET["op"]) {
       $dato['entity'] = $data['e_id'];
       $dato['date'] = $data['am_date'];
       $dato['movement'] = $data['am_name'];
-      $dato['amount'] = number_format($data['am_amount'], 2);     
+      $dato['amount'] = number_format($data['am_amount'], 2);
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;

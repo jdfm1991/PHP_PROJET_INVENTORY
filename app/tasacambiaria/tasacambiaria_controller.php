@@ -9,7 +9,7 @@ use Goutte\Client;
 $exchange = new Exchange();
 
 $id = (isset($_POST['id'])) ? $_POST['id'] : '';
-$date = (isset($_POST['date'])) ? $_POST['date'] : '';
+$date = (isset($_POST['date'])) ? $_POST['date'] : date('Y-m-d');
 $rate = (isset($_POST['rate'])) ? $_POST['rate'] : '';
 $type = (isset($_POST['type'])) ? $_POST['type'] : '';
 
@@ -86,14 +86,13 @@ switch ($_GET["op"]) {
     break;
   case 'get_data_rate':
     $dato = array();
-    $data = $exchange->getExchangeRateDB($id);
+    $data = $exchange->getExchangeRateDB($date);
     foreach ($data as $row) {
-      $sub_array = array();
-      $sub_array['id'] = $row['id'];
-      $sub_array['date'] = $row['dateRate'];
-      $sub_array['exchange'] = $row['exchRate'];
-      $sub_array['type'] = $row['typeRate'];
-      $dato[] = $sub_array;
+      $dato['id'] = $row['r_id'];
+      $dato['date'] = $row['r_date'];
+      $dato['dollar'] = is_null($row['r_exchange_d']) ? 0 : number_format($row['r_exchange_d'], 2); 
+      $dato['euro'] = is_null($row['r_exchange_e']) ? 0 : number_format($row['r_exchange_e'], 2);
+      $dato['pref'] = is_null($row['r_exchange_p']) ? 0 : number_format($row['r_exchange_p'], 2);
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;

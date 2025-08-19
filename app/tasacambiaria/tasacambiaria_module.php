@@ -19,12 +19,12 @@ class Exchange extends Conectar
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
-  public function getExchangeRateDB($id)
+  public function getExchangeRateDB($date)
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->prepare("SELECT * FROM rate_data_table WHERE id = :id");
-    $stmt->execute(['id' => $id]);
+    $stmt = $conectar->prepare("SELECT * FROM rate_data_table WHERE r_date = :date");
+    $stmt->execute(['date' => $date]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 

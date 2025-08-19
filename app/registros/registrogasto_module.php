@@ -3,12 +3,20 @@ require_once("../../config/conexion.php");
 
 class Movements extends Conectar
 {
-  public function createDataAccountMovementDB($id, $cate, $date, $entity, $account, $name, $amount)
+  public function createDataAccountMovementDB($id, $cate, $date, $entity, $account, $name, $amount, $rate, $change)
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->prepare("INSERT INTO account_movements_data_table (am_id, ac_id, a_id, e_id, am_date, am_name, am_amount, am_datereg) VALUES (:id, :cate, :account, :entity, :date, :name, :amount, :dater)");
-    $stmt->execute(['id' => $id, 'cate' => $cate, 'account' => $account, 'entity' => $entity, 'date' => $date, 'name' => $name, 'amount' => $amount, 'dater' => date('Y-m-d')]);
+    $stmt = $conectar->prepare("INSERT INTO account_movements_data_table (am_id, ac_id, a_id, e_id, am_date, am_name, am_amount, am_datereg, am_rate, am_change) VALUES (:id, :cate, :account, :entity, :date, :name, :amount, :dater, :rate, :change)");
+    $stmt->execute(['id' => $id, 'cate' => $cate, 'account' => $account, 'entity' => $entity, 'date' => $date, 'name' => $name, 'amount' => $amount, 'dater' => date('Y-m-d'), 'rate' => $rate, 'change' => $change]);
+    return $stmt->rowCount();
+  }
+  public function createDataAccountMovementItemsDB($movement, $product, $rate, $amount, $quantity, $total)
+  {
+    $conectar = parent::conexion();
+    parent::set_names();
+    $stmt = $conectar->prepare("INSERT INTO account_movement_items_data_table (ami_movement, ami_producto, ami_rate, ami_amount, ami_quantity, ami_total) VALUES (:movement, :product, :rate, :amount, :quantity, :total)");
+    $stmt->execute(['movement' => $movement, 'product' => $product, 'rate' => $rate, 'amount' => $amount, 'quantity' => $quantity, 'total' => $total]);
     return $stmt->rowCount();
   }
   /* FUNCION PARA EJECUTAR CONSULTAS SQL PARA TRAER INFORMACION DE LAS CUENTAS DE GASTOS EXISTENTES EN LA BASE DE DATOS */

@@ -407,9 +407,20 @@ Modal Nuevo Usuario
               <input type="date" class="form-control" id="am_date" max="<?php echo date('Y-m-d'); ?>"
                 value="<?php echo date('Y-m-d'); ?>" required>
             </div>
+            <div id="cont_opcion" class="form-group col-md-4">
+              <!-- Se carga a Traves de Archivo JS con function "loadDataRateTypes" -->
+            </div>
             <div class="form-group col-md-4">
-              <label for="am_amount">Monto Total</label>
+              <label for="am_amount">Monto Total $</label>
               <input type="text" class="form-control" id="am_amount" name="onlynumber" required disabled>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="am_rate">tasa de cambio</label>
+              <input type="text" class="form-control" id="am_rate" name="onlynumber" required disabled>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="am_change">Cambio Bolivares</label>
+              <input type="text" class="form-control" id="am_change" name="onlynumber" required disabled>
             </div>
             <div class="form-group col-md-5" id="e_content">
               <label for="e_id" class="form-label">Sujeto</label>

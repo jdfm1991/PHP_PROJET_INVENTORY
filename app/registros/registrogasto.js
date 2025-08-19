@@ -1,7 +1,18 @@
 $(document).ready(function () {
   const ac_id = document.getElementById('ac_id2');
-  const item = document.getElementsByName('id');
-  const info = document.querySelectorAll('input');
+  const item = document.getElementsByName('item');
+
+  const i_id = document.getElementsByName('pi_id');
+  const ci_id = document.getElementsByName('pci_id');
+  const i_code = document.getElementsByName('pi_code');
+  const i_name = document.getElementsByName('pi_name');
+  const i_amount = document.getElementsByName('pi_amount');
+  const i_quantity = document.getElementsByName('pi_quantity');
+  const i_total = document.getElementsByName('pi_total');
+
+  const opcion = document.getElementsByName('opcion');
+
+  let items = [];
   let counter = 0;
   /* Funcion para Cargar Select de los proveedores */
   const loadDataSelectSupliers = async (id) => {
@@ -136,6 +147,7 @@ $(document).ready(function () {
     e.preventDefault();
     $('#e_content').hide();
     $('#a_content').hide();
+    loadDataRateTypes();
     $('.modal-title').text('Nuevo Movimiento de Cuenta');
     $('#ac_id2').attr('disabled', false);
     $('#e_id').attr('disabled', false);
@@ -217,28 +229,28 @@ $(document).ready(function () {
       data: { id: id },
       success: function (response) {
         item.forEach(input => {
-          console.log(input.value);
-          
-          if (input.value == response.id) {
-            $(".mr-auto").text("Procesos Fallido");
-            $(".toast").css("background-color", "rgba(16, 113, 224, 0.43)");
-            $(".toast").css("color", "rgba(255, 255, 255, 1)");
-            $("#toastText").text("Producto Seleccionado ya se Encuentra en el Listado");
-            $('.toast').toast('show');
-            return false;
-          }
+          items.push(input.value);
         })
+        if (items.includes(response.id)) {
+          $(".mr-auto").text("Procesos Fallido");
+          $(".toast").css("background-color", "rgba(16, 113, 224, 0.43)");
+          $(".toast").css("color", "rgba(255, 255, 255, 1)");
+          $("#toastText").text("Producto Seleccionado ya se Encuentra en el Listado");
+          $('.toast').toast('show');
+          return false;
+        }
         $("#content_item").append(`<div name="item" id="cont_${counter}" class="row d-flex justify-content-between">
-            <input type="hidden" name="id" id="pi_id_${counter}" value="${response.id}">
-            <input type="hidden" id="pci_id_${counter}" value="${response.cate}">
+            <input type="hidden" name="pi_id" id="pi_id_${counter}" value="${response.id}">
+            <input type="hidden" name="pci_id" id="pci_id_${counter}" value="${response.cate}">
             <button id="b_trash" type="button" class="col-md-1 btn btn-outline-danger btn-group-sm" data-value="${counter}" title="Eliminar Item"><i class="bi bi-dash"></i></button>
-            <input id="pi_code_${counter}" type="text" class="form-control col-md-2" value="${response.code}" disabled>
-            <input id="pi_name_${counter}" type="text" class="form-control col-md-3" value="${response.name}" disabled>
-            <input id="pi_amount_${counter}" type="text" class="form-control col-md-2" value="${ac_id.value == 1 ? response.aumonts : response.aumontp}" disabled>
-            <input id="pi_quantity_${counter}" type="number" class="form-control col-md-2" step="0.1">
-            <input id="pi_total_${counter}" type="text" class="form-control col-md-2" value="" disabled></div>`
+            <input name="pi_code" id="pi_code_${counter}" type="text" class="form-control col-md-2" value="${response.code}" disabled>
+            <input name="pi_name" id="pi_name_${counter}" type="text" class="form-control col-md-3" value="${response.name}" disabled>
+            <input name="pi_amount" id="pi_amount_${counter}" type="text" class="form-control col-md-2" value="${ac_id.value == 1 ? response.aumonts : response.aumontp}" disabled>
+            <input name="pi_quantity" id="pi_quantity_${counter}" type="number" class="form-control col-md-2" step="0.1">
+            <input name="pi_total" id="pi_total_${counter}" type="text" class="form-control col-md-2" value="" disabled></div>`
         );
         counter++;
+        $('#p_search').val('');
         for (let i = 0; i < counter; i++) {
           const element = document.getElementById('pi_quantity_' + i);
           if (element) {
@@ -258,6 +270,7 @@ $(document).ready(function () {
   /* Accion para Guardar o Actualizar Informacion de los Gastos en la Base de Datos */
   $('#formmovementaccount').submit(function (e) {
     e.preventDefault();
+    let infoitems = [];
     id = $('#am_id').val();
     cate = $('#ac_id2').val();
     date = $('#am_date').val();
@@ -265,6 +278,18 @@ $(document).ready(function () {
     account = $('#a_id2').val();
     name = $('#am_name').val().toUpperCase();
     amount = $('#am_amount').val();
+    rate = $('#am_rate').val();
+    change = $('#am_change').val();
+    for (let i = 0; i < item.length; i++) {
+      const id = i_id[i].value;
+      const cate = ci_id[i].value;
+      const code = i_code[i].value;
+      const name = i_name[i].value;
+      const amount = i_amount[i].value;
+      const quantity = i_quantity[i].value;
+      const total = i_total[i].value;
+      infoitems.push({ id: id, cate: cate, code: code, name: name, amount: amount, quantity: quantity, total: total });
+    }
     dato = new FormData();
     dato.append('id', id);
     dato.append('cate', cate);
@@ -273,6 +298,9 @@ $(document).ready(function () {
     dato.append('account', account);
     dato.append('name', name);
     dato.append('amount', amount);
+    dato.append('rate', rate);
+    dato.append('change', change);
+    dato.append('items', JSON.stringify(infoitems));
     $.ajax({
       url: 'registrogasto_controller.php?op=new_account_movement',
       method: 'POST',
@@ -291,6 +319,7 @@ $(document).ready(function () {
           $('#expense_table').DataTable().ajax.reload();
           $('#formmovementaccount')[0].reset();
           $('#newAccountMovementModal').modal('hide');
+          $('#content_item').empty();
         } else {
           if (response.error === '400') {
             console.log(response);
@@ -392,7 +421,7 @@ $(document).ready(function () {
     if (del_container == null) {
       $(".mr-auto").text("Procesos Exitoso");
       $(".toast").css("z-index", "1000");
-      $(".toast").css("background-color", "rgb(29 255 34 / 85%)");
+      $(".toast").css("background-color", "rgba(23, 224, 16, 0.43)");
       $(".toast").css("color", "white");
       $(".toast").attr("background-color", "");
       $("#toastText").text("item Eliminado con exito");
@@ -408,9 +437,14 @@ $(document).ready(function () {
     }
     getTotalMovement();
   })
-
+  $(document).on('click', 'input[name="opcion"]', function () {
+    const id = $(this).attr('value');
+    loadDataRateToday(id);
+  })
   function getTotalMovement() {
     let sum = 0;
+    let total = 0;
+    let rate = $('#am_rate').val();
     for (let i = 0; i <= counter; i++) {
       total = $(`#pi_total_${i}`).val();
       total = Number.parseFloat(total);
@@ -418,17 +452,50 @@ $(document).ready(function () {
         sum += Number.parseFloat(total);
       }
       $('#am_amount').val(sum.toFixed(2));
+      total = Number.parseFloat(sum) * Number.parseFloat(rate);
+      $('#am_change').val(total.toFixed(2));
     }
+  }
+
+  function loadDataRateTypes() {
+    $.ajax({
+      url: URI + 'tasacambiaria/tasacambiaria_controller.php?op=get_exchange_rate_types',
+      method: 'POST',
+      dataType: 'json',
+      success: function (response) {
+        $.each(response, function (idx, opt) {
+          $('#cont_opcion').append(`
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="opcion" id="${opt.id}" value="${opt.id}">
+              <label class="form-check-label" for="${opt.id}">${opt.acr}</label>
+            </div>`
+          );
+          if (opt.id == 1) {
+            loadDataRateToday(opt.id);
+            document.getElementById(opt.id).checked = true;
+          }
+        })
+      }
+    });
+  }
+  function loadDataRateToday(id) {
+    $.ajax({
+      url: URI + 'tasacambiaria/tasacambiaria_controller.php?op=get_data_rate',
+      method: 'POST',
+      dataType: 'json',
+      success: function (response) {
+        if (id == 1) {
+          $('#am_rate').val(response.dollar);
+        }
+        if (id == 2) {
+          $('#am_rate').val(response.euro);
+        }
+        if (id == 3) {
+          $('#am_rate').val(response.pref);
+        }
+        getTotalMovement();
+      }
+    });
   }
   LoadDataTableAccountMovements();
 });
-
-
-/* 
-  ac_id.value == 1 ? 
-          $("#content_item").append(`<input id="pi_amount_${nitem}" type="text" class="form-control col-md-2" value="${response.aumonts}" disabled>
-            <input id="pi_quantity_${nitem}" type="number" class="form-control col-md-2" step="0.1">
-            <input id="pi_total_${nitem}" type="text" class="form-control col-md-2" value="" disabled>`) :
-          $("#content_item").append(`<input id="pi_amount_${nitem}" type="text" class="form-control col-md-2" value="${response.aumontp}" disabled>
-            <input id="pi_quantity_${nitem}" type="number" class="form-control col-md-2" step="0.1">
-            <input id="pi_total_${nitem}" type="text" class="form-control col-md-2" value="" disabled>`);` */
