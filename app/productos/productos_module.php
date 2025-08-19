@@ -80,4 +80,20 @@ class Products extends Conectar
     return $stmt->rowCount();
   }
 
+  public function addQuantityByProductDB($id, $quantity)
+  {
+    $conectar = parent::conexion();
+    $stmt = $conectar->prepare("UPDATE product_data_table SET p_quantity = p_quantity + :quantity WHERE p_id = :id");
+    $stmt->execute(['quantity' => $quantity, 'id' => $id]);
+    return $stmt->rowCount();
+  }
+
+  public function subtractQuantityByProductDB($id, $quantity)
+  {
+    $conectar = parent::conexion();
+    $stmt = $conectar->prepare("UPDATE product_data_table SET p_quantity = p_quantity - :quantity WHERE p_id = :id");
+    $stmt->execute(['quantity' => $quantity, 'id' => $id]);
+    return $stmt->rowCount();
+  }
+
 }

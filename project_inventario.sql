@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 19-08-2025 a las 16:16:47
+-- Tiempo de generación: 19-08-2025 a las 19:32:13
 -- Versión del servidor: 8.0.26
 -- Versión de PHP: 8.4.8
 
@@ -70,31 +70,10 @@ CREATE TABLE `account_movements_data_table` (
 --
 
 INSERT INTO `account_movements_data_table` (`am_id`, `ac_id`, `a_id`, `e_id`, `am_date`, `am_name`, `am_amount`, `am_rate`, `am_change`, `am_datereg`, `am_status`) VALUES
-('68a3415d985e8', 1, '68a285e7a09a4', '68a3205f46ef5', '2025-08-18', 'VENTAS DE METALES VARIOS', 50.0000, 0.0000, 0.0000, '2025-08-18', 0),
-('68a34ec8899e4', 1, '68a285e7a09a4', '68a3205f46ef5', '2025-08-18', 'VENTAS DE HIERRO', 50.0000, 0.0000, 0.0000, '2025-08-18', 1),
-('68a34ee004542', 2, '68a3322f2b656', '689fb088ea0e9', '2025-08-18', 'COMPRA DE HIERRO', 40.0000, 0.0000, 0.0000, '2025-08-18', 1),
-('68a47824d110e', 1, '68a285e7a09a4', '68a3205f46ef5', '2025-08-19', 'KJIN', 42.0000, 0.0000, 0.0000, '2025-08-19', 1),
-('68a4785c07db9', 1, '68a285e7a09a4', '68a3205f46ef5', '2025-08-19', 'KJIN', 35.0000, 0.0000, 0.0000, '2025-08-19', 1),
-('68a4969de6415', 1, '68a285e7a09a4', '68a3205f46ef5', '2025-08-19', 'COSAS VARIAS DE PRUEBA', 42.0000, 136.8900, 5749.3800, '2025-08-19', 1),
-('68a49d2f3fc23', 2, '68a3322f2b656', '689fb088ea0e9', '2025-08-19', 'MERCANCIA NUEVA', 34.5000, 136.8900, 4722.7000, '2025-08-19', 1),
-('68a49d972877f', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
-('68a49e2ae44d2', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
-('68a49e63275b4', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
-('68a49e7194426', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
-('68a49ef7891a1', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
-('68a49fc695522', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
-('68a4a02235b68', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
-('68a4a08b4064d', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
-('68a4a09e3efdb', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
-('68a4a0c13639f', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
-('68a4a0f5e1608', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
-('68a4a1170958d', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
-('68a4a15496f8f', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
-('68a4a173e85ce', 0, '0', '0', '0000-00-00', '', 0.0000, 0.0000, 0.0000, '2025-08-19', 1),
-('68a4a1e42f4b6', 2, '68a331ed60853', '689fb088ea0e9', '2025-08-14', 'COMPRA DE COSAS', 54.5000, 136.8900, 7460.5000, '2025-08-19', 1),
-('68a4a2d8ba6e2', 2, '68a3322f2b656', '689fb088ea0e9', '2025-08-19', 'CHATARRA', 30.0000, 136.8900, 4106.7000, '2025-08-19', 1),
-('68a4a2daeaa50', 2, '68a3322f2b656', '689fb088ea0e9', '2025-08-19', 'CHATARRA', 30.0000, 136.8900, 4106.7000, '2025-08-19', 1),
-('68a4a3128e245', 2, '68a3322f2b656', '689fb088ea0e9', '2025-08-19', 'CHATARRA', 30.0000, 136.8900, 4106.7000, '2025-08-19', 1);
+('68a4cdf32adad', 2, '68a3322f2b656', '689fb088ea0e9', '2025-08-19', 'COMPRA DE  MERCANCIA', 5.0000, 136.8900, 684.4500, '2025-08-19', 1),
+('68a4cedc94fce', 2, '68a3322f2b656', '689fb088ea0e9', '2025-08-19', 'OTRA PUERBA', 4.5000, 136.8900, 616.0000, '2025-08-19', 1),
+('68a4cf96f2be1', 2, '68a3322f2b656', '689fb088ea0e9', '2025-08-19', 'COMPRA TOTAL', 217.5000, 136.8900, 29773.5700, '2025-08-19', 1),
+('68a4d02114e47', 1, '68a285e7a09a4', '68a3205f46ef5', '2025-08-19', 'VENTA TOTAL', 143.8200, 136.8900, 19687.5200, '2025-08-19', 1);
 
 -- --------------------------------------------------------
 
@@ -117,14 +96,38 @@ CREATE TABLE `account_movement_items_data_table` (
 --
 
 INSERT INTO `account_movement_items_data_table` (`ami_id`, `ami_movement`, `ami_producto`, `ami_rate`, `ami_amount`, `ami_quantity`, `ami_total`) VALUES
-(1, '68a4a173e85ce', '0', 0.0000, 0.0000, 0.0000, 0.0000),
-(2, '68a4a173e85ce', '0', 0.0000, 0.0000, 0.0000, 0.0000),
-(3, '68a4a173e85ce', '0', 0.0000, 0.0000, 0.0000, 0.0000),
-(4, '68a4a1e42f4b6', '0', 136.8900, 0.0000, 0.0000, 0.0000),
-(5, '68a4a1e42f4b6', '0', 136.8900, 0.0000, 0.0000, 0.0000),
-(6, '68a4a1e42f4b6', '0', 136.8900, 0.0000, 0.0000, 0.0000),
-(7, '68a4a3128e245', '68a3911971564', 136.8900, 0.5000, 50.0000, 25.0000),
-(8, '68a4a3128e245', '68a3824a50b6e', 136.8900, 0.1000, 50.0000, 5.0000);
+(1, '68a4cdf32adad', '68a3824a50b6e', 136.8900, 0.1000, 50.0000, 5.0000),
+(2, '68a4cedc94fce', '68a39606a2b78', 136.8900, 0.0900, 50.0000, 4.5000),
+(3, '68a4cf96f2be1', '68a3824a50b6e', 136.8900, 0.1000, 100.0000, 10.0000),
+(4, '68a4cf96f2be1', '68a3911971564', 136.8900, 0.5000, 50.0000, 25.0000),
+(5, '68a4cf96f2be1', '68a39606a2b78', 136.8900, 0.0900, 250.0000, 22.5000),
+(6, '68a4cf96f2be1', '68a3963b2e948', 136.8900, 0.5000, 320.0000, 160.0000),
+(7, '68a4d02114e47', '68a3824a50b6e', 136.8900, 0.1400, 25.5000, 3.5700),
+(8, '68a4d02114e47', '68a3911971564', 136.8900, 0.6000, 80.3000, 48.1800),
+(9, '68a4d02114e47', '68a39606a2b78', 136.8900, 0.1000, 15.9000, 1.5900),
+(10, '68a4d02114e47', '68a3963b2e948', 136.8900, 0.6000, 150.8000, 90.4800);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `account_movement_types_data_table`
+--
+
+CREATE TABLE `account_movement_types_data_table` (
+  `amt_id` int NOT NULL,
+  `amt_name` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `account_movement_types_data_table`
+--
+
+INSERT INTO `account_movement_types_data_table` (`amt_id`, `amt_name`) VALUES
+(1, 'VENTAS'),
+(2, 'COMPRAS'),
+(3, 'CARGOS'),
+(4, 'DESCARGOS'),
+(5, 'AJUSTES');
 
 -- --------------------------------------------------------
 
@@ -285,10 +288,10 @@ CREATE TABLE `product_data_table` (
 --
 
 INSERT INTO `product_data_table` (`p_id`, `pc_id`, `p_code`, `p_name`, `p_price_p`, `p_price_s`, `p_quantity`, `p_status`) VALUES
-('68a3824a50b6e', 1, 'MF-01', 'HIERRO', 0.1000, 0.1400, 0, 1),
-('68a3911971564', 1, 'MF-02', 'ALUMINIO', 0.5000, 0.6000, 0, 1),
-('68a39606a2b78', 1, 'MF-03', 'COBRE', 0.0900, 0.1000, 0, 1),
-('68a3963b2e948', 2, 'MnF-01', 'BATERIA', 0.5000, 0.6000, 0, 1);
+('68a3824a50b6e', 1, 'MF-01', 'HIERRO', 0.1000, 0.1400, 74.5, 1),
+('68a3911971564', 1, 'MF-02', 'ALUMINIO', 0.5000, 0.6000, -30.3, 1),
+('68a39606a2b78', 1, 'MF-03', 'COBRE', 0.0900, 0.1000, 284.1, 1),
+('68a3963b2e948', 2, 'MnF-01', 'BATERIA', 0.5000, 0.6000, 169.2, 1);
 
 -- --------------------------------------------------------
 
@@ -460,6 +463,12 @@ ALTER TABLE `account_movement_items_data_table`
   ADD PRIMARY KEY (`ami_id`);
 
 --
+-- Indices de la tabla `account_movement_types_data_table`
+--
+ALTER TABLE `account_movement_types_data_table`
+  ADD PRIMARY KEY (`amt_id`);
+
+--
 -- Indices de la tabla `account_types_data_table`
 --
 ALTER TABLE `account_types_data_table`
@@ -551,7 +560,13 @@ ALTER TABLE `user_types_data_table`
 -- AUTO_INCREMENT de la tabla `account_movement_items_data_table`
 --
 ALTER TABLE `account_movement_items_data_table`
-  MODIFY `ami_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ami_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `account_movement_types_data_table`
+--
+ALTER TABLE `account_movement_types_data_table`
+  MODIFY `amt_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `account_types_data_table`

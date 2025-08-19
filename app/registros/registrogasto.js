@@ -10,8 +10,6 @@ $(document).ready(function () {
   const i_quantity = document.getElementsByName('pi_quantity');
   const i_total = document.getElementsByName('pi_total');
 
-  const opcion = document.getElementsByName('opcion');
-
   let items = [];
   let counter = 0;
   /* Funcion para Cargar Select de los proveedores */
@@ -136,8 +134,8 @@ $(document).ready(function () {
         { data: "amount" },
         {
           data: "id", render: (data, _, __, meta) =>
-            `<button id="b_update" class="btn btn-outline-primary btn-sm" data-value="${data}" data-toggle="tooltip" data-placement="top" title="Editar Cuenta"><i class="fa fa-edit"></i></button>
-            <button id="b_delete" class="btn btn-outline-danger btn-sm" data-value="${data}" data-toggle="tooltip" data-placement="top" title="Eliminar Cuenta"><i class="bi bi-trash3"></i></button>`, className: "text-center"
+            `<button id="b_update" class="btn btn-outline-primary btn-sm d-none" data-value="${data}" title="Editar Movimento" disabled><i class="fa fa-edit"></i></button>
+            <button id="b_delete" class="btn btn-outline-danger btn-sm" data-value="${data}" title="Eliminar Movimento"><i class="bi bi-trash3"></i></button>`, className: "text-center"
         }
       ]
     });
@@ -228,7 +226,7 @@ $(document).ready(function () {
       dataType: 'json',
       data: { id: id },
       success: function (response) {
-        item.forEach(input => {
+        i_id.forEach(input => {
           items.push(input.value);
         })
         if (items.includes(response.id)) {
@@ -463,6 +461,7 @@ $(document).ready(function () {
       method: 'POST',
       dataType: 'json',
       success: function (response) {
+        $('#cont_opcion').empty();
         $.each(response, function (idx, opt) {
           $('#cont_opcion').append(`
             <div class="form-check form-check-inline">

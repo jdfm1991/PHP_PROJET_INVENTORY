@@ -1,11 +1,11 @@
 <?php
 require_once("../../config/abrir_sesion.php");
 require_once("../../config/conexion.php");
-require_once(PATH_APP . "/tasacambiaria/tasacambiaria_module.php");
+require_once(PATH_APP . "/productos/productos_module.php");
 require_once("registrogasto_module.php");
 
 $mov = new Movements();
-$exchange = new Exchange();
+$products = new Products();
 
 $id = (isset($_POST['id'])) ? $_POST['id'] : '';
 $cate = (isset($_POST['cate'])) ? $_POST['cate'] : 0;
@@ -46,6 +46,12 @@ switch ($_GET["op"]) {
       if ($data) {
         foreach (json_decode($items, true) as $row) {
           $dataitems = $mov->createDataAccountMovementItemsDB($id, $row['id'], $rate, $row['amount'], $row['quantity'], $row['total']);
+          if ($cate == 1) {
+            $products->subtractQuantityByProductDB($row['id'], $row['quantity']);
+          };
+          if ($cate == 2) {
+            $products->addQuantityByProductDB($row['id'], $row['quantity']);
+          };
         }
         $dato['status'] = true;
         $dato['error'] = '200';
