@@ -239,7 +239,7 @@ Modal Nueva Tasa de Cambio
             </div>
             <div class="form-group col-md-4">
               <label for="dateRate">Fecha de la Tasa</label>
-              <input type="date" class="form-control" id="dateRate" aria-describedby="dateRateHelp"
+              <input type="date" class="form-control" id="dateRate" aria-describedby="dateRateHelp" value="<?php echo date('Y-m-d'); ?>"
                 max="<?php echo date('Y-m-d'); ?>" required>
               <small id="dateRateHelp" class="form-text text-muted">Fecha de la Tasa de Cambio</small>
             </div>
@@ -382,7 +382,7 @@ Modal Nuevo Usuario
 ****************************************************************************
  -->
 <div class="modal fade" id="newAccountMovementModal" tabindex="-1" aria-labelledby="newAccountMovementModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Registro de Movimiento</h5>
@@ -403,9 +403,13 @@ Modal Nuevo Usuario
               </select>
             </div>
             <div class="form-group col-md-4">
-              <label for="am_date" class="form-label">Fecha del Gasto</label>
+              <label for="am_date" class="form-label">Fec. del Mov.</label>
               <input type="date" class="form-control" id="am_date" max="<?php echo date('Y-m-d'); ?>"
                 value="<?php echo date('Y-m-d'); ?>" required>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="am_amount">Monto Total</label>
+              <input type="text" class="form-control" id="am_amount" name="onlynumber" required disabled>
             </div>
             <div class="form-group col-md-5" id="e_content">
               <label for="e_id" class="form-label">Sujeto</label>
@@ -414,23 +418,92 @@ Modal Nuevo Usuario
               </select>
             </div>
             <div class="form-group col-md-7" id="a_content">
-              <label for="a_id2" class="form-label">Cuenta de Gasto</label>
+              <label for="a_id2" class="form-label">Cuenta</label>
               <select class="form-control" id="a_id2" size="3" required>
                 <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectUnitLevel" -->
               </select>
             </div>
             <div class="form-group col-md-8">
-              <label for="am_name">Detalle del Gasto</label>
-              <textarea id="am_name" class="form-control" rows="3"
-                placeholder="Ingrese el Detalle del Gasto a Realizar"
+              <label for="am_name">Detalle</label>
+              <textarea id="am_name" class="form-control" rows="2"
+                placeholder="Ingrese el Detalle del Movimiento a realizar"
                 aria-describedby="am_nameHelp" maxlength="150" required></textarea>
-              <small id="am_nameHelp" class="form-text text-white">Detalle del Gasto que se va a
+              <small id="am_nameHelp" class="form-text text-white">Detalle del Movimiento que se va a
                 realizar</small>
               <label id="count" class="float-right"></label>
             </div>
             <div class="form-group col-md-4">
-              <label for="am_amount">Monto Del Gasto</label>
-              <input type="text" class="form-control" id="am_amount" name="onlynumber" required>
+              <label for="a_id2" class="form-label">Buscar Producto</label>
+              <div class="d-flex">
+                <input type="search" id="p_search" class="form-control d-inline" list="listproducts">
+                <datalist id="listproducts">
+                  <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectUnitLevel" -->
+                </datalist>
+                <button id="b_add_p" type="button" class="btn btn-outline-light btn-group-sm d-inline" title="Crear Vinculo"><i class="fas fa-plus"></i></button>
+              </div>
+            </div>
+          </div>
+          <!-- Inicio de contenedor de los Items Movimiento -->
+          <div class="card mb-2">
+            <div id="content_item" class="card-body">
+
+            </div>
+          </div>
+          <!-- Fin de contenedor de los Items Movimiento -->
+          <div id="m_unit_cont" class="alert alert-warning d-none" role="alert">
+            <p id="m_unit_text" class="mb-0">Alert Description</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!--
+****************************************************************************
+ Modal Nuevo Producto
+****************************************************************************
+ -->
+<div class="modal fade" id="newProductModal" tabindex="-1" aria-labelledby="newProductModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nuevo Producto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formproduct">
+          <input type="hidden" id="p_id">
+          <div class="form-row">
+            <div class="form-group col-md-5">
+              <label for="pc_id" class="form-label">Categoria de Material</label>
+              <select class="form-control" id="pc_id" required>
+                <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectProductCategories" -->
+              </select>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="p_code" class="form-label">Codigo</label>
+              <input type="text" class="form-control" id="p_code" placeholder="Codigo" disabled>
+            </div>
+            <div class="form-group col-md-12">
+              <label for="p_name">Producto</label>
+              <input class="form-control" id="p_name" aria-describedby="p_nameHelp"
+                placeholder="Ingrese el Nombre del Producto" required>
+              <small id="p_nameHelp" class="form-text text-white">Detalle de la Producto que se va a
+                crear</small>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="p_amount_p">Precio Compra</label>
+              <input type="text" class="form-control" id="p_amount_p" name="onlynumber" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="p_amount_s">Precio Venta</label>
+              <input type="text" class="form-control" id="p_amount_s" name="onlynumber" required>
             </div>
           </div>
           <div id="m_unit_cont" class="alert alert-warning d-none" role="alert">
@@ -445,7 +518,6 @@ Modal Nuevo Usuario
     </div>
   </div>
 </div>
-
 
 
 
@@ -518,66 +590,6 @@ Modal para Iniciar Sesion
 
 
 
-
-<!--
-****************************************************************************
- Modal Nueva Registro de Ingresos Penalizaciones
-****************************************************************************
- -->
-<div class="modal fade" id="newIncomeModal" tabindex="-1" aria-labelledby="newIncomeModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Cuenta de Ingreso o Penalizacion</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body ">
-        <form id="formIncome">
-          <input type="hidden" id="idinc">
-          <div class="form-row">
-            <div class="form-group col-md-8">
-              <label for="accountIncome" class="form-label">Cuenta de Ingreso</label>
-              <select class="form-control" id="accountIncome" required>
-                <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectUnitLevel" -->
-              </select>
-            </div>
-            <div id="c_penal" class="form-check form-check-inline col-md-3 text-center d-none">
-              <input class="form-check-input" type="checkbox" id="penalty">
-              <label class="form-check-label" for="penalty">Por Recibo de Cobro</label>
-            </div>
-            <div class="form-group col-md-8">
-              <label for="datailIncome">Detalle del Ingreso</label>
-              <input type="text" class="form-control" id="datailIncome"
-                placeholder="Ingrese el Detalle del Gasto a Realizar" maxlength="50" required>
-              <label id="count2" class="float-right"></label>
-            </div>
-            <div id="c_formula" class="form-check form-check-inline col-md-3 text-center d-none">
-              <input class="form-check-input" type="checkbox" id="percent">
-              <label class="form-check-label" for="percent">Aplicar %</label>
-            </div>
-            <div id="aumot_content" class="form-group col-md-4">
-              <label for="montIncome">Monto Del Ingreso</label>
-              <input type="text" class="form-control" id="montIncome" name="onlynumber">
-            </div>
-            <div id="per_content" class="form-group col-md-3 d-none">
-              <label for="m_percent">% de Cobro</label>
-              <input type="text" class="form-control" id="m_percent" name="onlynumber">
-            </div>
-          </div>
-          <div id="m_unit_cont" class="alert alert-warning d-none" role="alert">
-            <p id="m_unit_text" class="mb-0">Alert Description</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Guardar</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
 <!--
 ****************************************************************************
  Modal Registro de Pago de Cuenta Por Pagar y Por Cobrar

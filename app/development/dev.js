@@ -447,11 +447,11 @@ $(document).ready(function () {
           <div class="d-flex justify-content-between">
             <small class="text-body-secondary d-inline">${idx + 1} - </small>
             <div class="d-inline pl-2 justify-content-between text-center">
-                <h6 class="font-weight-bold"> ${opt.name} </h6>
+                <h6 class="font-weight-bold text-dark"> ${opt.name} </h6>
             </div>   
           </div>
           <div class="btn-group" role="group" aria-label="Button group name">
-              <button id="b_copy_module" type="button" class="btn btn-outline-success btn-group-sm" data-value="${opt.name}"><i class="bi bi-copy"></i></button>
+              <button id="b_copy_module" type="button" class="btn btn-outline-muted btn-group-sm" data-value="${opt.name}"><i class="bi bi-copy"></i></button>
           </div>
         `;
         container.appendChild(li);

@@ -63,6 +63,8 @@ $(function () {
 
 $(document).ready(function () {
   $(".modal").css("background-color", "rgba(78, 78, 78, 0.36)");
+  //$(".card").css("background-color", "rgba(63, 62, 62, 0.51)");
+  //$(".card-body").css("background-color", "rgba(63, 62, 62, 0.51)");
   $(".modal-content").css("background-color", "rgba(67, 67, 67, 0.79)");
   $(".modal-content").css("color", "rgba(245, 245, 245, 1)");
   

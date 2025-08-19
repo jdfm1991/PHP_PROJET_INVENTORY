@@ -1,5 +1,8 @@
 $(document).ready(function () {
   const ac_id = document.getElementById('ac_id2');
+  const item = document.getElementsByName('id');
+  const info = document.querySelectorAll('input');
+  let counter = 0;
   /* Funcion para Cargar Select de los proveedores */
   const loadDataSelectSupliers = async (id) => {
     try {
@@ -49,7 +52,7 @@ $(document).ready(function () {
     }
   }
   /* Funcion para Cargar Select de las cuentas de gastos */
-  const loadDataSelectAccounts = async (id, ac_id) => {    
+  const loadDataSelectAccounts = async (id, ac_id) => {
     try {
       const response = await fetch(URI + 'cuentas/cuentagasto_controller.php?op=get_list_accounts_by_category&cate=' + ac_id, {
         method: 'GET',
@@ -57,7 +60,7 @@ $(document).ready(function () {
           'Content-Type': 'application/json'
         },
       });
-      const data = await response.json();      
+      const data = await response.json();
       const container = document.getElementById('a_id2');
       container.innerHTML = '';
       data.forEach((opt, idx) => {
@@ -118,7 +121,7 @@ $(document).ready(function () {
         { data: "date" },
         { data: "account" },
         { data: "entity" },
-        { data: "movement" }, 
+        { data: "movement" },
         { data: "amount" },
         {
           data: "id", render: (data, _, __, meta) =>
@@ -148,6 +151,7 @@ $(document).ready(function () {
     }
     $('#e_content').show();
     $('#a_content').hide();
+    $('#content_item').empty();
   });
   /* Accion para cargar y visualizar el select de proveedores o clientes */
   $("#e_id").change(function () {
@@ -176,6 +180,80 @@ $(document).ready(function () {
       $('#count').addClass('text-white');
       $('#count').text('Le queda pocos caracteres ' + letters + ' / 150');
     }
+  });
+
+  $('#p_search').keyup(function (e) {
+    e.preventDefault();
+    name = $(this).val();
+    $.ajax({
+      url: URI + 'productos/productos_controller.php?op=get_list_products_by_name',
+      method: 'POST',
+      dataType: 'json',
+      data: { name: name },
+      success: function (response) {
+        $("#listproducts").empty();
+        $.each(response, function (idx, opt) {
+          $("#listproducts").append(`<option value="${opt.name} - ${opt.id}">`);
+        });
+      }
+    });
+  });
+  /* Funcion Para Cargar El Contenido del Selectores del Modal "newAccountMovementModal" */
+  $('#b_add_p').click(function (e) {
+    e.preventDefault();
+    id = $('#p_search').val().split(' - ')[1];
+    if (id == undefined) {
+      $(".mr-auto").text("Procesos Fallido");
+      $(".toast").css("background-color", "rgb(36 113 163 / 85%)");
+      $(".toast").css("color", "dark");
+      $("#toastText").text("Debe de Seleccionar Producto para continuar");
+      $('.toast').toast('show');
+      return false;
+    }
+    $.ajax({
+      url: URI + 'productos/productos_controller.php?op=get_data_product',
+      method: 'POST',
+      dataType: 'json',
+      data: { id: id },
+      success: function (response) {
+        item.forEach(input => {
+          console.log(input.value);
+          
+          if (input.value == response.id) {
+            $(".mr-auto").text("Procesos Fallido");
+            $(".toast").css("background-color", "rgba(16, 113, 224, 0.43)");
+            $(".toast").css("color", "rgba(255, 255, 255, 1)");
+            $("#toastText").text("Producto Seleccionado ya se Encuentra en el Listado");
+            $('.toast').toast('show');
+            return false;
+          }
+        })
+        $("#content_item").append(`<div name="item" id="cont_${counter}" class="row d-flex justify-content-between">
+            <input type="hidden" name="id" id="pi_id_${counter}" value="${response.id}">
+            <input type="hidden" id="pci_id_${counter}" value="${response.cate}">
+            <button id="b_trash" type="button" class="col-md-1 btn btn-outline-danger btn-group-sm" data-value="${counter}" title="Eliminar Item"><i class="bi bi-dash"></i></button>
+            <input id="pi_code_${counter}" type="text" class="form-control col-md-2" value="${response.code}" disabled>
+            <input id="pi_name_${counter}" type="text" class="form-control col-md-3" value="${response.name}" disabled>
+            <input id="pi_amount_${counter}" type="text" class="form-control col-md-2" value="${ac_id.value == 1 ? response.aumonts : response.aumontp}" disabled>
+            <input id="pi_quantity_${counter}" type="number" class="form-control col-md-2" step="0.1">
+            <input id="pi_total_${counter}" type="text" class="form-control col-md-2" value="" disabled></div>`
+        );
+        counter++;
+        for (let i = 0; i < counter; i++) {
+          const element = document.getElementById('pi_quantity_' + i);
+          if (element) {
+            element.addEventListener('keyup', function () {
+              quantity = $(element).val();
+              price = $(`#pi_amount_${i}`).val();
+              total = Number.parseFloat(quantity) * Number.parseFloat(price);
+              $(`#pi_total_${i}`).val(total.toFixed(2));
+              getTotalMovement();
+            })
+          }
+
+        }
+      }
+    });
   });
   /* Accion para Guardar o Actualizar Informacion de los Gastos en la Base de Datos */
   $('#formmovementaccount').submit(function (e) {
@@ -305,5 +383,52 @@ $(document).ready(function () {
       }
     })
   })
+
+  $(document).on('click', '#b_trash', function () {
+    const id = $(this).data('value');
+    const container = document.getElementById('cont_' + id)
+    container.remove();
+    const del_container = document.getElementById('cont_' + id);
+    if (del_container == null) {
+      $(".mr-auto").text("Procesos Exitoso");
+      $(".toast").css("z-index", "1000");
+      $(".toast").css("background-color", "rgb(29 255 34 / 85%)");
+      $(".toast").css("color", "white");
+      $(".toast").attr("background-color", "");
+      $("#toastText").text("item Eliminado con exito");
+      $('.toast').toast('show');
+    } else {
+      $(".mr-auto").text("Procesos Fallido");
+      $(".toast").css("z-index", "1000");
+      $(".toast").css("background-color", "rgb(255 80 80 / 85%)");
+      $(".toast").css("color", "white");
+      $(".toast").attr("background-color", "");
+      $("#toastText").text("Error al Eliminar item");
+      $('.toast').toast('show');
+    }
+    getTotalMovement();
+  })
+
+  function getTotalMovement() {
+    let sum = 0;
+    for (let i = 0; i <= counter; i++) {
+      total = $(`#pi_total_${i}`).val();
+      total = Number.parseFloat(total);
+      if (!isNaN(total)) {
+        sum += Number.parseFloat(total);
+      }
+      $('#am_amount').val(sum.toFixed(2));
+    }
+  }
   LoadDataTableAccountMovements();
 });
+
+
+/* 
+  ac_id.value == 1 ? 
+          $("#content_item").append(`<input id="pi_amount_${nitem}" type="text" class="form-control col-md-2" value="${response.aumonts}" disabled>
+            <input id="pi_quantity_${nitem}" type="number" class="form-control col-md-2" step="0.1">
+            <input id="pi_total_${nitem}" type="text" class="form-control col-md-2" value="" disabled>`) :
+          $("#content_item").append(`<input id="pi_amount_${nitem}" type="text" class="form-control col-md-2" value="${response.aumontp}" disabled>
+            <input id="pi_quantity_${nitem}" type="number" class="form-control col-md-2" step="0.1">
+            <input id="pi_total_${nitem}" type="text" class="form-control col-md-2" value="" disabled>`);` */
