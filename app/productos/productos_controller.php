@@ -98,6 +98,7 @@ switch ($_GET["op"]) {
       $dato['cate'] = $data['pc_id'];
       $dato['code'] = $data['p_code'];
       $dato['name'] = $data['p_name'];
+      $dato['quan'] = $data['p_quantity'];
       $dato['aumontp'] = number_format($data['p_price_p'], 2);
       $dato['aumonts'] = number_format($data['p_price_s'], 2);
     }

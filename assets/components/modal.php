@@ -378,6 +378,62 @@ Modal Nuevo Usuario
 </div>
 <!--
 ****************************************************************************
+ Modal Nuevo Producto
+****************************************************************************
+ -->
+<div class="modal fade" id="newProductModal" tabindex="-1" aria-labelledby="newProductModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nuevo Producto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formproduct">
+          <input type="hidden" id="p_id">
+          <div class="form-row">
+            <div class="form-group col-md-5">
+              <label for="pc_id" class="form-label">Categoria de Material</label>
+              <select class="form-control" id="pc_id" required>
+                <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectProductCategories" -->
+              </select>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="p_code" class="form-label">Codigo</label>
+              <input type="text" class="form-control" id="p_code" placeholder="Codigo" disabled>
+            </div>
+            <div class="form-group col-md-12">
+              <label for="p_name">Producto</label>
+              <input class="form-control" id="p_name" aria-describedby="p_nameHelp"
+                placeholder="Ingrese el Nombre del Producto" required>
+              <small id="p_nameHelp" class="form-text text-white">Detalle de la Producto que se va a
+                crear</small>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="p_amount_p">Precio Compra</label>
+              <input type="text" class="form-control" id="p_amount_p" name="onlynumber" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="p_amount_s">Precio Venta</label>
+              <input type="text" class="form-control" id="p_amount_s" name="onlynumber" required>
+            </div>
+          </div>
+          <div id="m_unit_cont" class="alert alert-warning d-none" role="alert">
+            <p id="m_unit_text" class="mb-0">Alert Description</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!--
+****************************************************************************
  Modal Nueva Registro de detalle de Movimiento de Cuenta
 ****************************************************************************
  -->
@@ -475,48 +531,78 @@ Modal Nuevo Usuario
 </div>
 <!--
 ****************************************************************************
- Modal Nuevo Producto
+ Modal Nueva Registro de detalle de Movimiento de Inventario
 ****************************************************************************
  -->
-<div class="modal fade" id="newProductModal" tabindex="-1" aria-labelledby="newProductModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+<div class="modal fade" id="newInventoryMovementModal" tabindex="-1" aria-labelledby="newInventoryMovementModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Nuevo Producto</h5>
+        <h5 class="modal-title">Registro de Movimiento</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <form id="formproduct">
-          <input type="hidden" id="p_id">
+      <div class="modal-body ">
+        <form id="formmovementinventory">
+          <input type="hidden" id="im_id">
           <div class="form-row">
-            <div class="form-group col-md-5">
-              <label for="pc_id" class="form-label">Categoria de Material</label>
-              <select class="form-control" id="pc_id" required>
-                <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectProductCategories" -->
+            <div class="form-group col-md-4">
+              <label for="ac_id3" class="form-label">Categorias</label>
+              <select class="form-control" id="ac_id3" required>
+                <option value="">Tipo</option>
+                <option value="3">CARGOS</option>
+                <option value="4">DESCARGOS</option>
+                <option value="5">AJUSTES</option>
               </select>
             </div>
-            <div class="form-group col-md-3">
-              <label for="p_code" class="form-label">Codigo</label>
-              <input type="text" class="form-control" id="p_code" placeholder="Codigo" disabled>
+            <div class="form-group col-md-4">
+              <label for="im_date" class="form-label">Fec. del Mov.</label>
+              <input type="date" class="form-control" id="im_date" max="<?php echo date('Y-m-d'); ?>"
+                value="<?php echo date('Y-m-d'); ?>" required>
             </div>
-            <div class="form-group col-md-12">
-              <label for="p_name">Producto</label>
-              <input class="form-control" id="p_name" aria-describedby="p_nameHelp"
-                placeholder="Ingrese el Nombre del Producto" required>
-              <small id="p_nameHelp" class="form-text text-white">Detalle de la Producto que se va a
-                crear</small>
+            <div id="cont_opcion2" class="form-group col-md-4">
+              <!-- Se carga a Traves de Archivo JS con function "loadDataRateTypes" -->
             </div>
-            <div class="form-group col-md-6">
-              <label for="p_amount_p">Precio Compra</label>
-              <input type="text" class="form-control" id="p_amount_p" name="onlynumber" required>
+            <div class="form-group col-md-4">
+              <label for="im_amount">Monto Total $</label>
+              <input type="text" class="form-control" id="im_amount" name="onlynumber" required disabled>
             </div>
-            <div class="form-group col-md-6">
-              <label for="p_amount_s">Precio Venta</label>
-              <input type="text" class="form-control" id="p_amount_s" name="onlynumber" required>
+            <div class="form-group col-md-4">
+              <label for="im_rate">tasa de cambio</label>
+              <input type="text" class="form-control" id="im_rate" name="onlynumber" required disabled>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="im_change">Cambio Bolivares</label>
+              <input type="text" class="form-control" id="im_change" name="onlynumber" required disabled>
+            </div>
+            <div class="form-group col-md-8">
+              <label for="im_name">Detalle</label>
+              <textarea id="im_name" class="form-control" rows="2"
+                placeholder="Ingrese el Detalle del Movimiento a realizar"
+                aria-describedby="im_nameHelp" maxlength="150" required></textarea>
+              <small id="im_nameHelp" class="form-text text-white">Detalle del Movimiento que se va a
+                realizar</small>
+              <label id="count" class="float-right"></label>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="p_search2" class="form-label">Buscar Producto</label>
+              <div class="d-flex">
+                <input type="search2" id="p_search2" class="form-control d-inline" list="listproducts2">
+                <datalist id="listproducts2">
+                  <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectUnitLevel" -->
+                </datalist>
+                <button id="b_add_p2" type="button" class="btn btn-outline-light btn-group-sm d-inline" title="Crear Vinculo"><i class="fas fa-plus"></i></button>
+              </div>
             </div>
           </div>
+          <!-- Inicio de contenedor de los Items Movimiento -->
+          <div class="card mb-2">
+            <div id="content_item2" class="card-body">
+
+            </div>
+          </div>
+          <!-- Fin de contenedor de los Items Movimiento -->
           <div id="m_unit_cont" class="alert alert-warning d-none" role="alert">
             <p id="m_unit_text" class="mb-0">Alert Description</p>
           </div>
@@ -592,315 +678,6 @@ Modal para Iniciar Sesion
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-
-<!--
-****************************************************************************
- Modal Registro de Pago de Cuenta Por Pagar y Por Cobrar
-****************************************************************************
- -->
-<div class="modal fade" id="cxpPayModal" tabindex="-1" aria-labelledby="cxpPayModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Datos de Cuentas Por Pagar</h5>
-        <button type="button" class="close x" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body ">
-        <form id="formExpensePay">
-          <input type="hidden" id="idcx">
-          <div class="form-group row">
-            <label id="l_date" for="t_date" class="text-uppercase text-monospace col-sm-5">Fecha de Gasto:
-            </label>
-            <p id="t_date" class="font-weight-bold text-uppercase col-sm-7"> </p>
-            <label id="l_name" class="text-uppercase text-monospace col-sm-5">Proveedor: </label>
-            <p id="t_name" class="font-weight-bold text-uppercase col-sm-7"> </p>
-            <label id="l_account" class="text-uppercase text-monospace col-sm-5">Cuenta de Gasto: </label>
-            <p id="t_account" class="font-weight-bold text-uppercase col-sm-7"> </p>
-            <label id="l_detail" class="text-uppercase text-monospace col-sm-5">Detalle del Gasto: </label>
-            <p id="t_detail" class="font-weight-bold text-uppercase col-sm-7"> </p>
-            <span class="text-uppercase text-monospace col-sm-5">Saldo del Gasto: </span>
-            <div class="col-sm-3">
-              <input type="text" class="form-control" id="t_balance" disabled>
-            </div>
-            <div id="c_inte" class="form-check form-check-inline col-md-3 text-center d-none">
-              <input class="form-check-input" type="checkbox" id="interes">
-              <label class="form-check-label" for="interes">Incluir Penalizaciones</label>
-            </div>
-            <div class="col-sm-4 mb-2"></div>
-            <div id="cont_amunt_cxc" class="form-row col-md-12">
-              <div class="form-group col-md-4">
-                <label for="refercxc">Numero de Ref:</label>
-                <input type="hidden" id="idrefer">
-                <input type="text" class="form-control" id="refercxc" name="onlynumber"
-                  list="listrefer">
-                <datalist id="listrefer">
-                  <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectUnitLevel" -->
-                </datalist>
-              </div>
-              <div class="form-group col-md-4">
-                <label for="datepaycxc">Fecha de Pago:</label>
-                <input type="date" class="form-control" id="datepaycxc"
-                  max="<?php echo date('Y-m-d'); ?>" disabled>
-              </div>
-              <div class="form-group col-md-4">
-                <label for="amountpaycxc">Monto de Pago:</label>
-                <input type="text" class="form-control" id="amountpaycxc" name="onlynumber" disabled>
-              </div>
-              <div class="form-group col-md-4">
-                <label for="ratepaycxc">Tasa del Dia:</label>
-                <input type="text" class="form-control" id="ratepaycxc" name="onlynumber" disabled>
-              </div>
-              <div class="form-group col-md-4">
-                <label for="amountpaycxcd">Monto de Pago $:</label>
-                <input type="text" class="form-control" id="amountpaycxcd" name="onlynumber" disabled>
-              </div>
-              <div class="form-check form-check-inline col-md-3 text-center">
-                <input class="form-check-input" type="checkbox" id="dollarpay">
-                <label class="form-check-label" for="dollarpay">Pago en $</label>
-              </div>
-              <div class="form-group col-md-12">
-                <span id="notecxc"></span>
-              </div>
-            </div>
-
-          </div>
-          <div id="m_unit_cont" class="alert alert-warning d-none" role="alert">
-            <p id="m_unit_text" class="mb-0">Alert Description</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary x" data-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Guardar</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-<!--
-****************************************************************************
- Modal Registro de Pago de Cuenta Por Pagar
-****************************************************************************
- -->
-<div class="modal fade" id="rcIndividualModal" tabindex="-1" aria-labelledby="rcIndividualModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog modal-xl modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-center"></h5>
-        <button type="button" class="close x" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="col-sm-4">
-          <select class="custom-select mb-3" id="typereceiot" required>
-            <option value="">Seleccione el Tipo de Recibo</option>
-            <option value="COBRO">COBRO MENSUAL</option>
-            <option value="PENAL">PENALIZACION</option>
-          </select>
-        </div>
-        <form id="formReceipt" class="formreceipt">
-          <input type="hidden" id="id_rc">
-          <input type="hidden" id="id_u">
-          <input type="hidden" id="id_c">
-          <!-- Inicio de contenedor de cabezera de Recibo de Cobro -->
-          <div class="container-sm !justify !spacing">
-            <div class="form-row mb-3 mt-3 justify-content-between">
-              <div class="col-sm-8 mb-3 text-right text-uppercase text-monospace mb-3">N° de Recibo:
-              </div>
-              <div class="col-sm-4 mb-3 text-left text-uppercase text-monospace mb-3"><i
-                  class="bi bi-geo"></i> <span id="n_rc" class="h4 font-weight-bold text-info"></span>
-                <i class="bi bi-geo"></i>
-              </div>
-              <!-- Inicio de contenedor de datos de Recibo de Cobro -->
-              <div class="form-row col-sm-8">
-                <label class="form-label col-sm-3 mb-2" for="p_cobro">Periodo de Cobro</label>
-                <div class="col-sm-3 mb-2">
-                  <input id="p_cobro" type="text" class="form-control" placeholder="Periodo de Cobro">
-                </div>
-                <label class="col-sm-3 mb-2" for="f_vence">Fecha de vencimiento</label>
-                <div class="col-sm-3 mb-2">
-                  <input id="f_vence" type="date" class="form-control" placeholder="Periodo de Cobro">
-                </div>
-                <div class="col-sm-2 mb-2">
-                  <input id="n_dpto" type="text" class="form-control" placeholder="N° Dpto">
-                </div>
-                <div class="col-sm-6 mb-2">
-                  <input id="name_client" type="text" class="form-control"
-                    placeholder="Nombre de Inquilino">
-                </div>
-                <div class="col-sm-2 mb-2">
-                  <input id="l_dpto" type="text" class="form-control" placeholder="Piso">
-                </div>
-                <div class="col-sm-2 mb-2">
-                  <input id="a_dpto" type="text" class="form-control" placeholder="Alicuota">
-                </div>
-                <div class="col-sm-6 mb-2">
-                  <input id="e_dpto" type="text" class="form-control" placeholder="Email Inquilino">
-                </div>
-              </div>
-              <!-- Fin de contenedor de datos de Recibo de Cobro -->
-              <!-- Inicio de contenedor de totales de Recibo de Cobro -->
-              <div class="form-row col-sm-4 p-0 mt-0">
-                <div class="row col-sm-12">
-                  <label class="col-sm-8 text-uppercase text-monospace">
-                    Total Gastos Fijos
-                  </label>
-                  <input type="text" id="amout_gf"
-                    class="form-control form-control-sm col-sm-4 text-uppercase text-monospace"
-                    disabled>
-                </div>
-                <div class="row col-sm-12">
-                  <label class="col-sm-8 text-uppercase text-monospace">
-                    Total Gastos Variables
-                  </label>
-                  <input type="text" id="amout_gv"
-                    class="form-control form-control-sm col-sm-4 text-uppercase text-monospace"
-                    disabled>
-                </div>
-                <div class="row col-sm-12">
-                  <label class="col-sm-8 text-uppercase text-monospace">
-                    Total Penalizaciones
-                  </label>
-                  <input type="text" id="amout_p"
-                    class="form-control form-control-sm col-sm-4 text-uppercase text-monospace"
-                    disabled>
-                </div>
-                <div class="row col-sm-12">
-                  <label class="col-sm-8 text-uppercase text-monospace">
-                    Total Ingresos
-                  </label>
-                  <input type="text" id="amout_i"
-                    class="form-control form-control-sm col-sm-4 text-uppercase text-monospace"
-                    disabled>
-                </div>
-                <div class="row col-sm-12">
-                  <label class="col-sm-8 text-uppercase text-monospace">
-                    Saldo Anterior
-                  </label>
-                  <input type="text" id="amout_a"
-                    class="form-control form-control-sm col-sm-4 text-uppercase text-monospace"
-                    disabled>
-                </div>
-                <div class="row col-sm-12">
-                  <label class="col-sm-8 text-uppercase text-monospace">
-                    Monto Por Mora
-                  </label>
-                  <input type="text" id="amout_m"
-                    class="form-control form-control-sm col-sm-4 text-uppercase text-monospace"
-                    disabled>
-                </div>
-                <div class="row col-sm-12">
-                  <label class="col-sm-8 text-uppercase text-monospace">
-                    Monto Por Gastos Admtvo.
-                  </label>
-                  <input type="text" id="amout_g"
-                    class="form-control form-control-sm col-sm-4 text-uppercase text-monospace"
-                    disabled>
-                </div>
-                <div class="row col-sm-12">
-                  <label class="col-sm-8 text-uppercase text-monospace">
-                    Total General
-                  </label>
-                  <input type="text" id="amout_tg"
-                    class="form-control form-control-sm col-sm-4 text-uppercase text-monospace"
-                    disabled>
-                </div>
-              </div>
-              <!-- Fin de contenedor de totales de Recibo de Cobro -->
-            </div>
-          </div>
-          <!-- Fin de contenedor de cabezera de Recibo de Cobro -->
-          <!-- Inicio de contenedor de los Items del Recibo de Cobro -->
-          <div class="form-row col-sm-12 p-0 mt-0">
-            <div class="col-sm-8">
-              <!-- Inicio de contenedor de los Items Gastos Fijos -->
-              <div id="content_fixed" class="card mb-2 d-none">
-                <div id="title_fixed" class="card-header text-muted text-center p-0"></div>
-                <div id="content_fixed_body" class="card-body pb-1 pt-1">
-
-                </div>
-                <div class="card-footer text-muted text-right p-0">
-                  <p class="card-text mr-5">Total: <span id="total_fixed"
-                      class="font-weight-bold text-uppercase text-monospace text-right text-info h5"></span>
-                  </p>
-                </div>
-              </div>
-              <!-- Fin de contenedor de los Items Gastos Fijos -->
-              <!-- Inicio de contenedor de los Items Gastos Variables -->
-              <div id="content_non_fixed" class="card mb-2 d-none">
-                <div id="title_non_fixed" class="card-header text-muted text-center p-0"></div>
-                <div id="content_non_fixed_body" class="card-body pb-1 pt-1">
-
-                </div>
-                <div class="card-footer text-muted text-right p-0">
-                  <p class="card-text mr-5">Total: <span id="total_non_fixed"
-                      class="font-weight-bold text-uppercase text-monospace text-right text-info h5"></span>
-                  </p>
-                </div>
-              </div>
-              <!-- Fin de contenedor de los Items Gastos Variables -->
-              <!-- Inicio de contenedor de los Items Penalizaciones -->
-              <div id="content_penalty" class="card mb-2 d-none">
-                <div id="title_penalty" class="card-header text-muted text-center p-0"></div>
-                <div id="content_penalty_body" class="card-body pb-1 pt-1">
-
-                </div>
-                <div class="card-footer text-muted text-right p-0">
-                  <p class="card-text mr-5">Total: <span id="total_penalty"
-                      class="font-weight-bold text-uppercase text-monospace text-right text-info h5"></span>
-                  </p>
-                </div>
-              </div>
-              <!-- Fin de contenedor de los Items Penalizaciones -->
-              <!-- Inicio de contenedor de los Items Ingresos -->
-              <div id="content_income" class="card mb-2 d-none">
-                <div id="title_income" class="card-header text-muted text-center p-0"></div>
-                <div id="content_income_body" class="card-body pb-1 pt-1">
-
-                </div>
-                <div class="card-footer text-muted text-right p-0">
-                  <p class="card-text mr-5">Total: <span id="total_income"
-                      class="font-weight-bold text-uppercase text-monospace text-right text-info h5"></span>
-                  </p>
-                </div>
-              </div>
-              <!-- Fin de contenedor de los Items Ingresos -->
-            </div>
-            <div class="col-sm-4 p-0 mt-0 d-block">
-              <div class="btn-group justify-content-center" role="group" aria-label="Botones de opciones">
-                <button id="b_gastos_f" type="button" class="btn btn-outline-info col-sm btnd"> Gastos
-                  Fijos </button>
-                <button id="b_gastos_v" type="button" class="btn btn-outline-info col-sm btnd"> Gastos
-                  Varios </button>
-                <button id="b_ingreso" type="button" class="btn btn-outline-info col-sm btnd"> Ingresos
-                </button>
-              </div>
-              <div class="btn-group justify-content-center" role="group" aria-label="Botones de opciones">
-                <button id="b_penal" type="button" class="btn btn-outline-info col-sm btnp">
-                  Penalizaciones </button>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary x" data-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary">Totalizar</button>
-              </div>
-            </div>
-
-          </div>
-          <!-- Fin de contenedor de los Items del Recibo de Cobro -->
-        </form>
-      </div>
-
     </div>
   </div>
 </div>
