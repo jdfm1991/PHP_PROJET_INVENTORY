@@ -7,7 +7,7 @@ require_once("productos_module.php");
 $products = new Products();
 $movements = new Movements();
 
-$id = (isset($_POST['id'])) ? $_POST['id'] : '';
+$id = (isset($_POST['id'])) ? $_POST['id'] : '68a3824a50b6e';
 $cate = (isset($_POST['cate'])) ? $_POST['cate'] : 0;
 $code = (isset($_POST['code'])) ? $_POST['code'] : 0;
 $name = (isset($_POST['name'])) ? $_POST['name'] : '';
@@ -77,7 +77,7 @@ switch ($_GET["op"]) {
     break;
   case 'get_list_products_by_name':
     $dato = array();
-    $data = $products->getDataListProductsByNameDB('%'.$name.'%');
+    $data = $products->getDataListProductsByNameDB('%' . $name . '%');
     foreach ($data as $row) {
       $sub_array = array();
       $sub_array['id'] = $row['p_id'];
@@ -101,6 +101,19 @@ switch ($_GET["op"]) {
       $dato['quan'] = $data['p_quantity'];
       $dato['aumontp'] = number_format($data['p_price_p'], 2);
       $dato['aumonts'] = number_format($data['p_price_s'], 2);
+    }
+    echo json_encode($dato, JSON_UNESCAPED_UNICODE);
+    break;
+  case 'get_data_product_movements':
+    $dato = array();
+    $data = $movements->getDataProductMovementsDB($id);
+    foreach ($data as $row) {
+      $sub_array = array();
+      $sub_array['id'] = $row['am_id'];
+      $sub_array['name'] = $row['am_name'];
+      $sub_array['move'] = $row['amt_name'];
+      $sub_array['quantity'] = number_format($row['ami_quantity'], 2);
+      $dato[] = $sub_array;
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;

@@ -38,19 +38,22 @@ $items = (isset($_POST['items'])) ? $_POST['items'] : [
 ];
 
 switch ($_GET["op"]) {
-  case 'new_account_movement':
+  case 'new_inventory_movement':
     $dato = array();
     if (empty($id)) {
       $id = uniqid();
-      $data = $inv->createDataAccountMovementDB($id, $cate, $date, $entity, $account, $name, $amount, $rate, $change);
+      $data = $inv->createDataInventoryMovementDB($id, $cate, $date, $entity, $account, $name, $amount, $rate, $change);
       if ($data) {
         foreach (json_decode($items, true) as $row) {
-          $dataitems = $inv->createDataAccountMovementItemsDB($id, $row['id'], $rate, $row['amount'], $row['quantity'], $row['total']);
+          $dataitems = $inv->createDataInventoryMovementItemsDB($id, $row['id'], $rate, $row['amount'], $row['quantity'], $row['total']);
           if ($cate == 4) {
             $products->subtractQuantityByProductDB($row['id'], $row['quantity']);
           };
           if ($cate == 3) {
             $products->addQuantityByProductDB($row['id'], $row['quantity']);
+          };
+          if ($cate == 5) {
+            $products->matchQuantityByProductDB($row['id'], $row['quantity']);
           };
         }
         $dato['status'] = true;
@@ -62,7 +65,7 @@ switch ($_GET["op"]) {
         $dato['message'] = "Error Al Crear El Gasto, Por Favor Intente Nuevamente \n";
       }
     } else {
-      $data = $inv->updateDataAccountMovementDB($id, $date, $name, $amount);
+      $data = $inv->updateDataInventoryMovementDB($id, $date, $name, $amount);
       if ($data) {
         $dato['status'] = true;
         $dato['error'] = '200';
@@ -75,25 +78,25 @@ switch ($_GET["op"]) {
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
-  case 'get_list_account_movements':
+  case 'get_list_inventory_movements':
     $dato = array();
     $data = $inv->getDataListAccountMovementsDB();
     foreach ($data as $row) {
       $sub_array = array();
       $sub_array['id'] = $row['am_id'];
-      $sub_array['cate'] = ($row['ac_id'] == 1) ? 'Ingreso' : 'Egreso';
+      $sub_array['cate'] = ($row['ac_id'] == 1) ? 'INGRESOS' : 'EGRESOS';
       $sub_array['date'] = $row['am_date'];
-      $sub_array['account'] = $row['a_name'];
-      $sub_array['entity'] = is_null($row['client']) ? $row['supplier'] : $row['client'];
+      $sub_array['account'] = is_null($row['account']) ? 'MOVIMIENTOS DE INVENTARIO' : $row['account'];
+      $sub_array['entity'] = (is_null($row['client']) ? $row['supplier'] : $row['client']) ? (is_null($row['supplier']) ? $row['client'] : $row['supplier']) : 'CONTROL INTERNO' ;
       $sub_array['movement'] = $row['am_name'];
       $sub_array['amount'] = number_format($row['am_amount'], 2);
       $dato[] = $sub_array;
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
-  case 'get_data_account_movement':
+  case 'get_data_inventory_movement':
     $dato = array();
-    $data = $inv->getDataAccountMovementDB($id);
+    $data = $inv->getDataInventoryMovementDB($id);
     foreach ($data as $data) {
       $dato['id'] = $data['am_id'];
       $dato['cate'] = $data['ac_id'];
@@ -106,9 +109,9 @@ switch ($_GET["op"]) {
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
 
-  case 'delete_account_movement':
+  case 'delete_inventory_movement':
     $dato = array();
-    $data = $inv->deleteDataAccountMovementDB($id);
+    $data = $inv->deleteDataInventoryMovementDB($id);
     if ($data) {
       $dato['status'] = true;
       $dato['error'] = '200';

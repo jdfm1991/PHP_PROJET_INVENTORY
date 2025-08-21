@@ -46,7 +46,7 @@ $(document).ready(function () {
         processing: "Procesando..."
       },
       ajax: {
-        url: "inventario_controller.php?op=get_list_account_movements",
+        url: "inventario_controller.php?op=get_list_inventory_movements",
         type: "GET",
         dataType: "json",
         dataSrc: "",
@@ -58,15 +58,10 @@ $(document).ready(function () {
         { data: "entity" },
         { data: "movement" },
         { data: "amount" },
-        {
-          data: "id", render: (data, _, __, meta) =>
-            `<button id="b_update" class="btn btn-outline-primary btn-sm d-none" data-value="${data}" title="Editar Movimento" disabled><i class="fa fa-edit"></i></button>
-            <button id="b_delete" class="btn btn-outline-danger btn-sm" data-value="${data}" title="Eliminar Movimento"><i class="bi bi-trash3"></i></button>`, className: "text-center"
-        }
       ]
     });
   }
-  /* Funcion Para Cargar El Contenido del Selectores del Modal "newAccountMovementModal" */
+  /* Funcion Para Cargar El Contenido del Selectores del Modal "newInventoryMovementModal" */
   $('#newmovement').click(function (e) {
     e.preventDefault();
     loadDataRateTypes();
@@ -77,6 +72,7 @@ $(document).ready(function () {
   /* Accion para cargar y visualizar el select de proveedores o clientes */
   $("#ac_id3").change(function () {
     $('#content_item2').empty();
+    items = []
   });
   /* Accion para contar los caracteres de la descripcion */
   $('#im_name').keyup(function (e) {
@@ -117,7 +113,7 @@ $(document).ready(function () {
       }
     });
   });
-  /* Funcion Para Cargar El Contenido del Selectores del Modal "newAccountMovementModal" */
+  /* Funcion Para Cargar El Contenido del Selectores del Modal "newInventoryMovementModal" */
   $('#b_add_p2').click(function (e) {
     e.preventDefault();
     id = $('#p_search2').val().split(' - ')[1];
@@ -154,7 +150,7 @@ $(document).ready(function () {
             <input name="pi_code" id="pi_code_${counter}" type="text" class="form-control col-md-2" value="${response.code}" disabled>
             <input name="pi_name" id="pi_name_${counter}" type="text" class="form-control col-md-2" value="${response.name}" disabled>
             <input name="pi_amount" id="pi_amount_${counter}" type="text" class="form-control col-md-1" value="${response.aumonts}" disabled>
-            <input name="pi_quantity" id="pi_quantity_${counter}" type="number" class="form-control col-md-1" step="0.1" max="${response.quan}">
+            <input name="pi_quantity" id="pi_quantity_${counter}" type="number" class="form-control col-md-1" step="0.1">
             <input name="pi_quant" id="pi_quant_${counter}" type="text" class="form-control col-md-1" value="${response.quan}" disabled>
             <input name="pi_balance" id="pi_balance_${counter}" type="text" class="form-control col-md-1" disabled>
             <input name="pi_total" id="pi_total_${counter}" type="text" class="form-control col-md-1" disabled>
@@ -225,15 +221,13 @@ $(document).ready(function () {
     dato.append('id', id);
     dato.append('cate', cate);
     dato.append('date', date);
-    dato.append('entity', entity);
-    dato.append('account', account);
     dato.append('name', name);
     dato.append('amount', amount);
     dato.append('rate', rate);
     dato.append('change', change);
     dato.append('items', JSON.stringify(infoitems));
     $.ajax({
-      url: 'inventario_controller.php?op=new_account_movement',
+      url: 'inventario_controller.php?op=new_inventory_movement',
       method: 'POST',
       dataType: "json",
       data: dato,
@@ -249,7 +243,7 @@ $(document).ready(function () {
           });
           $('#inventory_table').DataTable().ajax.reload();
           $('#formmovementinventory')[0].reset();
-          $('#newAccountMovementModal').modal('hide');
+          $('#newInventoryMovementModal').modal('hide');
           $('#content_item2').empty();
         } else {
           if (response.error === '400') {
@@ -277,7 +271,7 @@ $(document).ready(function () {
     e.preventDefault();
     var id = $(this).data('value');
     $.ajax({
-      url: 'inventario_controller.php?op=get_data_account_movement',
+      url: 'inventario_controller.php?op=get_data_inventory_movement',
       method: 'POST',
       dataType: 'json',
       data: { id: id },
@@ -292,7 +286,7 @@ $(document).ready(function () {
         $('#ac_id3').attr('disabled', true);
         $('#e_id').attr('disabled', true);
         $('#a_id2').attr('disabled', true);
-        $('#newAccountMovementModal').modal('show');
+        $('#newInventoryMovementModal').modal('show');
       }
     });
   })
@@ -310,7 +304,7 @@ $(document).ready(function () {
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-          url: 'inventario_controller.php?op=delete_account_movement',
+          url: 'inventario_controller.php?op=delete_inventory_movement',
           method: 'POST',
           dataType: 'json',
           data: { id: id },

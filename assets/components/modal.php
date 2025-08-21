@@ -114,7 +114,7 @@ Modal Listado de Modulos
       </div>
 
       <div class="modal-body" id="list_modal_body">
-        <!-- Conteni SE Carga A traves de Ajax -->
+        <!-- Contenido se Carga A traves de Ajax -->
       </div>
     </div>
   </div>
@@ -615,7 +615,39 @@ Modal Nuevo Usuario
     </div>
   </div>
 </div>
+<!-- 
+************************************************
+Modal Listado de Modulos 
+************************************************
+-->
+<div class="modal fade" id="listProductMovementsModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="listProductMovementslabel">Lista Movimientos de Producto</h5>
+        <button type="button" class="close closemodal" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <table id="product_list_table" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+              <tr>
+                <th>Categoria</th>
+                <th>Codigo</th>
+                <th>Producto</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
 
+      </div>
+    </div>
+  </div>
+</div>
 
 
 

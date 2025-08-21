@@ -1,5 +1,6 @@
 $(document).ready(function () {
   const pc = document.getElementById('pc_id');
+  let list = [];
   /* Funcion para Cargar Select de los tipos de gastos departamentales */
   const loadDataSelectProductCategories = async (id) => {
     try {
@@ -72,7 +73,8 @@ $(document).ready(function () {
         { data: "aumonts" },
         {
           data: "id", render: (data, _, __, meta) =>
-            `<button id="b_update" class="btn btn-outline-primary btn-sm" data-value="${data}" data-toggle="tooltip" data-placement="top" title="Editar Cuenta"><i class="fa fa-edit"></i></button>
+            `<button id="b_additional" class="btn btn-outline-info btn-sm" data-value="${data}" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><i class="bi bi-info-circle"></i></button>
+            <button id="b_update" class="btn btn-outline-primary btn-sm" data-value="${data}" data-toggle="tooltip" data-placement="top" title="Editar Cuenta"><i class="fa fa-edit"></i></button>
             <button id="b_delete" class="btn btn-outline-danger btn-sm" data-value="${data}" data-toggle="tooltip" data-placement="top" title="Eliminar Cuenta"><i class="bi bi-trash3"></i></button>`, className: "text-center"
         }
       ]
@@ -162,7 +164,6 @@ $(document).ready(function () {
       }
     });
   });
-  
   /* Accion Para Editar Una Cuenta de Gasto Existente En La Lista de Cuentas de Gastos*/
   $(document).on('click', '#b_update', function (e) {
     e.preventDefault();
@@ -172,12 +173,12 @@ $(document).ready(function () {
       method: 'POST',
       dataType: 'json',
       data: { id: id },
-      success: function (response) {               
+      success: function (response) {
         loadDataSelectProductCategories(response.cate);
         $('#p_id').val(response.id);
-        $('#p_code').val(response.code);        
+        $('#p_code').val(response.code);
         $('#p_name').val(response.name);
-        $('#p_amount_p').val(response.aumontp);        
+        $('#p_amount_p').val(response.aumontp);
         $('#p_amount_s').val(response.aumonts);
         $('#pc_id').attr('disabled', true);
         $('#newProductModal').modal('show');
@@ -223,6 +224,30 @@ $(document).ready(function () {
         });
       }
     })
+  })
+  /* Accion Para Editar Una Cuenta de Gasto Existente En La Lista de Cuentas de Gastos*/
+  $(document).on('click', '#b_additional', function (e) {
+    e.preventDefault();
+    var id = $(this).data('value');
+    if (list) {
+      $('#product_list_table').DataTable().destroy();
+    }
+    list = $('#product_list_table').DataTable({
+      "responsive": true,
+      "ajax": {
+        "url": "productos_controller.php?op=get_data_product_movements",
+        "method": 'POST', //usamos el metodo POST
+        "dataSrc": "",
+        "data": { id: id },
+      },
+      "columns": [
+        { "data": "name" },
+        { "data": "move" },
+        { "data": "quantity" },
+      ],
+    });
+    $('#listProductMovementsModal').modal('show');
+
   })
   LoadDataTableProducts();
 });

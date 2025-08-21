@@ -16,26 +16,7 @@ $name = (isset($_POST['name'])) ? $_POST['name'] : '';
 $amount = (isset($_POST['amount'])) ? $_POST['amount'] : 0;
 $rate = (isset($_POST['rate'])) ? $_POST['rate'] : 0;
 $change = (isset($_POST['change'])) ? $_POST['change'] : 0;
-$items = (isset($_POST['items'])) ? $_POST['items'] : [
-  0 => [
-    'id' => 0,
-    'amount' => 0,
-    'quantity' => 0,
-    'total' => 0
-  ],
-  1 => [
-    'id' => 0,
-    'amount' => 0,
-    'quantity' => 0,
-    'total' => 0
-  ],
-  2 => [
-    'id' => 0,
-    'amount' => 0,
-    'quantity' => 0,
-    'total' => 0
-  ]
-];
+$items = (isset($_POST['items'])) ? $_POST['items'] : '[]';
 
 switch ($_GET["op"]) {
   case 'new_account_movement':
@@ -55,24 +36,13 @@ switch ($_GET["op"]) {
         }
         $dato['status'] = true;
         $dato['error'] = '200';
-        $dato['message'] = "El Gasto Fue Creada Satisfactoriamente \n";
+        $dato['message'] = "El Movimiento Fue Creado Satisfactoriamente \n";
       } else {
         $dato['status'] = false;
         $dato['error'] = '500';
-        $dato['message'] = "Error Al Crear El Gasto, Por Favor Intente Nuevamente \n";
+        $dato['message'] = "Error Al Crear El Movimiento, Por Favor Intente Nuevamente \n";
       }
-    } else {
-      $data = $mov->updateDataAccountMovementDB($id, $date, $name, $amount);
-      if ($data) {
-        $dato['status'] = true;
-        $dato['error'] = '200';
-        $dato['message'] = "El Gasto Fue Actiualizado Satisfactoriamente \n";
-      } else {
-        $dato['status'] = false;
-        $dato['error'] = '500';
-        $dato['message'] = "Error Al Actualizar el Gasto, Por Favor Intente Nuevamente \n";
-      }
-    }
+    } 
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
   case 'get_list_account_movements':
@@ -87,6 +57,8 @@ switch ($_GET["op"]) {
       $sub_array['entity'] = is_null($row['client']) ? $row['supplier'] : $row['client'];
       $sub_array['movement'] = $row['am_name'];
       $sub_array['amount'] = number_format($row['am_amount'], 2);
+      $sub_array['account'] = $row['ac_id'];
+      $sub_array['status'] = $row['am_status'];
       $dato[] = $sub_array;
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
@@ -109,14 +81,33 @@ switch ($_GET["op"]) {
   case 'delete_account_movement':
     $dato = array();
     $data = $mov->deleteDataAccountMovementDB($id);
+    $movement = $mov->getDataAccountMovementDB($id);
+    $items = $mov->getDataAccountMovementItemsByMovementDB($id);
+
+    $nid = uniqid();
+    $date = date('Y-m-d');
+    $cate = ($movement[0]['ac_id'] == 1) ? 6 : 7;
     if ($data) {
-      $dato['status'] = true;
-      $dato['error'] = '200';
-      $dato['message'] = "La Cuenta Fue Eliminado Satisfactoriamente \n";
+      $ope = $mov->createDataAccountMovementDB($nid, $cate, $date, $movement[0]['e_id'], $movement[0]['a_id'], 'DEV. ' . $movement[0]['am_name'], $movement[0]['am_amount'], $movement[0]['am_rate'], $movement[0]['am_change']);
+      if ($ope) {
+        foreach ($items as $row) {
+          $dataitems = $mov->createDataAccountMovementItemsDB($nid, $row['ami_product'], $row['ami_rate'], $row['ami_amount'], $row['ami_quantity'], $row['ami_total']);
+          if ($dataitems) {
+            $products->addQuantityByProductDB($row['ami_product'], $row['ami_quantity']);
+          }
+        }
+        $dato['status'] = true;
+        $dato['error'] = '200';
+        $dato['message'] = "El Movimiento Fue Eliminado Satisfactoriamente \n";
+      } else {
+        $dato['status'] = false;
+        $dato['error'] = '500';
+        $dato['message'] = "Error Regresando El Movimiento de la Cuenta, Por Favor Intente Nuevamente \n";
+      }
     } else {
       $dato['status'] = false;
       $dato['error'] = '500';
-      $dato['message'] = "Error Al Elminar La Cuenta, Por Favor Intente Nuevamente \n";
+      $dato['message'] = "Error Al Eliminar La Cuenta, Por Favor Intente Nuevamente \n";
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;

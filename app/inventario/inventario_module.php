@@ -3,7 +3,7 @@ require_once("../../config/conexion.php");
 
 class Inventory extends Conectar
 {
-  public function createDataAccountMovementDB($id, $cate, $date, $entity, $account, $name, $amount, $rate, $change)
+  public function createDataInventoryMovementDB($id, $cate, $date, $entity, $account, $name, $amount, $rate, $change)
   {
     $conectar = parent::conexion();
     parent::set_names();
@@ -11,7 +11,7 @@ class Inventory extends Conectar
     $stmt->execute(['id' => $id, 'cate' => $cate, 'account' => $account, 'entity' => $entity, 'date' => $date, 'name' => $name, 'amount' => $amount, 'dater' => date('Y-m-d'), 'rate' => $rate, 'change' => $change]);
     return $stmt->rowCount();
   }
-  public function createDataAccountMovementItemsDB($movement, $product, $rate, $amount, $quantity, $total)
+  public function createDataInventoryMovementItemsDB($movement, $product, $rate, $amount, $quantity, $total)
   {
     $conectar = parent::conexion();
     parent::set_names();
@@ -24,18 +24,18 @@ class Inventory extends Conectar
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->prepare("SELECT A.am_id, A.ac_id, B.a_name, 
+    $stmt = $conectar->prepare("SELECT A.am_id, A.ac_id, 
+                                (SELECT a_name FROM account_data_table WHERE a_id = A.a_id) AS account,
                                 (SELECT c_name FROM client_data_table WHERE c_id = A.e_id) AS client, 
                                 (SELECT s_name FROM supplier_data_table WHERE s_id = A.e_id) AS supplier, 
                                 A.am_date, A.am_name, A.am_amount 
                                   FROM account_movements_data_table AS A
-                                  INNER JOIN account_data_table AS B ON A.a_id = B.a_id
-                                WHERE A.am_status=1 ORDER BY A.am_datereg DESC, A.am_name ASC");
+                                WHERE A.am_status=1 ORDER BY A.am_datereg DESC, A.am_name ASC;");
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
   /* FUNCION PARA EJECUTAR CONSULTAS SQL PARA TRAER INFORMACION UNA UNIDAD DEPARTAMENTAL EXISTENTE EN LA BASE DE DATOS */
-  public function getDataAccountMovementDB($id)
+  public function getDataInventoryMovementDB($id)
   {
     $conectar = parent::conexion();
     parent::set_names();
@@ -44,7 +44,7 @@ class Inventory extends Conectar
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function updateDataAccountMovementDB($id, $date, $name, $amount)
+  public function updateDataInventoryMovementDB($id, $date, $name, $amount)
   {
     $conectar = parent::conexion();
     $stmt = $conectar->prepare("UPDATE account_movements_data_table SET am_date=:date, am_name=:name, am_amount=:amount WHERE am_id = :id");
@@ -52,7 +52,7 @@ class Inventory extends Conectar
     return $stmt->rowCount();
   }
 
-  public function deleteDataAccountMovementDB($id)
+  public function deleteDataInventoryMovementDB($id)
   {
     $conectar = parent::conexion();
     $stmt = $conectar->prepare("UPDATE account_movements_data_table SET am_status = :status WHERE am_id = :id");

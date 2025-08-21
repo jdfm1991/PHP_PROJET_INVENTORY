@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 19-08-2025 a las 19:32:13
+-- Tiempo de generación: 21-08-2025 a las 19:30:33
 -- Versión del servidor: 8.0.26
 -- Versión de PHP: 8.4.8
 
@@ -70,10 +70,8 @@ CREATE TABLE `account_movements_data_table` (
 --
 
 INSERT INTO `account_movements_data_table` (`am_id`, `ac_id`, `a_id`, `e_id`, `am_date`, `am_name`, `am_amount`, `am_rate`, `am_change`, `am_datereg`, `am_status`) VALUES
-('68a4cdf32adad', 2, '68a3322f2b656', '689fb088ea0e9', '2025-08-19', 'COMPRA DE  MERCANCIA', 5.0000, 136.8900, 684.4500, '2025-08-19', 1),
-('68a4cedc94fce', 2, '68a3322f2b656', '689fb088ea0e9', '2025-08-19', 'OTRA PUERBA', 4.5000, 136.8900, 616.0000, '2025-08-19', 1),
-('68a4cf96f2be1', 2, '68a3322f2b656', '689fb088ea0e9', '2025-08-19', 'COMPRA TOTAL', 217.5000, 136.8900, 29773.5700, '2025-08-19', 1),
-('68a4d02114e47', 1, '68a285e7a09a4', '68a3205f46ef5', '2025-08-19', 'VENTA TOTAL', 143.8200, 136.8900, 19687.5200, '2025-08-19', 1);
+('68a766f400363', 2, '68a331ed60853', '689fb088ea0e9', '2025-08-21', 'PRUEBA DE COMPRA DE COMIDA', 9.5000, 139.4000, 1324.3000, '2025-08-21', 0),
+('68a7724c106e7', 7, '68a331ed60853', '689fb088ea0e9', '2025-08-21', 'DEV. PRUEBA DE COMPRA DE COMIDA', 9.5000, 139.4000, 1324.3000, '2025-08-21', 1);
 
 -- --------------------------------------------------------
 
@@ -84,7 +82,7 @@ INSERT INTO `account_movements_data_table` (`am_id`, `ac_id`, `a_id`, `e_id`, `a
 CREATE TABLE `account_movement_items_data_table` (
   `ami_id` int NOT NULL,
   `ami_movement` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `ami_producto` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `ami_product` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `ami_rate` decimal(28,4) NOT NULL,
   `ami_amount` decimal(28,4) NOT NULL,
   `ami_quantity` decimal(28,4) NOT NULL,
@@ -95,17 +93,11 @@ CREATE TABLE `account_movement_items_data_table` (
 -- Volcado de datos para la tabla `account_movement_items_data_table`
 --
 
-INSERT INTO `account_movement_items_data_table` (`ami_id`, `ami_movement`, `ami_producto`, `ami_rate`, `ami_amount`, `ami_quantity`, `ami_total`) VALUES
-(1, '68a4cdf32adad', '68a3824a50b6e', 136.8900, 0.1000, 50.0000, 5.0000),
-(2, '68a4cedc94fce', '68a39606a2b78', 136.8900, 0.0900, 50.0000, 4.5000),
-(3, '68a4cf96f2be1', '68a3824a50b6e', 136.8900, 0.1000, 100.0000, 10.0000),
-(4, '68a4cf96f2be1', '68a3911971564', 136.8900, 0.5000, 50.0000, 25.0000),
-(5, '68a4cf96f2be1', '68a39606a2b78', 136.8900, 0.0900, 250.0000, 22.5000),
-(6, '68a4cf96f2be1', '68a3963b2e948', 136.8900, 0.5000, 320.0000, 160.0000),
-(7, '68a4d02114e47', '68a3824a50b6e', 136.8900, 0.1400, 25.5000, 3.5700),
-(8, '68a4d02114e47', '68a3911971564', 136.8900, 0.6000, 80.3000, 48.1800),
-(9, '68a4d02114e47', '68a39606a2b78', 136.8900, 0.1000, 15.9000, 1.5900),
-(10, '68a4d02114e47', '68a3963b2e948', 136.8900, 0.6000, 150.8000, 90.4800);
+INSERT INTO `account_movement_items_data_table` (`ami_id`, `ami_movement`, `ami_product`, `ami_rate`, `ami_amount`, `ami_quantity`, `ami_total`) VALUES
+(5, '68a766f400363', '68a39606a2b78', 139.4000, 0.0900, 50.0000, 4.5000),
+(6, '68a766f400363', '68a3824a50b6e', 139.4000, 0.1000, 50.0000, 5.0000),
+(9, '68a7724c106e7', '68a39606a2b78', 139.4000, 0.0900, 50.0000, 4.5000),
+(10, '68a7724c106e7', '68a3824a50b6e', 139.4000, 0.1000, 50.0000, 5.0000);
 
 -- --------------------------------------------------------
 
@@ -115,7 +107,7 @@ INSERT INTO `account_movement_items_data_table` (`ami_id`, `ami_movement`, `ami_
 
 CREATE TABLE `account_movement_types_data_table` (
   `amt_id` int NOT NULL,
-  `amt_name` varchar(10) NOT NULL
+  `amt_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
@@ -127,7 +119,9 @@ INSERT INTO `account_movement_types_data_table` (`amt_id`, `amt_name`) VALUES
 (2, 'COMPRAS'),
 (3, 'CARGOS'),
 (4, 'DESCARGOS'),
-(5, 'AJUSTES');
+(5, 'AJUSTES'),
+(6, 'DEV. VENTAS'),
+(7, 'DEV. COMPRAS');
 
 -- --------------------------------------------------------
 
@@ -193,7 +187,7 @@ CREATE TABLE `container_data_table` (
 INSERT INTO `container_data_table` (`cont_id`, `cont_name`, `cont_tag`, `cont_status`, `cont_order`) VALUES
 ('689e60a548f67', 'Gestion de Inventario', 'Inventario', 1, 2),
 ('689f9bde2eaf6', 'Gestion Administrativa', 'Administrativa', 1, 1),
-('68a23ffa7db3f', 'Gestion de Seguridad', 'Seguridad', 1, 3);
+('68a23ffa7db3f', 'Gestion de Sistema', 'Sistema', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -213,12 +207,13 @@ CREATE TABLE `container_model_data_table` (
 
 INSERT INTO `container_model_data_table` (`id`, `cont_id`, `m_id`) VALUES
 (3, '689f9bde2eaf6', '689f9ee1e210d'),
-(4, '689f9bde2eaf6', '689f9ef20af38'),
 (5, '689f9bde2eaf6', '68a23fc2c66f4'),
 (6, '68a23ffa7db3f', '68a240171a3a3'),
 (7, '689f9bde2eaf6', '68a24ad85bc28'),
 (8, '689f9bde2eaf6', '68a319ed13400'),
-(9, '689f9bde2eaf6', '68a37189e2633');
+(10, '68a23ffa7db3f', '689f9ef20af38'),
+(11, '689e60a548f67', '68a37189e2633'),
+(12, '689e60a548f67', '68a4f0a98d6d7');
 
 -- --------------------------------------------------------
 
@@ -245,7 +240,8 @@ INSERT INTO `module_data_table` (`m_id`, `m_name`, `m_namelist`, `m_status`, `m_
 ('68a240171a3a3', 'usuario', 'Gestion de Usuario', 1, 0),
 ('68a24ad85bc28', 'cuentas', 'Gestion de Cuentas', 1, 0),
 ('68a319ed13400', 'registros', 'Movimiento de Capital', 1, 0),
-('68a37189e2633', 'productos', 'Gestion de Productos', 1, 0);
+('68a37189e2633', 'productos', 'Gestion de Productos', 1, 0),
+('68a4f0a98d6d7', 'inventario', 'Movimiento de Inventario', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -288,10 +284,10 @@ CREATE TABLE `product_data_table` (
 --
 
 INSERT INTO `product_data_table` (`p_id`, `pc_id`, `p_code`, `p_name`, `p_price_p`, `p_price_s`, `p_quantity`, `p_status`) VALUES
-('68a3824a50b6e', 1, 'MF-01', 'HIERRO', 0.1000, 0.1400, 74.5, 1),
-('68a3911971564', 1, 'MF-02', 'ALUMINIO', 0.5000, 0.6000, -30.3, 1),
-('68a39606a2b78', 1, 'MF-03', 'COBRE', 0.0900, 0.1000, 284.1, 1),
-('68a3963b2e948', 2, 'MnF-01', 'BATERIA', 0.5000, 0.6000, 169.2, 1);
+('68a3824a50b6e', 1, 'MF-01', 'HIERRO', 0.1000, 0.1400, 350, 1),
+('68a3911971564', 1, 'MF-02', 'ALUMINIO', 0.5000, 0.6000, 100, 1),
+('68a39606a2b78', 1, 'MF-03', 'COBRE', 0.0900, 0.1000, 450, 1),
+('68a3963b2e948', 2, 'MnF-01', 'BATERIA', 0.5000, 0.6000, 370, 1);
 
 -- --------------------------------------------------------
 
@@ -313,7 +309,9 @@ CREATE TABLE `rate_data_table` (
 
 INSERT INTO `rate_data_table` (`r_id`, `r_date`, `r_exchange_d`, `r_exchange_e`, `r_exchange_p`) VALUES
 (1, '2025-08-19', 136.8931, 160.2827, NULL),
-(2, '2025-08-18', 136.8900, 160.2800, NULL);
+(2, '2025-08-18', 136.8900, 160.2800, NULL),
+(3, '2025-08-20', 138.1238, NULL, NULL),
+(4, '2025-08-21', 139.4016, 162.5325, NULL);
 
 -- --------------------------------------------------------
 
@@ -566,7 +564,7 @@ ALTER TABLE `account_movement_items_data_table`
 -- AUTO_INCREMENT de la tabla `account_movement_types_data_table`
 --
 ALTER TABLE `account_movement_types_data_table`
-  MODIFY `amt_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `amt_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `account_types_data_table`
@@ -578,7 +576,7 @@ ALTER TABLE `account_types_data_table`
 -- AUTO_INCREMENT de la tabla `container_model_data_table`
 --
 ALTER TABLE `container_model_data_table`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `product_category_data_table`
@@ -590,7 +588,7 @@ ALTER TABLE `product_category_data_table`
 -- AUTO_INCREMENT de la tabla `rate_data_table`
 --
 ALTER TABLE `rate_data_table`
-  MODIFY `r_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `r_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `rate_types_data_table`

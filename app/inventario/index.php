@@ -40,7 +40,6 @@ require_once(PATH_APP . "/head.php");
                       <th>Sujeto o Entidad</th>
                       <th>Concepto</th>
                       <th>Monto</th>
-                      <th>Accion</th>
                     </tr>
                   </thead>
                   <tbody>

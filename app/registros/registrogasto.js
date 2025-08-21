@@ -133,9 +133,9 @@ $(document).ready(function () {
         { data: "movement" },
         { data: "amount" },
         {
-          data: "id", render: (data, _, __, meta) =>
-            `<button id="b_update" class="btn btn-outline-primary btn-sm d-none" data-value="${data}" title="Editar Movimento" disabled><i class="fa fa-edit"></i></button>
-            <button id="b_delete" class="btn btn-outline-danger btn-sm" data-value="${data}" title="Eliminar Movimento"><i class="bi bi-trash3"></i></button>`, className: "text-center"
+          data: null, render: (data, type, row, meta) =>
+            (data.account == 1 || data.account == 2 ) && data.status == 1 ? `<button id="b_view" class="btn btn-outline-primary btn-sm" data-value="${data.id}" title="Ver Movimento"><i class="fa fa-eye"></i></button>
+            <button id="b_delete" class="btn btn-outline-danger btn-sm" data-value="${data}" title="Eliminar Movimento"><i class="bi bi-trash3"></i></button>` : `<button id="b_view" class="btn btn-outline-primary btn-sm" data-value="${data.id}" title="Ver Movimento"><i class="fa fa-eye"></i></button>`
         }
       ]
     });
@@ -340,7 +340,7 @@ $(document).ready(function () {
     });
   });
   /* Accion Para Editar el Gasto Existente En La Lista de Gastos*/
-  $(document).on('click', '#b_update', function (e) {
+  $(document).on('click', '#b_view', function (e) {
     e.preventDefault();
     var id = $(this).data('value');
     $.ajax({
@@ -349,24 +349,7 @@ $(document).ready(function () {
       dataType: 'json',
       data: { id: id },
       success: function (response) {
-        if (response.cate == 1) {
-          loadDataSelectSupliers(response.entity);
-        };
-        if (response.cate == 2) {
-          loadDataSelectClients(response.entity);
-        };
-        loadDataSelectAccounts(response.account, response.cate);
-        $('.modal-title').text('Editar Movemento de Cuenta');
-        $('#am_id').val(response.id);
-        $('#ac_id2').val(response.cate);
-        $('#e_id').val(response.entity);
-        $('#am_name').val(response.movement);
-        $('#am_date').val(response.date);
-        $('#am_amount').val(response.amount);
-        $('#ac_id2').attr('disabled', true);
-        $('#e_id').attr('disabled', true);
-        $('#a_id2').attr('disabled', true);
-        $('#newAccountMovementModal').modal('show');
+        alert('Se generara el reporte PDF');
       }
     });
   })
@@ -374,6 +357,8 @@ $(document).ready(function () {
   $(document).on('click', '#b_delete', function (e) {
     e.preventDefault();
     var id = $(this).data('value');
+    console.log(id);
+    
     Swal.fire({
       title: 'Estas seguro de eliminar el gasto?',
       icon: 'warning',

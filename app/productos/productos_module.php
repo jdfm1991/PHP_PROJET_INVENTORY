@@ -96,4 +96,12 @@ class Products extends Conectar
     return $stmt->rowCount();
   }
 
+  public function matchQuantityByProductDB($id, $quantity)
+  {
+    $conectar = parent::conexion();
+    $stmt = $conectar->prepare("UPDATE product_data_table SET p_quantity = :quantity WHERE p_id = :id");
+    $stmt->execute(['quantity' => $quantity, 'id' => $id]);
+    return $stmt->rowCount();
+  }
+
 }
