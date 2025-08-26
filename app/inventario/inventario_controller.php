@@ -16,66 +16,35 @@ $name = (isset($_POST['name'])) ? $_POST['name'] : '';
 $amount = (isset($_POST['amount'])) ? $_POST['amount'] : 0;
 $rate = (isset($_POST['rate'])) ? $_POST['rate'] : 0;
 $change = (isset($_POST['change'])) ? $_POST['change'] : 0;
-$items = (isset($_POST['items'])) ? $_POST['items'] : [
-  0 => [
-    'id' => 0,
-    'amount' => 0,
-    'quantity' => 0,
-    'total' => 0
-  ],
-  1 => [
-    'id' => 0,
-    'amount' => 0,
-    'quantity' => 0,
-    'total' => 0
-  ],
-  2 => [
-    'id' => 0,
-    'amount' => 0,
-    'quantity' => 0,
-    'total' => 0
-  ]
-];
+$items = (isset($_POST['items'])) ? $_POST['items'] : [];
 
 switch ($_GET["op"]) {
   case 'new_inventory_movement':
     $dato = array();
-    if (empty($id)) {
-      $id = uniqid();
-      $data = $inv->createDataInventoryMovementDB($id, $cate, $date, $entity, $account, $name, $amount, $rate, $change);
-      if ($data) {
-        foreach (json_decode($items, true) as $row) {
-          $dataitems = $inv->createDataInventoryMovementItemsDB($id, $row['id'], $rate, $row['amount'], $row['quantity'], $row['total']);
-          if ($cate == 4) {
-            $products->subtractQuantityByProductDB($row['id'], $row['quantity']);
-          };
-          if ($cate == 3) {
-            $products->addQuantityByProductDB($row['id'], $row['quantity']);
-          };
-          if ($cate == 5) {
-            $products->matchQuantityByProductDB($row['id'], $row['quantity']);
-          };
-        }
-        $dato['status'] = true;
-        $dato['error'] = '200';
-        $dato['message'] = "El Gasto Fue Creada Satisfactoriamente \n";
-      } else {
-        $dato['status'] = false;
-        $dato['error'] = '500';
-        $dato['message'] = "Error Al Crear El Gasto, Por Favor Intente Nuevamente \n";
+    $id = uniqid();
+    $data = $inv->createDataInventoryMovementDB($id, $cate, $date, $entity, $account, $name, $amount, $rate, $change);
+    if ($data) {
+      foreach (json_decode($items, true) as $row) {
+        $dataitems = $inv->createDataAccountMovementItemsDB($id, $row['id'], $rate, $row['amount'], $row['quantity'], $row['total']);
+        if ($cate == 4) {
+          $products->subtractQuantityByProductDB($row['id'], $row['quantity']);
+        };
+        if ($cate == 3) {
+          $products->addQuantityByProductDB($row['id'], $row['quantity']);
+        };
+        if ($cate == 5) {
+          $products->matchQuantityByProductDB($row['id'], $row['quantity']);
+        };
       }
+      $dato['status'] = true;
+      $dato['error'] = '200';
+      $dato['message'] = "El Gasto Fue Creada Satisfactoriamente \n";
     } else {
-      $data = $inv->updateDataInventoryMovementDB($id, $date, $name, $amount);
-      if ($data) {
-        $dato['status'] = true;
-        $dato['error'] = '200';
-        $dato['message'] = "El Gasto Fue Actiualizado Satisfactoriamente \n";
-      } else {
-        $dato['status'] = false;
-        $dato['error'] = '500';
-        $dato['message'] = "Error Al Actualizar el Gasto, Por Favor Intente Nuevamente \n";
-      }
+      $dato['status'] = false;
+      $dato['error'] = '500';
+      $dato['message'] = "Error Al Crear El Gasto, Por Favor Intente Nuevamente \n";
     }
+
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
   case 'get_list_inventory_movements':
@@ -84,10 +53,10 @@ switch ($_GET["op"]) {
     foreach ($data as $row) {
       $sub_array = array();
       $sub_array['id'] = $row['am_id'];
-      $sub_array['cate'] = ($row['ac_id'] == 1) ? 'INGRESOS' : 'EGRESOS';
+      $sub_array['cate'] = $row['amt_name'];
       $sub_array['date'] = $row['am_date'];
       $sub_array['account'] = is_null($row['account']) ? 'MOVIMIENTOS DE INVENTARIO' : $row['account'];
-      $sub_array['entity'] = (is_null($row['client']) ? $row['supplier'] : $row['client']) ? (is_null($row['supplier']) ? $row['client'] : $row['supplier']) : 'CONTROL INTERNO' ;
+      $sub_array['entity'] = (is_null($row['client']) ? $row['supplier'] : $row['client']) ? (is_null($row['supplier']) ? $row['client'] : $row['supplier']) : 'CONTROL INTERNO';
       $sub_array['movement'] = $row['am_name'];
       $sub_array['amount'] = number_format($row['am_amount'], 2);
       $dato[] = $sub_array;

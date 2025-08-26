@@ -16,7 +16,7 @@ $name = (isset($_POST['name'])) ? $_POST['name'] : '';
 $amount = (isset($_POST['amount'])) ? $_POST['amount'] : 0;
 $rate = (isset($_POST['rate'])) ? $_POST['rate'] : 0;
 $change = (isset($_POST['change'])) ? $_POST['change'] : 0;
-$items = (isset($_POST['items'])) ? $_POST['items'] : '[]';
+$items = (isset($_POST['items'])) ? $_POST['items'] : [];
 
 switch ($_GET["op"]) {
   case 'new_account_movement':
@@ -51,13 +51,13 @@ switch ($_GET["op"]) {
     foreach ($data as $row) {
       $sub_array = array();
       $sub_array['id'] = $row['am_id'];
-      $sub_array['cate'] = ($row['ac_id'] == 1) ? 'Ingreso' : 'Egreso';
+      $sub_array['cate'] = $row['amt_name'];
       $sub_array['date'] = $row['am_date'];
+      $sub_array['a_id'] = $row['ac_id'];
       $sub_array['account'] = $row['a_name'];
       $sub_array['entity'] = is_null($row['client']) ? $row['supplier'] : $row['client'];
       $sub_array['movement'] = $row['am_name'];
       $sub_array['amount'] = number_format($row['am_amount'], 2);
-      $sub_array['account'] = $row['ac_id'];
       $sub_array['status'] = $row['am_status'];
       $dato[] = $sub_array;
     }

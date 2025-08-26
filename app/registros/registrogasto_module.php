@@ -24,12 +24,13 @@ class Movements extends Conectar
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->prepare("SELECT A.am_id, A.ac_id, B.a_name, 
+    $stmt = $conectar->prepare("SELECT A.am_id, A.ac_id, C.amt_name, B.a_name,
                                 (SELECT c_name FROM client_data_table WHERE c_id = A.e_id) AS client, 
                                 (SELECT s_name FROM supplier_data_table WHERE s_id = A.e_id) AS supplier, 
-                                A.am_date, A.am_name, A.am_amount, am_status
+                                A.am_date, A.am_name, A.am_amount 
                                   FROM account_movements_data_table AS A
-                                  INNER JOIN account_data_table AS B ON A.a_id = B.a_id
+                                  INNER JOIN account_data_table AS B ON A.a_id=B.a_id
+                                  INNER JOIN account_movement_types_data_table AS C ON A.ac_id=C.amt_id
                                 ORDER BY A.am_datereg DESC, A.am_name ASC");
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -168,9 +168,6 @@ $(document).ready(function () {
               quantity = $(element).val();
               price = $(`#pi_amount_${i}`).val();
               quant = $(`#pi_quant_${i}`).val();
-              console.log(quant);
-
-
               if (ac_id.value == 3) {
                 balance = Number.parseFloat(quant) + Number.parseFloat(quantity);
                 total = Number.parseFloat(quantity) * Number.parseFloat(price);

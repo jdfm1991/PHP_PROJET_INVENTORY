@@ -134,7 +134,7 @@ $(document).ready(function () {
         { data: "amount" },
         {
           data: null, render: (data, type, row, meta) =>
-            (data.account == 1 || data.account == 2 ) && data.status == 1 ? `<button id="b_view" class="btn btn-outline-primary btn-sm" data-value="${data.id}" title="Ver Movimento"><i class="fa fa-eye"></i></button>
+            (data.a_id == 1 || data.a_id == 2 ) && data.status == 1 ? `<button id="b_view" class="btn btn-outline-primary btn-sm" data-value="${data.id}" title="Ver Movimento"><i class="fa fa-eye"></i></button>
             <button id="b_delete" class="btn btn-outline-danger btn-sm" data-value="${data}" title="Eliminar Movimento"><i class="bi bi-trash3"></i></button>` : `<button id="b_view" class="btn btn-outline-primary btn-sm" data-value="${data.id}" title="Ver Movimento"><i class="fa fa-eye"></i></button>`
         }
       ]

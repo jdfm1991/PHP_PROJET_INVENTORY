@@ -454,8 +454,8 @@ Modal Nuevo Usuario
               <label for="ac_id2" class="form-label">Categorias</label>
               <select class="form-control" id="ac_id2" required>
                 <option value="">Tipo</option>
-                <option value="1">INGRESOS</option>
-                <option value="2">EGRESOS</option>
+                <option value="1">VENTAS</option>
+                <option value="2">COMPRAS</option>
               </select>
             </div>
             <div class="form-group col-md-4">
