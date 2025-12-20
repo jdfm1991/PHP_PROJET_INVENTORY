@@ -1,5 +1,6 @@
 const URI = 'http://localhost/inventariogastos/app/';
 const URL_ASSETS = 'http://localhost/inventariogastos/assets/';
+const URI_SETTING = 'http://localhost/inventariogastos/config/';
 
 const loadSidebarMenu = async () => {
   const response = await fetch(URI + 'manager/man_controller.php?op=list_modules_by_depart');
@@ -94,6 +95,7 @@ $(document).ready(function () {
             timer: 1500
           });
           $('#loginModal').modal('hide');
+          window.location.reload();
           loadSidebarMenu();
           localStorage.setItem('login', response.id);
         } else {
@@ -107,6 +109,21 @@ $(document).ready(function () {
       }
     })
 
+  });
+
+  //************************************************/
+  //***********Evento para cerrar sesion************/
+  //************************************************/
+  $(document).on("click", "#btnLogout", function () {
+    Swal.fire({
+      title: "¿Está seguro Cerrar Sesion?",
+      showCancelButton: true,
+      confirmButtonText: "Si",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $(location).attr("href", URI_SETTING + "logout.php");
+      }
+    });
   });
 
   loadSidebarMenu();

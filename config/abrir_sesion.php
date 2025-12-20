@@ -1,3 +1,3 @@
 <?php
-session_name('PROJECT_BASE');
+session_name('PROJECT_INVENTARY');
 session_start();

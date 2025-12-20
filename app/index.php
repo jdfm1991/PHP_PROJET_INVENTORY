@@ -17,12 +17,8 @@ require_once("head.php");
         <?php
         require_once("navbar.php");
         ?>
-
-
-
         <!-- Begin Page Content -->
         <div class="container-fluid">
-
           <!-- Page Heading 
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
@@ -32,7 +28,7 @@ require_once("head.php");
           -->
 
           <!-- Content Row -->
-          <div class="row">
+          <div class="row d-none">
 
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
@@ -120,7 +116,7 @@ require_once("head.php");
 
           <!-- Content Row -->
 
-          <div class="row">
+          <div class="row d-none">
 
             <!-- Area Chart -->
             <div class="col-xl-8 col-lg-7">
@@ -197,10 +193,10 @@ require_once("head.php");
           </div>
 
           <!-- Content Row -->
-          <div class="row">
+          <div class="row justify-content-center">
 
             <!-- Content Column -->
-            <div class="col-lg-6 mb-4">
+            <div class="col-lg-6 mb-4 d-none">
 
               <!-- Project Card Example -->
               <div class="card shadow mb-4">
@@ -311,29 +307,29 @@ require_once("head.php");
 
             </div>
 
-            <div class="col-lg-6 mb-4">
+            <div class="col-lg-auto mb-4">
 
               <!-- Illustrations -->
               <div class="card shadow mb-4">
-                <div class="card-header py-3">
+                <div class="card-header py-3 d-none">
                   <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
                 </div>
                 <div class="card-body">
                   <div class="text-center">
-                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                      src="<?php echo  URL_ASSETS; ?>/img/undraw_posting_photo.svg" alt="...">
+                    <img class="img-fluid px-3 px-sm-al-0 mt-3 mb-4" style="width: 25rem;"
+                      src="<?php echo  URL_ASSETS; ?>/img/logo.webp" alt="...">
                   </div>
-                  <p>Add some quality, svg illustrations to your project courtesy of <a
+                  <p class="d-none">Add some quality, svg illustrations to your project courtesy of <a
                       target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
                     constantly updated collection of beautiful svg images that you can use
                     completely free and without attribution!</p>
-                  <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
+                  <a class="d-none" target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
                     unDraw &rarr;</a>
                 </div>
               </div>
 
               <!-- Approach -->
-              <div class="card shadow mb-4">
+              <div class="card shadow mb-4 d-none">
                 <div class="card-header py-3">
                   <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
                 </div>

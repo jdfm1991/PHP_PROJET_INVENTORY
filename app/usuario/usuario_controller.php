@@ -8,8 +8,8 @@ $usuario = new Usuario();
 $id = (isset($_POST['id'])) ? $_POST['id'] : '68a245a97e353';
 $name = (isset($_POST['name'])) ? $_POST['name'] : 'namo';
 $email = (isset($_POST['email'])) ? $_POST['email'] : 'mao';
-$login = (isset($_POST['login'])) ? $_POST['login'] : 'mano';
-$password = (isset($_POST['password'])) ? $_POST['password'] : '';
+$login = (isset($_POST['login'])) ? $_POST['login'] : 'jfranco';
+$password = (isset($_POST['password'])) ? $_POST['password'] : '20975144';
 $type = (isset($_POST['type'])) ? $_POST['type'] : 1;
 
 switch ($_GET["op"]) {
@@ -120,11 +120,13 @@ switch ($_GET["op"]) {
     $data = $usuario->getDataUserLogin($login);
     if (is_array($data) and count($data) > 0) {
       foreach ($data as $data) {
-        if (password_verify($password, $data['passworduser'])) {
+        if (password_verify($password, $data['u_pass'])) {
           //sesion
-          $_SESSION['id'] = $data['id'];
+          $_SESSION['id'] = $data['u_id'];
+          $_SESSION['name'] = $data['u_name'];
+          $_SESSION['level'] = $data['u_level'];
           //para js
-          $dato['id'] = $data['id'];
+          $dato['id'] = $data['u_id'];
           $dato['status']  = true;
           $dato['name'] = $data['nameuser'];
           $dato['message'] = 'Ingreso de Manera Exitosa, Sea Bienvenido!';
