@@ -13,82 +13,8 @@ $(document).ready(function () {
   let items = [];
   let counter = 0;
   /* Funcion para Cargar Select de los proveedores */
-  const loadDataSelectSupliers = async (id) => {
-    try {
-      const response = await fetch(URI + 'proveedores/proveedores_controller.php?op=get_list_suppliers');
-      const data = await response.json();
-      const container = document.getElementById('e_id');
-      container.innerHTML = '';
-      data.forEach((opt, idx) => {
-        const option = document.createElement('option');
-        if (id == opt.id) {
-          option.setAttribute('value', opt.id);
-          option.innerHTML = `${opt.name}`;
-          option.setAttribute('selected', 'selected');
-          container.appendChild(option);
-        } else {
-          option.setAttribute('value', opt.id);
-          option.innerHTML = `${opt.name}`;
-          container.appendChild(option);
-        }
-      })
-    } catch (error) {
-      console.log('Error', error);
-    }
-  }
-  /* Funcion para Cargar Select de los proveedores */
-  const loadDataSelectClients = async (id) => {
-    try {
-      const response = await fetch(URI + 'clientes/clientes_controller.php?op=get_list_clients');
-      const data = await response.json();
-      const container = document.getElementById('e_id');
-      container.innerHTML = '';
-      data.forEach((opt, idx) => {
-        const option = document.createElement('option');
-        if (id == opt.id) {
-          option.setAttribute('value', opt.id);
-          option.innerHTML = `${opt.name}`;
-          option.setAttribute('selected', 'selected');
-          container.appendChild(option);
-        } else {
-          option.setAttribute('value', opt.id);
-          option.innerHTML = `${opt.name}`;
-          container.appendChild(option);
-        }
-      })
-    } catch (error) {
-      console.log('Error', error);
-    }
-  }
-  /* Funcion para Cargar Select de las cuentas de gastos */
-  const loadDataSelectAccounts = async (id, ac_id) => {
-    try {
-      const response = await fetch(URI + 'cuentas/cuentagasto_controller.php?op=get_list_accounts_by_category&cate=' + ac_id, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      });
-      const data = await response.json();
-      const container = document.getElementById('a_id2');
-      container.innerHTML = '';
-      data.forEach((opt, idx) => {
-        const option = document.createElement('option');
-        if (id == opt.id) {
-          option.setAttribute('value', opt.id);
-          option.innerHTML = `${opt.name}`;
-          option.setAttribute('selected', 'selected');
-          container.appendChild(option);
-        } else {
-          option.setAttribute('value', opt.id);
-          option.innerHTML = `${opt.name}`;
-          container.appendChild(option);
-        }
-      })
-    } catch (error) {
-      console.log('Error', error);
-    }
-  }
+ 
+
   /* Funcion para listar todos los unidades departamentales existentes en la base de datos */
   const LoadDataTableAccountMovements = async () => {
     const table = $('#expense_table').DataTable({
@@ -143,32 +69,91 @@ $(document).ready(function () {
   /* Funcion Para Cargar El Contenido del Selectores del Modal "newAccountMovementModal" */
   $('#newExpense').click(function (e) {
     e.preventDefault();
-    $('#e_content').hide();
-    $('#a_content').hide();
     loadDataRateTypes();
-    $('.modal-title').text('Nuevo Movimiento de Cuenta');
+    loadDataSelectCompanies();
+    $('.modal-title').text('Registro de Nuevo Informacion');
+    $('#newRegisterModal').modal('show');
     $('#ac_id2').attr('disabled', false);
     $('#e_id').attr('disabled', false);
     $('#a_id2').attr('disabled', false);
     $('#formmovementaccount')[0].reset();
   });
-  /* Accion para cargar y visualizar el select de proveedores o clientes */
-  $("#ac_id2").change(function () {
-    if ($(this).val() == 1) {
-      loadDataSelectSupliers();
-    } else {
-      loadDataSelectClients();
+
+  $('#am_id_partner').keyup(function (e) {
+    e.preventDefault();
+    name = $(this).val();
+    $.ajax({
+      url: URI + 'sociocomercial/sociocomercial_controller.php?op=get_list_clients',
+      method: 'POST',
+      dataType: 'json',
+      data: { name: name },
+      success: function (response) {        
+        $("#listsocio").empty();
+        $.each(response, function (idx, opt) {
+          $("#listsocio").append(`<option value="${opt.dni}">`);
+        });
+      }
+    });
+  });
+
+  $('#am_partner').keyup(function (e) {
+    e.preventDefault();
+    name = $(this).val();
+    $.ajax({
+      url: URI + 'sociocomercial/sociocomercial_controller.php?op=get_list_clients',
+      method: 'POST',
+      dataType: 'json',
+      data: { name: name },
+      success: function (response) {        
+        $("#listsocios").empty();
+        $.each(response, function (idx, opt) {
+          $("#listsocios").append(`<option value="${opt.name}">`);
+        });
+      }
+    });
+  });
+
+  $('#am_id_partner').click(function (e) { 
+    e.preventDefault();
+    name = $('#am_partner').val();
+    if (name == '') {
+      return false;
     }
-    $('#e_content').show();
-    $('#a_content').hide();
-    $('#content_item').empty();
+    $.ajax({
+      url: URI + 'sociocomercial/sociocomercial_controller.php?op=get_list_clients',
+      method: 'POST',
+      dataType: 'json',
+      data: { name: name },
+      success: function (response) {        
+        $.each(response, function (idx, opt) {
+          $("#am_id_partner").val(opt.dni);
+          $("#am_partner").val(opt.name);
+        });
+      }
+    });
   });
-  /* Accion para cargar y visualizar el select de proveedores o clientes */
-  $("#e_id").change(function () {
-    var acid = ac_id.value;
-    loadDataSelectAccounts('', acid);
-    $('#a_content').show();
+
+  $('#am_partner').click(function (e) { 
+    e.preventDefault();
+    name = $('#am_id_partner').val();
+    if (name == '') {
+      return false;
+    }
+    $.ajax({
+      url: URI + 'sociocomercial/sociocomercial_controller.php?op=get_list_clients',
+      method: 'POST',
+      dataType: 'json',
+      data: { name: name },
+      success: function (response) {        
+        $.each(response, function (idx, opt) {
+          $("#am_id_partner").val(opt.dni);
+          $("#am_partner").val(opt.name);
+        });
+      }
+    });
   });
+
+  
   /* Accion para contar los caracteres de la descripcion */
   $('#am_name').keyup(function (e) {
     letters = $(this).val().length;
@@ -220,6 +205,7 @@ $(document).ready(function () {
       $('.toast').toast('show');
       return false;
     }
+
     $.ajax({
       url: URI + 'productos/productos_controller.php?op=get_data_product',
       method: 'POST',
@@ -439,6 +425,25 @@ $(document).ready(function () {
       $('#am_change').val(total.toFixed(2));
     }
   }
+
+  function loadDataSelectCompanies(id) {    
+    $.ajax({
+      url: URI + 'empresas/empresas_controller.php?op=get_list_companies',
+      method: 'POST',
+      dataType: 'json',
+      success: function (response) {        
+        $("#com_id").empty();
+        $("#com_id").append('<option value="">_-_Seleccione_-_</option>');
+        $.each(response, function (idx, opt) {
+          $("#com_id").append((opt.id == id) ?
+            '<option value="' + opt.id + '" selected>' + opt.name + "</option>" :
+            '<option value="' + opt.id + '">' + opt.name + "</option>"
+          );
+        });
+      }
+    });
+  }
+
 
   function loadDataRateTypes() {
     $.ajax({

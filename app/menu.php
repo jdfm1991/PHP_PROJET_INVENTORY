@@ -20,11 +20,11 @@
   <?php
   if (isset($_SESSION['name'])) { ?>
     <!-- Heading -->
-    <div class="sidebar-heading d-none">
+    <div class="sidebar-heading">
       Desarrollo de Sistema
     </div>
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item d-none">
+    <li class="nav-item">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#development"
         aria-expanded="true" aria-controls="collapseTwo">
         <i class="fas fa-fw fa-code"></i>

@@ -1,7 +1,7 @@
 <?php
 require_once("../../config/abrir_sesion.php");
 require_once("../../config/conexion.php");
-require_once(PATH_APP . "/registros/registrogasto_module.php");
+require_once(PATH_APP . "/compraventas/compraventas_module.php");
 require_once("productos_module.php");
 
 $products = new Products();
@@ -27,7 +27,7 @@ switch ($_GET["op"]) {
     echo json_encode($dato);
     break;
   case 'get_code_by_category':
-    $prefix = ($id == 1) ? 'MF' : 'MnF';
+    $prefix = strtoupper(substr($cate, 0, 4));
     $code = $products->getNewCodeProductByCategoryDB($id, $prefix);
     echo json_encode($code, JSON_UNESCAPED_UNICODE);
     break;

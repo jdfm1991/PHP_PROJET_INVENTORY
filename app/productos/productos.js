@@ -2,33 +2,7 @@ $(document).ready(function () {
   const pc = document.getElementById('pc_id');
   let list = [];
   /* Funcion para Cargar Select de los tipos de gastos departamentales */
-  const loadDataSelectProductCategories = async (id) => {
-    try {
-      const response = await fetch('productos_controller.php?op=get_product_categories');
-      const data = await response.json();
-      const container = document.getElementById('pc_id');
-      container.innerHTML = '';
-      const defaultOption = document.createElement('option');
-      defaultOption.setAttribute('value', '');
-      defaultOption.innerHTML = 'Categoria...';
-      container.appendChild(defaultOption);
-      data.forEach((opt, idx) => {
-        const option = document.createElement('option');
-        if (id == opt.id) {
-          option.setAttribute('value', opt.id);
-          option.innerHTML = `${opt.cate}`;
-          option.setAttribute('selected', 'selected');
-          container.appendChild(option);
-        } else {
-          option.setAttribute('value', opt.id);
-          option.innerHTML = `${opt.cate}`;
-          container.appendChild(option);
-        }
-      })
-    } catch (error) {
-      console.log('Error', error);
-    }
-  }
+
   /* Funcion para listar todos los unidades departamentales existentes en la base de datos */
   const LoadDataTableProducts = async () => {
     const table = $('#product_table').DataTable({
@@ -91,11 +65,12 @@ $(document).ready(function () {
   $('#pc_id').change(function (e) {
     e.preventDefault();
     var id = pc.value;
+    var text = pc.options[pc.selectedIndex].text;
     $.ajax({
       url: "productos_controller.php?op=get_code_by_category",
       method: 'POST',
       dataType: "json",
-      data: { id: id },
+      data: { id: id, cate: text },
       success: function (response) {
         $('#p_code').val(response);
       }
@@ -249,5 +224,29 @@ $(document).ready(function () {
     $('#listProductMovementsModal').modal('show');
 
   })
+
+  function loadDataSelectProductCategories(id) {
+    try {
+      $.ajax({
+        url: 'productos_controller.php?op=get_product_categories',
+        method: 'POST',
+        dataType: 'json',
+        success: function (response) {
+          $("#pc_id").empty();
+          $("#pc_id").append('<option value="">_-_Seleccione_-_</option>');
+          $.each(response, function (idx, opt) {
+            $("#pc_id").append((opt.id == id) ?
+              '<option value="' + opt.id + '" selected>' + opt.cate + "</option>" :
+              '<option value="' + opt.id + '">' + opt.cate + "</option>"
+            );
+          });
+        }
+      });
+
+    } catch (error) {
+      console.log('Error', error);
+    }
+
+  }
   LoadDataTableProducts();
 });

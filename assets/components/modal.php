@@ -10,7 +10,7 @@
       <strong class="mr-auto"></strong>
       <!-- <small>11 mins ago</small> -->
       <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
+        <span>&times;</span>
       </button>
     </div>
     <div class="toast-body">
@@ -29,7 +29,7 @@
       <div class="modal-header">
         <h5 class="modal-title" id="NewDepartModalLabel">Nuevo Contenedor</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+          <span>&times;</span>
         </button>
       </div>
       <div class="modal-body" id="modal_body">
@@ -61,7 +61,7 @@ Modal Nuevo Modulo
       <div class="modal-header">
         <h5 class="modal-title" id="assingModuleModalLabel">Nuevo Modulo</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+          <span>&times;</span>
         </button>
       </div>
       <div class="modal-body" id="modal_body">
@@ -96,7 +96,7 @@ Modal Listado de Modulos
       <div class="modal-header">
         <h5 class="modal-title" id="listModuleModalLabel">Lista de Modulo Existentes</h5>
         <button type="button" class="close closemodal" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+          <span>&times;</span>
         </button>
       </div>
       <div class="container-sm !justify !spacing">
@@ -131,7 +131,7 @@ Modal Para Asignacion de Modulo
       <div class="modal-header">
         <h5 class="modal-title" id="assingModuleModalLabel">Assingnacion de Modulo</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+          <span>&times;</span>
         </button>
       </div>
       <div class="modal-body" id="modal_body">
@@ -173,31 +173,38 @@ Modal Nuevo Cliente || Proveedor
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="newUserModalLabel">Nuevo Cliente</h5>
+        <h5 class="modal-title" id="newUserModalLabel">Informacion de Nuevo Socio</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+          <span>&times;</span>
         </button>
       </div>
       <div class="modal-body" id="modal_body">
         <form id="formclient">
           <div class="modal-body form-row">
             <input type="hidden" id="c_id">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-3">
+              <label for="validationCustom04">Tipo de Socio</label>
+              <select class="custom-select" id="c_type" required>
+                <!-- El Contenido  se carga a traves de Ajax Mediante Archivo js -->
+              </select>
+            </div>
+            <div class="form-group col-md-5">
               <label for="c_name" class="form-label">Nombre Completo</label>
               <input type="text" class="form-control" id="c_name" placeholder="Nombre y Apellido"
                 required>
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
               <label for="c_identity" class="form-label">N° Cedula</label>
               <input type="text" class="form-control" id="c_identity" placeholder="N° Cedula de Identidad"
                 maxlength="20">
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-3">
               <label for="c_phone" class="form-label">N° Telefonico Principal</label>
               <input type="text" class="form-control" id="c_phone" name="onlynumber"
                 placeholder="N° Telefonico" maxlength="11">
-              <small id="c_phoneHelp" class="form-text text-white">Escriba Codigo de Area Sin el Primer 0
-                + N° Telefonico</small>
+            </div>
+            <div class="form-floating col-md-9 mt-2">
+              <textarea class="form-control" placeholder="Por favor Ingrese la Direccion" id="c_address1"></textarea>
             </div>
           </div>
           <div class="modal-footer">
@@ -218,13 +225,13 @@ Modal Nuevo Cliente || Proveedor
 Modal Nueva Tasa de Cambio 
 ***********************************************
 -->
-<div class="modal fade" id="newRateModal" tabindex="-1" aria-labelledby="newRateModalLabel" aria-hidden="true">
+<div class="modal fade" id="newRateModal" tabindex="-1" aria-labelledby="newRateModalLabel">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="NewDepartModalLabel">Nueva Tasa de Cambio</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+          <span>&times;</span>
         </button>
       </div>
       <div class="modal-body " id="modal_body">
@@ -267,13 +274,13 @@ Modal Nueva Tasa de Cambio
 Modal Nuevo Usuario 
 ************************************************
 -->
-<div class="modal fade" id="newUserModal" tabindex="-1" aria-labelledby="newUserModalLabel" aria-hidden="true">
+<div class="modal fade" id="newUserModal" tabindex="-1" aria-labelledby="newUserModalLabel">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="newUserModalLabel">Nuevo Usuario</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+          <span>&times;</span>
         </button>
       </div>
       <div class="modal-body" id="modal_body">
@@ -325,13 +332,13 @@ Modal Nuevo Usuario
  Modal Nueva Cuenta
 ****************************************************************************
  -->
-<div class="modal fade" id="newAccountModal" tabindex="-1" aria-labelledby="newAccountModalLabel" aria-hidden="true">
+<div class="modal fade" id="newAccountModal" tabindex="-1" aria-labelledby="newAccountModalLabel">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Nueva Cuenta</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+          <span>&times;</span>
         </button>
       </div>
       <div class="modal-body ">
@@ -381,13 +388,13 @@ Modal Nuevo Usuario
  Modal Nuevo Producto
 ****************************************************************************
  -->
-<div class="modal fade" id="newProductModal" tabindex="-1" aria-labelledby="newProductModalLabel" aria-hidden="true">
+<div class="modal fade" id="newProductModal" tabindex="-1" aria-labelledby="newProductModalLabel">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Nuevo Producto</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+          <span>&times;</span>
         </button>
       </div>
       <div class="modal-body">
@@ -437,58 +444,66 @@ Modal Nuevo Usuario
  Modal Nueva Registro de detalle de Movimiento de Cuenta
 ****************************************************************************
  -->
-<div class="modal fade" id="newAccountMovementModal" tabindex="-1" aria-labelledby="newAccountMovementModalLabel" aria-hidden="true">
+<div class="modal fade" id="newRegisterModal" tabindex="-1" aria-labelledby="newRegisterModalLabel">
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Registro de Movimiento</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+          <span>&times;</span>
         </button>
       </div>
       <div class="modal-body ">
         <form id="formmovementaccount">
           <input type="hidden" id="am_id">
           <div class="form-row">
-            <div class="form-group col-md-4">
-              <label for="ac_id2" class="form-label">Categorias</label>
+            <div class="form-group col-md-3">
+              <label for="am_company" class="form-label">Empresa</label>
+              <select class="form-control" id="com_id" required>
+                <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectCompany" -->
+              </select>
+            </div>
+            <div class="form-group col-md-2">
+              <label for="am_category" class="form-label">Categorias</label>
               <select class="form-control" id="ac_id2" required>
                 <option value="">Tipo</option>
                 <option value="1">VENTAS</option>
                 <option value="2">COMPRAS</option>
               </select>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-2">
               <label for="am_date" class="form-label">Fec. del Mov.</label>
               <input type="date" class="form-control" id="am_date" max="<?php echo date('Y-m-d'); ?>"
                 value="<?php echo date('Y-m-d'); ?>" required>
             </div>
-            <div id="cont_opcion" class="form-group col-md-4">
+            <div id="cont_opcion" class="form-group col-md-2">
               <!-- Se carga a Traves de Archivo JS con function "loadDataRateTypes" -->
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-2">
+              <label for="am_rate">Tasa de Cambio</label>
+              <input type="text" class="form-control" id="am_rate" name="onlynumber" required disabled>
+            </div>
+            <div class="form-group col-md-2">
+              <label for="am_id_partner" class="form-label">Identificacion</label>
+              <input type="search" id="am_id_partner" class="form-control d-inline" list="listsocio" placeholder="Identificacion">
+              <datalist id="listsocio">
+                <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectUnitLevel" -->
+              </datalist>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="am_partner" class="form-label">Proveedor o Cliente</label>
+              <input type="search" id="am_partner" class="form-control d-inline" list="listsocios" placeholder="Nombre del Proveedor o Cliente">
+              <datalist id="listsocios">
+                <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectUnitLevel" -->
+              </datalist>
+            </div>
+            <div class="form-group col-md-2">
               <label for="am_amount">Monto Total $</label>
               <input type="text" class="form-control" id="am_amount" name="onlynumber" required disabled>
             </div>
-            <div class="form-group col-md-4">
-              <label for="am_rate">tasa de cambio</label>
-              <input type="text" class="form-control" id="am_rate" name="onlynumber" required disabled>
-            </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-2">
               <label for="am_change">Cambio Bolivares</label>
               <input type="text" class="form-control" id="am_change" name="onlynumber" required disabled>
-            </div>
-            <div class="form-group col-md-5" id="e_content">
-              <label for="e_id" class="form-label">Sujeto</label>
-              <select class="form-control" id="e_id" size="3" required>
-                <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectUnitLevel" -->
-              </select>
-            </div>
-            <div class="form-group col-md-7" id="a_content">
-              <label for="a_id2" class="form-label">Cuenta</label>
-              <select class="form-control" id="a_id2" size="3" required>
-                <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectUnitLevel" -->
-              </select>
             </div>
             <div class="form-group col-md-8">
               <label for="am_name">Detalle</label>
@@ -534,13 +549,13 @@ Modal Nuevo Usuario
  Modal Nueva Registro de detalle de Movimiento de Inventario
 ****************************************************************************
  -->
-<div class="modal fade" id="newInventoryMovementModal" tabindex="-1" aria-labelledby="newInventoryMovementModalLabel" aria-hidden="true">
+<div class="modal fade" id="newInventoryMovementModal" tabindex="-1" aria-labelledby="newInventoryMovementModalLabel">
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Registro de Movimiento</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+          <span>&times;</span>
         </button>
       </div>
       <div class="modal-body ">
@@ -626,7 +641,7 @@ Modal Listado de Modulos
       <div class="modal-header">
         <h5 class="modal-title" id="listProductMovementslabel">Lista Movimientos de Producto</h5>
         <button type="button" class="close closemodal" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+          <span>&times;</span>
         </button>
       </div>
       <div class="modal-body">
@@ -663,13 +678,13 @@ Modal Listado de Modulos
 Modal para Iniciar Sesion 
 ***********************************************
 -->
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title"></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+          <span>&times;</span>
         </button>
       </div>
       <div class="modal-body">
@@ -709,6 +724,54 @@ Modal para Iniciar Sesion
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 
+***********************************************
+Modal Nuevo Empresa
+***********************************************
+-->
+<div class="modal fade" id="newEmpresaModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Informacion de Nueva Empresa</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="modal_body">
+        <form id="formEmpresa">
+          <div class="modal-body form-row">
+            <input type="hidden" id="c_id2">
+            <div class="form-group col-md-6">
+              <label for="c_name2" class="form-label">Nombre De Empresa</label>
+              <input type="text" class="form-control" id="c_name2" placeholder="Ingrese el Nombre de la Empresa"
+                required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="c_identity2" class="form-label">N° de Identificacion</label>
+              <input type="text" class="form-control" id="c_identity2" placeholder="N° de R.I.F de la Empresa"
+                maxlength="30">
+            </div>
+            <div class="form-group col-md-12">
+              <label for="c_address" class="form-label">Direccion Principal</label>
+              <textarea class="form-control" id="c_address" rows="2" maxlength="200"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-danger btn-light" data-bs-dismiss="modal"
+              aria-label="Close">Cancelar</button>
+            <button type="submit" class="btn btn-outline-primary btn-light">Guardar</button>
+          </div>
+          <div id="m_client_cont" class="alert alert-warning d-none" role="alert">
+            <p id="m_client_text" class="mb-0">Alert Description</p>
+          </div>
+        </form>
       </div>
     </div>
   </div>

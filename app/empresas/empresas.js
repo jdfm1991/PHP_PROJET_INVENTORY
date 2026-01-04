@@ -2,9 +2,15 @@ $(document).ready(function () {
   const removeHyphenFromString = (str) => {
     return str.replace(/-/g, "");
   }
+  /* Funcion para llamar a la carga de los select de niveles y alicuotas al crear una unidad departamental */
+  $('#newCompany').click(function (e) {
+    e.preventDefault();
+    $('.modal-title').text('Datos de Nueva Empresa');
+    $('#newEmpresaModal').modal('show');
+  });
   /* Arrow Function Que se Encarga de Cargar los Datos del Cliente en la Tabla */
-  const loadDataTableClients = async () => {
-    const table = $('#client_table').DataTable({
+  const loadDataTableCompanies = async () => {
+    const table = $('#company_table').DataTable({
       responsive: true,
       scrollX: true,
       autoWidth: true,
@@ -33,7 +39,7 @@ $(document).ready(function () {
         processing: "Procesando..."
       },
       ajax: {
-        url: "clientes_controller.php?op=get_list_clients",
+        url: "empresas_controller.php?op=get_list_companies",
         type: "GET",
         dataType: "json",
         dataSrc: "",
@@ -41,7 +47,7 @@ $(document).ready(function () {
       columns: [
         { data: "name" },
         { data: "dni" },
-        { data: "phone" },
+        { data: "address" },
         {
           data: "id", render: (data, _, __, meta) =>
             `<button id="b_update" class="btn btn-outline-primary btn-sm" data-value="${data}"><i class="fa fa-edit"></i></button>
@@ -55,32 +61,19 @@ $(document).ready(function () {
 
   }
   /* Accion para Guardar o Actualizar Informacion del Cliente en la Base de Datos */
-  $('#formclient').submit(function (e) {
+  $('#formEmpresa').submit(function (e) {
     e.preventDefault();
-    sfdni = removeHyphenFromString($('#c_identity').val()); // Numero de DNI Sin Formatear
-    fc = sfdni.charAt(0); // Primer Caracter del DNI
-    if (!fc.match(/[a-zA-Z]/)) { // Si el Primer Caracter del DNI no es una Letra Arroja Mensaje de Error
-      $('#m_client_cont').removeClass('d-none');
-      $('#m_client_text').addClass('text-danger font-weight-bold text-center');
-      $('#m_client_text').text('Primer Caracter debe ser una Letra del Alfabeto Indicando la Naturalidad del DNI (V E J G etc)');
-      setTimeout(() => {
-        $('#m_client_cont').addClass('d-none');
-      }, 2000);
-      return false;
-    }
-    nfdni = sfdni.charAt(0) + '-' + sfdni.substring(1); // Numero de DNI Formato Previo
-
-    id = $('#c_id').val();
-    name = $('#c_name').val();
-    dni = nfdni.toUpperCase(); // Numero de DNI Formateado
-    phone = $('#c_phone').val();
+    id = $('#c_id2').val();
+    name = $('#c_name2').val();
+    identity = $('#c_identity2').val();
+    address = $('#c_address').val();
     dato = new FormData();
     dato.append('id', id);
     dato.append('name', name);
-    dato.append('dni', dni);
-    dato.append('phone', phone);
+    dato.append('identity', identity);
+    dato.append('address', address);
     $.ajax({
-      url: 'clientes_controller.php?op=new_client',
+      url: 'empresas_controller.php?op=new_company',
       method: 'POST',
       dataType: "json",
       data: dato,
@@ -94,9 +87,9 @@ $(document).ready(function () {
             showConfirmButton: false,
             timer: 1500
           });
-          $('#client_table').DataTable().ajax.reload();
-          $('#formclient')[0].reset();
-          $('#newClientModal').modal('hide');
+          $('#company_table').DataTable().ajax.reload();
+          $('#formEmpresa')[0].reset();
+          $('#newEmpresaModal').modal('hide');
         } else {
           Swal.fire({
             icon: "error",
@@ -113,17 +106,17 @@ $(document).ready(function () {
   $(document).on('click', '#b_update', function () {
     var id = $(this).data('value');
     $.ajax({
-      url: 'clientes_controller.php?op=get_data_client',
+      url: 'empresas_controller.php?op=get_data_company',
       method: 'POST',
       dataType: 'json',
       data: { id: id },
       success: function (response) {
-        $('#c_id').val(response.id);
-        $('#c_name').val(response.name);
-        $('#c_identity').val(response.dni);
-        $('#c_phone').val(response.phone);
-        $('.modal-title').text('Editar Informacion del Cliente');
-        $('#newClientModal').modal('show');
+        $('#c_id2').val(response.id);
+        $('#c_name2').val(response.name);
+        $('#c_identity2').val(response.dni);
+        $('#c_address').val(response.address);
+        $('.modal-title').text('Editar Informacion de la Empresa');
+        $('#newEmpresaModal').modal('show');
       }
     });
   })
@@ -140,7 +133,7 @@ $(document).ready(function () {
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-          url: 'clientes_controller.php?op=delete_client',
+          url: 'empresas_controller.php?op=delete_company',
           method: 'POST',
           dataType: 'json',
           data: { id: id },
@@ -152,7 +145,7 @@ $(document).ready(function () {
                 showConfirmButton: false,
                 timer: 1500
               });
-              $('#client_table').DataTable().ajax.reload();
+              $('#company_table').DataTable().ajax.reload();
             } else {
               Swal.fire({
                 icon: "info",
@@ -167,5 +160,5 @@ $(document).ready(function () {
     })
 
   })
-  loadDataTableClients();
+  loadDataTableCompanies();
 });

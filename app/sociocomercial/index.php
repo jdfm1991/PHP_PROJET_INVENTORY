@@ -20,27 +20,24 @@ require_once(PATH_APP . "/head.php");
         <!-- Begin Page Content -->
         <div class="container-fluid">
           <!-- Page Heading -->
-          <h1 class="h3 mb-4 text-gray-800 text-center">Modulo De Movimiento de Capital <br> .::Creacion y Modificacion::.</h1>
+          <h1 class="h3 mb-4 text-gray-800 text-center">Modulo de Socios Comerciales <br> .::Creacion y Modificacion::.</h1>
           <div class="card mb-2">
             <div class="card-body">
               <div class="row list-group-item d-flex justify-content-end lh-sm align-items-center">
-                <button id="newExpense" type="button" class="btn btn-outline-success btn-group-sm" data-toggle="modal" data-target="#newAccountMovementModal"> Nuevo Movimiento </button>
+                <button type="button" id="newClient" class="btn btn-outline-success btn-group-sm" data-toggle="modal" data-target="#newClientModal"> Nuevo Socio </button>
               </div>
             </div>
           </div>
           <div class="card">
             <div class="card-body">
               <div id="module_body">
-                <table id="expense_table" class="table table-striped table-bordered" style="width:100%">
+                <table id="client_table" class="table table-striped table-bordered">
                   <thead>
                     <tr>
-                      <th>Categoria</th>
-                      <th>Fecha</th>
-                      <th>Cuenta</th>
-                      <th>Sujeto o Entidad</th>
-                      <th>Concepto</th>
-                      <th>Monto</th>
-                      <th>Accion</th>
+                      <th>Tipo</th>
+                      <th>Nombre</th>
+                      <th>N° Documento</th>
+                      <th>Telefono Pricipal</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -48,7 +45,6 @@ require_once(PATH_APP . "/head.php");
                 </table>
                 <!-- El Contenido  se carga a traves de Ajax -->
               </div>
-
             </div>
           </div>
         </div>
@@ -69,7 +65,7 @@ require_once(PATH_APP . "/head.php");
   <?php
   require_once(PATH_APP . "/plugins.php");
   ?>
-  <script src="registrogasto.js"></script>
+  <script src="sociocomercial.js"></script>
 </body>
 
 </html>

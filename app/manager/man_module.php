@@ -31,7 +31,7 @@ class Manager extends Conectar
     parent::set_names();
     $stmt = $conectar->prepare("SELECT A.id, A.cont_id, A.m_id, B.m_name, B.m_namelist 
                                   FROM container_model_data_table AS A INNER JOIN module_data_table AS B ON A.m_id = B.m_id
-                                  WHERE  A.cont_id = :id");
+                                  WHERE  A.cont_id = :id AND B.m_status = 1");
     $stmt->execute(['id' => $id]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
