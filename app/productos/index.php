@@ -37,8 +37,10 @@ require_once(PATH_APP . "/head.php");
                       <th>Categoria</th>
                       <th>Codigo</th>
                       <th>Producto</th>
+                      <th>Unidad</th>
                       <th>Precio Compra</th>
                       <th>Precio Venta</th>
+                      <th>Existencia</th>
                     </tr>
                   </thead>
                   <tbody>

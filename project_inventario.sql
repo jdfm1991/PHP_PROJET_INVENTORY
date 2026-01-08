@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 04-01-2026 a las 23:15:40
+-- Tiempo de generación: 08-01-2026 a las 22:41:13
 -- Versión del servidor: 8.0.19
 -- Versión de PHP: 8.3.24
 
@@ -207,6 +207,31 @@ INSERT INTO `container_model_data_table` (`id`, `cont_id`, `m_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `item_recipe_data_table`
+--
+
+CREATE TABLE `item_recipe_data_table` (
+  `ir_id` int NOT NULL,
+  `ir_recipe` varchar(20) NOT NULL,
+  `ir_product` varchar(20) NOT NULL,
+  `ir_name` varchar(100) NOT NULL,
+  `ir_amount` decimal(28,4) NOT NULL,
+  `ir_quantity` decimal(28,4) NOT NULL,
+  `ir_unit` varchar(10) NOT NULL,
+  `ir_total` decimal(28,4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `item_recipe_data_table`
+--
+
+INSERT INTO `item_recipe_data_table` (`ir_id`, `ir_recipe`, `ir_product`, `ir_name`, `ir_amount`, `ir_quantity`, `ir_unit`, `ir_total`) VALUES
+(5, '696023870dfed', '695af4845358e', 'POLLO', 1.0000, 1.5000, 'Lts', 2.0000),
+(6, '696023870dfed', '695af4626efe7', 'ARROZ', 2.0000, 0.9000, 'Kg', 1.8000);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `module_data_table`
 --
 
@@ -259,6 +284,7 @@ CREATE TABLE `product_data_table` (
   `pc_id` int NOT NULL DEFAULT '1',
   `p_code` varchar(10) NOT NULL,
   `p_name` varchar(150) NOT NULL,
+  `p_unit` int NOT NULL,
   `p_price_p` decimal(28,4) NOT NULL,
   `p_price_s` decimal(28,4) NOT NULL,
   `p_quantity` float NOT NULL DEFAULT '0',
@@ -269,9 +295,32 @@ CREATE TABLE `product_data_table` (
 -- Volcado de datos para la tabla `product_data_table`
 --
 
-INSERT INTO `product_data_table` (`p_id`, `pc_id`, `p_code`, `p_name`, `p_price_p`, `p_price_s`, `p_quantity`, `p_status`) VALUES
-('695af4626efe7', 1, 'PROD-01', 'ARROZ', 0.5000, 0.8000, 0, 1),
-('695af4845358e', 1, 'PROD-02', 'POLLO', 1.0000, 1.2000, 0, 1);
+INSERT INTO `product_data_table` (`p_id`, `pc_id`, `p_code`, `p_name`, `p_unit`, `p_price_p`, `p_price_s`, `p_quantity`, `p_status`) VALUES
+('695af4626efe7', 1, 'PROD-01', 'ARROZ', 2, 2.0000, 1.5000, 0, 1),
+('695af4845358e', 1, 'PROD-02', 'POLLO', 1, 1.0000, 1.2000, 0, 1),
+('696021c7954f0', 2, 'RECE-01', 'ARRROZ CON POLLO', 3, 3.8000, 5.0000, 0, 0),
+('696023870dfed', 2, 'RECE-02', 'ARROZ CON POLLO', 3, 3.3000, 5.0000, 0, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `product_units_data_table`
+--
+
+CREATE TABLE `product_units_data_table` (
+  `pu_id` int NOT NULL,
+  `pu_name` varchar(20) NOT NULL,
+  `pu_acronym` varchar(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `product_units_data_table`
+--
+
+INSERT INTO `product_units_data_table` (`pu_id`, `pu_name`, `pu_acronym`) VALUES
+(1, 'Litros', 'Lts'),
+(2, 'Kilogramos', 'Kg'),
+(3, 'Unidades', 'Und');
 
 -- --------------------------------------------------------
 
@@ -458,6 +507,12 @@ ALTER TABLE `container_model_data_table`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `item_recipe_data_table`
+--
+ALTER TABLE `item_recipe_data_table`
+  ADD PRIMARY KEY (`ir_id`);
+
+--
 -- Indices de la tabla `module_data_table`
 --
 ALTER TABLE `module_data_table`
@@ -474,6 +529,12 @@ ALTER TABLE `product_category_data_table`
 --
 ALTER TABLE `product_data_table`
   ADD PRIMARY KEY (`p_id`);
+
+--
+-- Indices de la tabla `product_units_data_table`
+--
+ALTER TABLE `product_units_data_table`
+  ADD PRIMARY KEY (`pu_id`);
 
 --
 -- Indices de la tabla `rate_data_table`
@@ -552,10 +613,22 @@ ALTER TABLE `container_model_data_table`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT de la tabla `item_recipe_data_table`
+--
+ALTER TABLE `item_recipe_data_table`
+  MODIFY `ir_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT de la tabla `product_category_data_table`
 --
 ALTER TABLE `product_category_data_table`
   MODIFY `pc_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `product_units_data_table`
+--
+ALTER TABLE `product_units_data_table`
+  MODIFY `pu_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `rate_data_table`

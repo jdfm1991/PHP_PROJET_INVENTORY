@@ -389,7 +389,7 @@ Modal Nuevo Usuario
 ****************************************************************************
  -->
 <div class="modal fade" id="newProductModal" tabindex="-1" aria-labelledby="newProductModalLabel">
-  <div class="modal-dialog">
+  <div class="modal-dialog containt-recipe">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Nuevo Producto</h5>
@@ -402,7 +402,7 @@ Modal Nuevo Usuario
           <input type="hidden" id="p_id">
           <div class="form-row">
             <div class="form-group col-md-5">
-              <label for="pc_id" class="form-label">Categoria de Material</label>
+              <label for="pc_id" class="form-label">Categoria</label>
               <select class="form-control" id="pc_id" required>
                 <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectProductCategories" -->
               </select>
@@ -411,21 +411,41 @@ Modal Nuevo Usuario
               <label for="p_code" class="form-label">Codigo</label>
               <input type="text" class="form-control" id="p_code" placeholder="Codigo" disabled>
             </div>
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-8">
               <label for="p_name">Producto</label>
               <input class="form-control" id="p_name" aria-describedby="p_nameHelp"
                 placeholder="Ingrese el Nombre del Producto" required>
               <small id="p_nameHelp" class="form-text text-white">Detalle de la Producto que se va a
                 crear</small>
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
+              <label for="p_unit" class="form-label">Unidad</label>
+              <select class="form-control" id="p_unit" required>
+                <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectProductCategories" -->
+              </select>
+            </div>
+            <div class="form-group col-md-3">
               <label for="p_amount_p">Precio Compra</label>
               <input type="text" class="form-control" id="p_amount_p" name="onlynumber" required>
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-3">
               <label for="p_amount_s">Precio Venta</label>
               <input type="text" class="form-control" id="p_amount_s" name="onlynumber" required>
             </div>
+            <div class="form-group col-md-6 d-none recipe">
+              <label for="p_recipe" class="form-label">Buscar Producto</label>
+              <div class="d-flex">
+                <input type="search" id="p_recipe" class="form-control d-inline" list="listrecipe">
+                <datalist id="listrecipe">
+                  <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectUnitLevel" -->
+                </datalist>
+                <button id="add_ingredient" type="button" class="btn btn-outline-light btn-group-sm d-inline" title="Crear Vinculo"><i class="fas fa-plus"></i></button>
+              </div>
+            </div>
+            <!-- Inicio de contenedor de los Items Movimiento -->
+            <div id="content_item" class="col-md-12 mb-0 p-2">
+            </div>
+            <!-- Fin de contenedor de los Items Movimiento -->
           </div>
           <div id="m_unit_cont" class="alert alert-warning d-none" role="alert">
             <p id="m_unit_text" class="mb-0">Alert Description</p>
@@ -636,29 +656,28 @@ Modal Listado de Modulos
 ************************************************
 -->
 <div class="modal fade" id="listProductMovementsModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-scrollable">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="listProductMovementslabel">Lista Movimientos de Producto</h5>
+        <h5 class="modal-title text-black" id="listProductMovementslabel">Lista Movimientos de Producto</h5>
         <button type="button" class="close closemodal" data-dismiss="modal" aria-label="Close">
           <span>&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <div class="card">
-          <table id="product_list_table" class="table table-striped table-bordered" style="width:100%">
-            <thead>
-              <tr>
-                <th>Categoria</th>
-                <th>Codigo</th>
-                <th>Producto</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-        </div>
-
+          <div class="card" style="color: rgb(84 84 84)">
+            <table id="product_list_table" class="table table-striped" style="width:100%">
+              <thead>
+                <tr>
+                  <th>Categoria</th>
+                  <th>Codigo</th>
+                  <th>Producto</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
       </div>
     </div>
   </div>
