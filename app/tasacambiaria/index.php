@@ -38,7 +38,6 @@ require_once(PATH_APP . "/head.php");
                       <th>Fecha</th>
                       <th>Tasa Dolar</th>
                       <th>Tasa Euro</th>
-                      <th>Tasa Preferencial</th>
                     </tr>
                   </thead>
                   <tbody>

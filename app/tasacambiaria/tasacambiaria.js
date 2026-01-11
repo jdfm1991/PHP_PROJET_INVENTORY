@@ -60,9 +60,8 @@ $(document).ready(function () {
       },
       columns: [
         { data: "date" },
-        { data: "dollar" },
-        { data: "euro" },
-        { data: "pref" },
+        { data: "usd"},
+        { data: "eur" }
       ]
     });
 
@@ -74,12 +73,10 @@ $(document).ready(function () {
   /* Accion para Guardar o Actualizar Informacion del Cliente en la Base de Datos */
   $('#formNewRate').submit(function (e) {
     e.preventDefault();
-    id = $('#idRate').val();
     rate = $('#exchangeRate').val();
     date = $('#dateRate').val();
     type = $('#exchange_rate').val();
     dato = new FormData();
-    dato.append('id', id);
     dato.append('rate', rate);
     dato.append('date', date);
     dato.append('type', type);

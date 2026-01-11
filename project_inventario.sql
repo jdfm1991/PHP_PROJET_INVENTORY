@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 08-01-2026 a las 22:41:13
+-- Tiempo de generación: 11-01-2026 a las 17:33:50
 -- Versión del servidor: 8.0.19
 -- Versión de PHP: 8.3.24
 
@@ -20,79 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `project_inventario`
 --
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `account_data_table`
---
-
-CREATE TABLE `account_data_table` (
-  `a_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `ac_id` int NOT NULL,
-  `at_id` int NOT NULL,
-  `a_code` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `a_name` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `a_status` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `account_movements_data_table`
---
-
-CREATE TABLE `account_movements_data_table` (
-  `am_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `ac_id` int NOT NULL,
-  `a_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `e_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'proveedor o cliente',
-  `am_date` date NOT NULL,
-  `am_name` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `am_amount` decimal(28,4) NOT NULL,
-  `am_rate` decimal(28,4) NOT NULL,
-  `am_change` decimal(28,4) NOT NULL,
-  `am_datereg` date NOT NULL,
-  `am_status` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `account_movement_items_data_table`
---
-
-CREATE TABLE `account_movement_items_data_table` (
-  `ami_id` int NOT NULL,
-  `ami_movement` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `ami_product` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `ami_rate` decimal(28,4) NOT NULL,
-  `ami_amount` decimal(28,4) NOT NULL,
-  `ami_quantity` decimal(28,4) NOT NULL,
-  `ami_total` decimal(28,4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `account_movement_types_data_table`
---
-
-CREATE TABLE `account_movement_types_data_table` (
-  `amt_id` int NOT NULL,
-  `amt_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `account_types_data_table`
---
-
-CREATE TABLE `account_types_data_table` (
-  `at_id` int NOT NULL,
-  `at_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -207,6 +134,67 @@ INSERT INTO `container_model_data_table` (`id`, `cont_id`, `m_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `inventory_movements_data_table`
+--
+
+CREATE TABLE `inventory_movements_data_table` (
+  `im_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `im_company` varchar(20) NOT NULL,
+  `im_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `im_date` date NOT NULL,
+  `im_partner` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `im_description` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `im_amount` decimal(28,4) NOT NULL,
+  `im_rate` decimal(28,4) NOT NULL,
+  `im_rtype` int NOT NULL,
+  `im_change` decimal(28,4) NOT NULL,
+  `im_datereg` date NOT NULL,
+  `im_status` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `inventory_movements_data_table`
+--
+
+INSERT INTO `inventory_movements_data_table` (`im_id`, `im_company`, `im_type`, `im_date`, `im_partner`, `im_description`, `im_amount`, `im_rate`, `im_rtype`, `im_change`, `im_datereg`, `im_status`) VALUES
+('6963b4ce4916a', '1', '1', '2026-01-11', '695a544e6d1f1', 'PRUEBA DE MOVIMIENTO', 0.0000, 330.3800, 1, 0.0000, '2026-01-11', 0),
+('6963b524c36e8', '1', '2', '2026-01-11', '695a5479a7d80', 'OTRA MAS', 0.0000, 330.3800, 1, 0.0000, '2026-01-11', 0),
+('6963b6740de25', '1', '1', '2026-01-11', '695a544e6d1f1', 'MAS DE LAS PRUEBAS', 3.0000, 330.3800, 1, 991.1400, '2026-01-11', 0),
+('6963b772ec96c', '1', '2', '2026-01-11', '695a544e6d1f1', 'NUEVA PRUEBA', 0.0000, 330.3800, 1, 0.0000, '2026-01-11', 0),
+('6963d9e8b880c', '1', '6', '2026-01-11', '695a544e6d1f1', 'DEV. PRUEBA DE MOVIMIENTO', 0.0000, 330.3800, 1, 0.0000, '2026-01-11', 1),
+('6963da403ce53', '1', '6', '2026-01-11', '695a544e6d1f1', 'DEV. PRUEBA DE MOVIMIENTO', 0.0000, 330.3800, 1, 0.0000, '2026-01-11', 1),
+('6963dbf666330', '1', '6', '2026-01-11', '695a544e6d1f1', 'DEV. MAS DE LAS PRUEBAS', 3.0000, 330.3800, 1, 991.1400, '2026-01-11', 1),
+('6963dc026f576', '1', '7', '2026-01-11', '695a5479a7d80', 'DEV. OTRA MAS', 0.0000, 330.3800, 1, 0.0000, '2026-01-11', 1),
+('6963dc5b12c3b', '1', '7', '2026-01-11', '695a544e6d1f1', 'DEV. NUEVA PRUEBA', 0.0000, 330.3800, 1, 0.0000, '2026-01-11', 1),
+('6963dc61dcb5c', '1', '6', '2026-01-11', '695a544e6d1f1', 'DEV. PRUEBA DE MOVIMIENTO', 0.0000, 330.3800, 1, 0.0000, '2026-01-11', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `inventory_movement_types_data_table`
+--
+
+CREATE TABLE `inventory_movement_types_data_table` (
+  `imt_id` int NOT NULL,
+  `imt_name` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `inventory_movement_types_data_table`
+--
+
+INSERT INTO `inventory_movement_types_data_table` (`imt_id`, `imt_name`) VALUES
+(1, 'VENTAS'),
+(2, 'COMPRAS'),
+(3, 'CARGOS'),
+(4, 'DESCARGOS'),
+(5, 'AJUSTES'),
+(6, 'DEVOLUCION EN VENTAS'),
+(7, 'DEVOLUCION EN COMPRAS');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `item_recipe_data_table`
 --
 
@@ -287,7 +275,7 @@ CREATE TABLE `product_data_table` (
   `p_unit` int NOT NULL,
   `p_price_p` decimal(28,4) NOT NULL,
   `p_price_s` decimal(28,4) NOT NULL,
-  `p_quantity` float NOT NULL DEFAULT '0',
+  `p_existence` float NOT NULL DEFAULT '0',
   `p_status` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -295,7 +283,7 @@ CREATE TABLE `product_data_table` (
 -- Volcado de datos para la tabla `product_data_table`
 --
 
-INSERT INTO `product_data_table` (`p_id`, `pc_id`, `p_code`, `p_name`, `p_unit`, `p_price_p`, `p_price_s`, `p_quantity`, `p_status`) VALUES
+INSERT INTO `product_data_table` (`p_id`, `pc_id`, `p_code`, `p_name`, `p_unit`, `p_price_p`, `p_price_s`, `p_existence`, `p_status`) VALUES
 ('695af4626efe7', 1, 'PROD-01', 'ARROZ', 2, 2.0000, 1.5000, 0, 1),
 ('695af4845358e', 1, 'PROD-02', 'POLLO', 1, 1.0000, 1.2000, 0, 1),
 ('696021c7954f0', 2, 'RECE-01', 'ARRROZ CON POLLO', 3, 3.8000, 5.0000, 0, 0),
@@ -331,18 +319,23 @@ INSERT INTO `product_units_data_table` (`pu_id`, `pu_name`, `pu_acronym`) VALUES
 CREATE TABLE `rate_data_table` (
   `r_id` int NOT NULL,
   `r_date` date NOT NULL,
-  `r_exchange_d` decimal(28,4) DEFAULT NULL,
-  `r_exchange_e` decimal(28,4) DEFAULT NULL,
-  `r_exchange_p` decimal(28,4) DEFAULT NULL
+  `r_type` int DEFAULT NULL,
+  `r_exchange` decimal(28,4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `rate_data_table`
 --
 
-INSERT INTO `rate_data_table` (`r_id`, `r_date`, `r_exchange_d`, `r_exchange_e`, `r_exchange_p`) VALUES
-(1, '2026-01-05', 304.6796, 357.8858, NULL),
-(2, '2026-01-04', 304.6800, 357.8900, NULL);
+INSERT INTO `rate_data_table` (`r_id`, `r_date`, `r_type`, `r_exchange`) VALUES
+(3, '2026-01-13', 1, 330.3751),
+(4, '2026-01-13', 2, 384.3320),
+(5, '2026-01-10', 1, 330.3800),
+(6, '2026-01-11', 2, 384.3300),
+(7, '2026-01-09', 1, 325.3800),
+(8, '2026-01-09', 2, 379.6400),
+(9, '2026-01-10', 2, 384.3310),
+(10, '2026-01-11', 1, 330.3800);
 
 -- --------------------------------------------------------
 
@@ -447,36 +440,6 @@ INSERT INTO `user_types_data_table` (`ut_id`, `ut_name`) VALUES
 --
 
 --
--- Indices de la tabla `account_data_table`
---
-ALTER TABLE `account_data_table`
-  ADD PRIMARY KEY (`a_id`);
-
---
--- Indices de la tabla `account_movements_data_table`
---
-ALTER TABLE `account_movements_data_table`
-  ADD PRIMARY KEY (`am_id`);
-
---
--- Indices de la tabla `account_movement_items_data_table`
---
-ALTER TABLE `account_movement_items_data_table`
-  ADD PRIMARY KEY (`ami_id`);
-
---
--- Indices de la tabla `account_movement_types_data_table`
---
-ALTER TABLE `account_movement_types_data_table`
-  ADD PRIMARY KEY (`amt_id`);
-
---
--- Indices de la tabla `account_types_data_table`
---
-ALTER TABLE `account_types_data_table`
-  ADD PRIMARY KEY (`at_id`);
-
---
 -- Indices de la tabla `bp_data_table`
 --
 ALTER TABLE `bp_data_table`
@@ -505,6 +468,18 @@ ALTER TABLE `container_data_table`
 --
 ALTER TABLE `container_model_data_table`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `inventory_movements_data_table`
+--
+ALTER TABLE `inventory_movements_data_table`
+  ADD PRIMARY KEY (`im_id`);
+
+--
+-- Indices de la tabla `inventory_movement_types_data_table`
+--
+ALTER TABLE `inventory_movement_types_data_table`
+  ADD PRIMARY KEY (`imt_id`);
 
 --
 -- Indices de la tabla `item_recipe_data_table`
@@ -577,24 +552,6 @@ ALTER TABLE `user_types_data_table`
 --
 
 --
--- AUTO_INCREMENT de la tabla `account_movement_items_data_table`
---
-ALTER TABLE `account_movement_items_data_table`
-  MODIFY `ami_id` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `account_movement_types_data_table`
---
-ALTER TABLE `account_movement_types_data_table`
-  MODIFY `amt_id` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `account_types_data_table`
---
-ALTER TABLE `account_types_data_table`
-  MODIFY `at_id` int NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `bp_types_data_table`
 --
 ALTER TABLE `bp_types_data_table`
@@ -611,6 +568,12 @@ ALTER TABLE `company_data_table`
 --
 ALTER TABLE `container_model_data_table`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de la tabla `inventory_movement_types_data_table`
+--
+ALTER TABLE `inventory_movement_types_data_table`
+  MODIFY `imt_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `item_recipe_data_table`
@@ -634,7 +597,7 @@ ALTER TABLE `product_units_data_table`
 -- AUTO_INCREMENT de la tabla `rate_data_table`
 --
 ALTER TABLE `rate_data_table`
-  MODIFY `r_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `r_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `rate_types_data_table`

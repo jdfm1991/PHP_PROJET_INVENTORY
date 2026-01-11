@@ -15,77 +15,44 @@ class Exchange extends Conectar
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->prepare("SELECT * FROM rate_data_table ORDER BY r_date DESC");
+    $stmt = $conectar->prepare("SELECT r_date,
+                                  MAX(CASE WHEN r_type = 1 THEN r_exchange ELSE 0 END) AS rate_usd,
+                                  MAX(CASE WHEN r_type = 2 THEN r_exchange ELSE 0 END) AS rate_eur
+                                FROM rate_data_table GROUP BY r_date ORDER BY r_date DESC");
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
-  public function getExchangeRateDB($date)
+  public function getExchangeRateDB($type, $date)
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->prepare("SELECT * FROM rate_data_table WHERE r_date = :date");
-    $stmt->execute(['date' => $date]);
+    $stmt = $conectar->prepare("SELECT * FROM rate_data_table WHERE r_date = :date AND r_type = :type");
+    $stmt->execute(['date' => $date, 'type' => $type]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function createDataRateDB($date, $dollar, $euro)
+  public function createDataRateDB($date, $rate, $type)
   {
     $conectar = parent::conexion();
-    $stmt = $conectar->prepare("INSERT INTO rate_data_table (r_date, r_exchange_d, r_exchange_e) VALUES (:date, :dollar, :euro)");
-    $stmt->execute(['date' => $date, 'dollar' => $dollar, 'euro' => $euro]);
+    $stmt = $conectar->prepare("INSERT INTO rate_data_table (r_date, r_exchange, r_type) VALUES (:date, :rate, :type)");
+    $stmt->execute(['date' => $date, 'rate' => $rate, 'type' => $type]);
     return $stmt->rowCount();
   }
 
-  public function createDataRateDollarDB($date, $rate)
+  public function updateRateDataDB($date, $rate, $type)
   {
     $conectar = parent::conexion();
-    $stmt = $conectar->prepare("INSERT INTO rate_data_table (r_date, r_exchange_d) VALUES (:date, :dollar)");
-    $stmt->execute(['date' => $date, 'dollar' => $rate]);
-    return $stmt->rowCount();
-  }
-  public function createDataRateEuroDB($date, $rate)
-  {
-    $conectar = parent::conexion();
-    $stmt = $conectar->prepare("INSERT INTO rate_data_table (r_date, r_exchange_e) VALUES (:date, :euro)");
-    $stmt->execute(['date' => $date, 'dollar' => $rate]);
-    return $stmt->rowCount();
-  }
-  public function createDataRatePreferenceDB($date, $rate)
-  {
-    $conectar = parent::conexion();
-    $stmt = $conectar->prepare("INSERT INTO rate_data_table (r_date, r_exchange_p) VALUES (:date, :pref)");
-    $stmt->execute(['date' => $date, 'pref' => $rate]);
-    return $stmt->rowCount();
-  }
-  public function updateRateDollarDataDB($date, $rate)
-  {
-    $conectar = parent::conexion();
-    $stmt = $conectar->prepare("UPDATE rate_data_table SET  r_exchange_d=:rate  WHERE r_date=:date");
-    $stmt->execute(['rate' => $rate, 'date' => $date]);
+    $stmt = $conectar->prepare("UPDATE rate_data_table SET  r_exchange=:rate  WHERE r_date=:date AND r_type=:type");
+    $stmt->execute(['rate' => $rate, 'date' => $date, 'type' => $type]);
     return $stmt->rowCount();
   }
 
-  public function updateRateEuroDataDB($date, $rate)
-  {
-    $conectar = parent::conexion();
-    $stmt = $conectar->prepare("UPDATE rate_data_table SET  r_exchange_e=:rate  WHERE r_date=:date");
-    $stmt->execute(['rate' => $rate, 'date' => $date]);
-    return $stmt->rowCount();
-  }
-  public function updateRatePreferenceDataDB($date, $rate)
-  {
-    $conectar = parent::conexion();
-    $stmt = $conectar->prepare("UPDATE rate_data_table SET  r_exchange_p=:rate  WHERE r_date=:date");
-    $stmt->execute(['rate' => $rate, 'date' => $date]);
-    return $stmt->rowCount();
-  }
-
-  public function validateDateRateDB($date)
+  public function validateDateRateDB($date, $type)
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->prepare("SELECT * FROM rate_data_table WHERE r_date = :date");
-    $stmt->execute(['date' => $date]);
+    $stmt = $conectar->prepare("SELECT * FROM rate_data_table WHERE r_date = :date AND r_type = :type LIMIT 1");
+    $stmt->execute(['date' => $date, 'type' => $type]);
     return $stmt->rowCount();
   }
 

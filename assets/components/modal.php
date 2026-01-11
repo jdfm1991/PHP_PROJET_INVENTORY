@@ -476,16 +476,17 @@ Modal Nuevo Usuario
       <div class="modal-body ">
         <form id="formmovementaccount">
           <input type="hidden" id="am_id">
+          <input type="hidden" id="am_partnerid">
           <div class="form-row">
             <div class="form-group col-md-3">
               <label for="am_company" class="form-label">Empresa</label>
-              <select class="form-control" id="com_id" required>
+              <select class="form-control" id="am_company" required>
                 <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectCompany" -->
               </select>
             </div>
             <div class="form-group col-md-2">
               <label for="am_category" class="form-label">Categorias</label>
-              <select class="form-control" id="ac_id2" required>
+              <select class="form-control" id="am_category" required>
                 <option value="">Tipo</option>
                 <option value="1">VENTAS</option>
                 <option value="2">COMPRAS</option>
@@ -546,8 +547,8 @@ Modal Nuevo Usuario
             </div>
           </div>
           <!-- Inicio de contenedor de los Items Movimiento -->
-          <div class="card mb-2">
-            <div id="content_item" class="card-body">
+          <div class="mb-1">
+            <div id="content_item3">
 
             </div>
           </div>

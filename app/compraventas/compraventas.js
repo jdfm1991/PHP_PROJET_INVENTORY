@@ -1,9 +1,10 @@
 $(document).ready(function () {
-  const ac_id = document.getElementById('ac_id2');
+  const ac_id = document.getElementById('am_category');
+  const am_company = document.getElementById('am_company');
   const item = document.getElementsByName('item');
-
   const i_id = document.getElementsByName('pi_id');
   const ci_id = document.getElementsByName('pci_id');
+  const ui_id = document.getElementsByName('pui_id');
   const i_code = document.getElementsByName('pi_code');
   const i_name = document.getElementsByName('pi_name');
   const i_amount = document.getElementsByName('pi_amount');
@@ -12,8 +13,6 @@ $(document).ready(function () {
 
   let items = [];
   let counter = 0;
-  /* Funcion para Cargar Select de los proveedores */
- 
 
   /* Funcion para listar todos los unidades departamentales existentes en la base de datos */
   const LoadDataTableAccountMovements = async () => {
@@ -46,22 +45,22 @@ $(document).ready(function () {
         processing: "Procesando..."
       },
       ajax: {
-        url: "registrogasto_controller.php?op=get_list_account_movements",
+        url: "compraventas_controller.php?op=get_list_account_movements",
         type: "GET",
         dataType: "json",
         dataSrc: "",
       },
       columns: [
-        { data: "cate" },
+        { data: "company" },
+        { data: "category" },
+        { data: "partner" },
         { data: "date" },
-        { data: "account" },
-        { data: "entity" },
-        { data: "movement" },
         { data: "amount" },
+        { data: "change" },
         {
           data: null, render: (data, type, row, meta) =>
-            (data.a_id == 1 || data.a_id == 2 ) && data.status == 1 ? `<button id="b_view" class="btn btn-outline-primary btn-sm" data-value="${data.id}" title="Ver Movimento"><i class="fa fa-eye"></i></button>
-            <button id="b_delete" class="btn btn-outline-danger btn-sm" data-value="${data}" title="Eliminar Movimento"><i class="bi bi-trash3"></i></button>` : `<button id="b_view" class="btn btn-outline-primary btn-sm" data-value="${data.id}" title="Ver Movimento"><i class="fa fa-eye"></i></button>`
+            (data.type == 1 || data.type == 2) && data.status == 1 ? `<button id="b_view" class="btn btn-outline-primary btn-sm" data-value="${data.id}" title="Ver Movimento"><i class="fa fa-eye"></i></button>
+            <button id="b_delete" class="btn btn-outline-danger btn-sm" data-value="${data.id}" title="Eliminar Movimento"><i class="bi bi-trash3"></i></button>` : `<button id="b_view" class="btn btn-outline-primary btn-sm" data-value="${data.id}" title="Ver Movimento"><i class="fa fa-eye"></i></button>`
         }
       ]
     });
@@ -73,7 +72,7 @@ $(document).ready(function () {
     loadDataSelectCompanies();
     $('.modal-title').text('Registro de Nuevo Informacion');
     $('#newRegisterModal').modal('show');
-    $('#ac_id2').attr('disabled', false);
+    $('#am_category').attr('disabled', false);
     $('#e_id').attr('disabled', false);
     $('#a_id2').attr('disabled', false);
     $('#formmovementaccount')[0].reset();
@@ -87,7 +86,7 @@ $(document).ready(function () {
       method: 'POST',
       dataType: 'json',
       data: { name: name },
-      success: function (response) {        
+      success: function (response) {
         $("#listsocio").empty();
         $.each(response, function (idx, opt) {
           $("#listsocio").append(`<option value="${opt.dni}">`);
@@ -104,7 +103,7 @@ $(document).ready(function () {
       method: 'POST',
       dataType: 'json',
       data: { name: name },
-      success: function (response) {        
+      success: function (response) {
         $("#listsocios").empty();
         $.each(response, function (idx, opt) {
           $("#listsocios").append(`<option value="${opt.name}">`);
@@ -113,7 +112,7 @@ $(document).ready(function () {
     });
   });
 
-  $('#am_id_partner').click(function (e) { 
+  $('#am_id_partner').click(function (e) {
     e.preventDefault();
     name = $('#am_partner').val();
     if (name == '') {
@@ -124,16 +123,17 @@ $(document).ready(function () {
       method: 'POST',
       dataType: 'json',
       data: { name: name },
-      success: function (response) {        
+      success: function (response) {
         $.each(response, function (idx, opt) {
           $("#am_id_partner").val(opt.dni);
           $("#am_partner").val(opt.name);
+          $("#am_partnerid").val(opt.id);  
         });
       }
     });
   });
 
-  $('#am_partner').click(function (e) { 
+  $('#am_partner').click(function (e) {
     e.preventDefault();
     name = $('#am_id_partner').val();
     if (name == '') {
@@ -144,16 +144,17 @@ $(document).ready(function () {
       method: 'POST',
       dataType: 'json',
       data: { name: name },
-      success: function (response) {        
+      success: function (response) {
         $.each(response, function (idx, opt) {
           $("#am_id_partner").val(opt.dni);
           $("#am_partner").val(opt.name);
+          $("#am_partnerid").val(opt.id);          
         });
       }
     });
   });
 
-  
+
   /* Accion para contar los caracteres de la descripcion */
   $('#am_name').keyup(function (e) {
     letters = $(this).val().length;
@@ -197,15 +198,30 @@ $(document).ready(function () {
   $('#b_add_p').click(function (e) {
     e.preventDefault();
     id = $('#p_search').val().split(' - ')[1];
+    if (am_company.value == "") {
+      $(".mr-auto").text("Procesos Fallido");
+      $(".toast").css("background-color", "rgba(85, 41, 189, 0.57)");
+      $(".toast").css("color", "rgba(255, 255, 255, 1)");
+      $("#toastText").text("Debe de Seleccionar Una Empresa Para Continuar");
+      $('.toast').toast('show');
+      return false;
+    }
+    if (ac_id.value == "") {
+      $(".mr-auto").text("Procesos Fallido");
+      $(".toast").css("background-color", "rgba(148, 16, 224, 0.59)");
+      $(".toast").css("color", "rgba(255, 255, 255, 1)");
+      $("#toastText").text("Debe de Seleccionar Una Categoria Para Continuar");
+      $('.toast').toast('show');
+      return false;
+    }
     if (id == undefined) {
       $(".mr-auto").text("Procesos Fallido");
-      $(".toast").css("background-color", "rgb(36 113 163 / 85%)");
-      $(".toast").css("color", "dark");
+      $(".toast").css("background-color", "rgba(16, 123, 224, 0.57)");
+      $(".toast").css("color", "rgba(255, 255, 255, 1)");
       $("#toastText").text("Debe de Seleccionar Producto para continuar");
       $('.toast').toast('show');
       return false;
     }
-
     $.ajax({
       url: URI + 'productos/productos_controller.php?op=get_data_product',
       method: 'POST',
@@ -217,21 +233,31 @@ $(document).ready(function () {
         })
         if (items.includes(response.id)) {
           $(".mr-auto").text("Procesos Fallido");
-          $(".toast").css("background-color", "rgba(16, 113, 224, 0.43)");
+          $(".toast").css("background-color", "rgba(224, 16, 16, 0.43)");
           $(".toast").css("color", "rgba(255, 255, 255, 1)");
           $("#toastText").text("Producto Seleccionado ya se Encuentra en el Listado");
           $('.toast').toast('show');
           return false;
         }
-        $("#content_item").append(`<div name="item" id="cont_${counter}" class="row d-flex justify-content-between">
+        if (response.existence <= 0 && ac_id.value == 1) {
+          $(".mr-auto").text("Procesos Fallido");
+          $(".toast").css("background-color", "rgba(231, 18, 18, 0.43)");
+          $(".toast").css("color", "rgba(255, 255, 255, 1)");
+          $("#toastText").text("No se Pueden Vender Productos Con Existencia Negativa");
+          $('.toast').toast('show');
+          return false;
+        }
+        $("#content_item3").append(`<div name="item" id="cont_${counter}" class="row d-flex justify-content-center">
             <input type="hidden" name="pi_id" id="pi_id_${counter}" value="${response.id}">
             <input type="hidden" name="pci_id" id="pci_id_${counter}" value="${response.cate}">
-            <button id="b_trash" type="button" class="col-md-1 btn btn-outline-danger btn-group-sm" data-value="${counter}" title="Eliminar Item"><i class="bi bi-dash"></i></button>
-            <input name="pi_code" id="pi_code_${counter}" type="text" class="form-control col-md-2" value="${response.code}" disabled>
+            <input type="hidden" name="pui_id" id="pui_id_${counter}" value="${response.unit}">
+            <button id="b_trash" type="button" class="col-md-1 btn btn-danger btn-group-sm" data-value="${counter}" data-product="${response.id}" title="Eliminar Item"><i class="bi bi-dash"></i></button>
             <input name="pi_name" id="pi_name_${counter}" type="text" class="form-control col-md-3" value="${response.name}" disabled>
-            <input name="pi_amount" id="pi_amount_${counter}" type="text" class="form-control col-md-2" value="${ac_id.value == 1 ? response.aumonts : response.aumontp}" disabled>
-            <input name="pi_quantity" id="pi_quantity_${counter}" type="number" class="form-control col-md-2" step="0.1">
-            <input name="pi_total" id="pi_total_${counter}" type="text" class="form-control col-md-2" value="" disabled></div>`
+            <input name="pi_amount" id="pi_amount_${counter}" type="text" class="form-control col-md-1" value="${ac_id.value == 1 ? response.aumonts : response.aumontp}" disabled>
+            <input name="pi_quantity" id="pi_quantity_${counter}" type="text" class="form-control col-md-1">
+            <input name="pi_existence" id="pi_existence_${counter}" type="text" class="form-control col-md-1" value="${response.existence}" disabled>
+            <input name="pi_code" id="pi_code_${counter}" type="text" class="form-control col-md-1" value="${response.acronym}" disabled>
+            <input name="pi_total" id="pi_total_${counter}" type="text" class="form-control col-md-1" value="" disabled></div>`
         );
         counter++;
         $('#p_search').val('');
@@ -251,42 +277,52 @@ $(document).ready(function () {
       }
     });
   });
+
+  $('#am_date').change(function (e) {
+    e.preventDefault();
+    rtype = $('input[name="rtype"]:checked').val();
+    loadDataRateByDate(rtype);
+
+  });
   /* Accion para Guardar o Actualizar Informacion de los Gastos en la Base de Datos */
   $('#formmovementaccount').submit(function (e) {
     e.preventDefault();
     let infoitems = [];
     id = $('#am_id').val();
-    cate = $('#ac_id2').val();
+    company = $('#am_company').val();
+    category = $('#am_category').val();
     date = $('#am_date').val();
-    entity = $('#e_id').val();
-    account = $('#a_id2').val();
-    name = $('#am_name').val().toUpperCase();
-    amount = $('#am_amount').val();
+    rtype = $('input[name="rtype"]:checked').val();
     rate = $('#am_rate').val();
+    partner = $('#am_partnerid').val();
+    amount = $('#am_amount').val();
     change = $('#am_change').val();
+    name = $('#am_name').val().toUpperCase();
     for (let i = 0; i < item.length; i++) {
       const id = i_id[i].value;
       const cate = ci_id[i].value;
+      const unit = ui_id[i].value;
       const code = i_code[i].value;
       const name = i_name[i].value;
       const amount = i_amount[i].value;
       const quantity = i_quantity[i].value;
       const total = i_total[i].value;
-      infoitems.push({ id: id, cate: cate, code: code, name: name, amount: amount, quantity: quantity, total: total });
+      infoitems.push({ id: id, cate: cate, code: code, unit: unit, name: name, amount: amount, quantity: quantity, total: total });
     }
     dato = new FormData();
     dato.append('id', id);
-    dato.append('cate', cate);
+    dato.append('company', company);
+    dato.append('category', category);
     dato.append('date', date);
-    dato.append('entity', entity);
-    dato.append('account', account);
-    dato.append('name', name);
-    dato.append('amount', amount);
+    dato.append('rtype', rtype);
     dato.append('rate', rate);
+    dato.append('partner', partner);
+    dato.append('amount', amount);
     dato.append('change', change);
-    dato.append('items', JSON.stringify(infoitems));
+    dato.append('name', name);
+    dato.append('items', JSON.stringify(infoitems));    
     $.ajax({
-      url: 'registrogasto_controller.php?op=new_account_movement',
+      url: 'compraventas_controller.php?op=new_account_movement',
       method: 'POST',
       dataType: "json",
       data: dato,
@@ -303,10 +339,9 @@ $(document).ready(function () {
           $('#expense_table').DataTable().ajax.reload();
           $('#formmovementaccount')[0].reset();
           $('#newAccountMovementModal').modal('hide');
-          $('#content_item').empty();
+          $('#content_item3').empty();
         } else {
           if (response.error === '400') {
-            console.log(response);
             $('#messegecont').removeClass('d-none');
             $('#messegetext').text(response.message);
             setTimeout(function () {
@@ -330,7 +365,7 @@ $(document).ready(function () {
     e.preventDefault();
     var id = $(this).data('value');
     $.ajax({
-      url: 'registrogasto_controller.php?op=get_data_account_movement',
+      url: 'compraventas_controller.php?op=get_data_account_movement',
       method: 'POST',
       dataType: 'json',
       data: { id: id },
@@ -355,7 +390,7 @@ $(document).ready(function () {
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-          url: 'registrogasto_controller.php?op=delete_account_movement',
+          url: 'compraventas_controller.php?op=delete_account_movement',
           method: 'POST',
           dataType: 'json',
           data: { id: id },
@@ -384,6 +419,9 @@ $(document).ready(function () {
 
   $(document).on('click', '#b_trash', function () {
     const id = $(this).data('value');
+    var product = $(this).data('product');
+    var indice = items.indexOf(product)
+    items.splice(indice, 1)
     const container = document.getElementById('cont_' + id)
     container.remove();
     const del_container = document.getElementById('cont_' + id);
@@ -406,9 +444,9 @@ $(document).ready(function () {
     }
     getTotalMovement();
   })
-  $(document).on('click', 'input[name="opcion"]', function () {
+  $(document).on('click', 'input[name="rtype"]', function () {
     const id = $(this).attr('value');
-    loadDataRateToday(id);
+    loadDataRateByDate(id);
   })
   function getTotalMovement() {
     let sum = 0;
@@ -422,20 +460,21 @@ $(document).ready(function () {
       }
       $('#am_amount').val(sum.toFixed(2));
       total = Number.parseFloat(sum) * Number.parseFloat(rate);
+      total = isNaN(total) ? 0 : total
       $('#am_change').val(total.toFixed(2));
     }
   }
 
-  function loadDataSelectCompanies(id) {    
+  function loadDataSelectCompanies(id) {
     $.ajax({
       url: URI + 'empresas/empresas_controller.php?op=get_list_companies',
       method: 'POST',
       dataType: 'json',
-      success: function (response) {        
-        $("#com_id").empty();
-        $("#com_id").append('<option value="">_-_Seleccione_-_</option>');
+      success: function (response) {
+        $("#am_company").empty();
+        $("#am_company").append('<option value="">_-_Seleccione_-_</option>');
         $.each(response, function (idx, opt) {
-          $("#com_id").append((opt.id == id) ?
+          $("#am_company").append((opt.id == id) ?
             '<option value="' + opt.id + '" selected>' + opt.name + "</option>" :
             '<option value="' + opt.id + '">' + opt.name + "</option>"
           );
@@ -455,33 +494,27 @@ $(document).ready(function () {
         $.each(response, function (idx, opt) {
           $('#cont_opcion').append(`
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="opcion" id="${opt.id}" value="${opt.id}">
+              <input class="form-check-input" type="radio" name="rtype" id="${opt.id}" value="${opt.id}">
               <label class="form-check-label" for="${opt.id}">${opt.acr}</label>
             </div>`
           );
           if (opt.id == 1) {
-            loadDataRateToday(opt.id);
+            loadDataRateByDate(opt.id);
             document.getElementById(opt.id).checked = true;
           }
         })
       }
     });
   }
-  function loadDataRateToday(id) {
+  function loadDataRateByDate(type) {
+    let date = $('#am_date').val();
     $.ajax({
       url: URI + 'tasacambiaria/tasacambiaria_controller.php?op=get_data_rate',
       method: 'POST',
       dataType: 'json',
+      data: { type: type, date: date },
       success: function (response) {
-        if (id == 1) {
-          $('#am_rate').val(response.dollar);
-        }
-        if (id == 2) {
-          $('#am_rate').val(response.euro);
-        }
-        if (id == 3) {
-          $('#am_rate').val(response.pref);
-        }
+        $('#am_rate').val(response.rate);
         getTotalMovement();
       }
     });

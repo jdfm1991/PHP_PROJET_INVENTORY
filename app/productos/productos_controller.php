@@ -7,7 +7,7 @@ require_once("productos_module.php");
 $products = new Products();
 $movements = new Movements();
 
-$id = (isset($_POST['id'])) ? $_POST['id'] : '';
+$id = (isset($_POST['id'])) ? $_POST['id'] : '695af4626efe7';
 $cate = (isset($_POST['cate'])) ? $_POST['cate'] : 0;
 $code = (isset($_POST['code'])) ? $_POST['code'] : 0;
 $name = (isset($_POST['name'])) ? $_POST['name'] : '';
@@ -128,9 +128,8 @@ switch ($_GET["op"]) {
     foreach ($data as $data) {
       $dato['id'] = $data['p_id'];
       $dato['cate'] = $data['pc_id'];
-      $dato['code'] = $data['p_code'];
       $dato['name'] = $data['p_name'];
-      $dato['quan'] = $data['p_quantity'];
+      $dato['existence'] = $data['p_existence'];
       $dato['unit'] = $data['p_unit'];
       $dato['acronym'] = $data['pu_acronym'];
       $dato['aumontp'] = number_format($data['p_price_p'], 2);
@@ -194,7 +193,7 @@ switch ($_GET["op"]) {
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
-  case 'delete_preoduct':
+  case 'delete_product':
     /* $valided = $movements->validateAccountMovementsDB($id);
     if ($valided > 0) {
       $dato['status'] = false;
@@ -202,7 +201,7 @@ switch ($_GET["op"]) {
       $dato['message'] = "No Puede Eliminiar Esta Cuenta, Ya que Tiene Relacion Con Uno o Mas Movimientos de Cuenta, Por Favor Intente Con Una Cuenta Diferente \n";
       echo json_encode($dato, JSON_UNESCAPED_UNICODE);
       return;
-    }  */
+    } */
     $data = $products->deleteDataProductDB($id);
     if ($data) {
       $dato['status'] = true;

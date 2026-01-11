@@ -89,7 +89,9 @@ class Products extends Conectar
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->prepare("SELECT * FROM product_data_table WHERE p_id = :id");
+    $stmt = $conectar->prepare("SELECT * FROM product_data_table AS A
+                                    INNER JOIN product_units_data_table AS C ON A.p_unit=C.pu_id 
+                                  WHERE p_id = :id");
     $stmt->execute(['id' => $id]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }

@@ -2,20 +2,21 @@
 require_once("../../config/abrir_sesion.php");
 require_once("../../config/conexion.php");
 require_once(PATH_APP . "/productos/productos_module.php");
-require_once("registrogasto_module.php");
+require_once("compraventas_module.php");
 
 $mov = new Movements();
 $products = new Products();
 
 $id = (isset($_POST['id'])) ? $_POST['id'] : '';
-$cate = (isset($_POST['cate'])) ? $_POST['cate'] : 0;
+$company = (isset($_POST['company'])) ? $_POST['company'] : '';
+$category = (isset($_POST['category'])) ? $_POST['category'] : '';
 $date = (isset($_POST['date'])) ? $_POST['date'] : '0000-00-00';
-$entity = (isset($_POST['entity'])) ? $_POST['entity'] : 0;
-$account = (isset($_POST['account'])) ? $_POST['account'] : 0;
-$name = (isset($_POST['name'])) ? $_POST['name'] : '';
-$amount = (isset($_POST['amount'])) ? $_POST['amount'] : 0;
+$rtype = (isset($_POST['rtype'])) ? $_POST['rtype'] : 0;
 $rate = (isset($_POST['rate'])) ? $_POST['rate'] : 0;
+$partner = (isset($_POST['partner'])) ? $_POST['partner'] : '';
+$amount = (isset($_POST['amount'])) ? $_POST['amount'] : 0;
 $change = (isset($_POST['change'])) ? $_POST['change'] : 0;
+$name = (isset($_POST['name'])) ? $_POST['name'] : 0;
 $items = (isset($_POST['items'])) ? $_POST['items'] : [];
 
 switch ($_GET["op"]) {
@@ -23,9 +24,9 @@ switch ($_GET["op"]) {
     $dato = array();
     if (empty($id)) {
       $id = uniqid();
-      $data = $mov->createDataAccountMovementDB($id, $cate, $date, $entity, $account, $name, $amount, $rate, $change);
+      $data = $mov->createDataAccountMovementDB($id, $company, $category, $date, $rtype, $rate, $partner, $amount, $change, $name);
       if ($data) {
-        foreach (json_decode($items, true) as $row) {
+        /* foreach (json_decode($items, true) as $row) {
           $dataitems = $mov->createDataAccountMovementItemsDB($id, $row['id'], $rate, $row['amount'], $row['quantity'], $row['total']);
           if ($cate == 1) {
             $products->subtractQuantityByProductDB($row['id'], $row['quantity']);
@@ -33,7 +34,7 @@ switch ($_GET["op"]) {
           if ($cate == 2) {
             $products->addQuantityByProductDB($row['id'], $row['quantity']);
           };
-        }
+        } */
         $dato['status'] = true;
         $dato['error'] = '200';
         $dato['message'] = "El Movimiento Fue Creado Satisfactoriamente \n";
@@ -50,15 +51,17 @@ switch ($_GET["op"]) {
     $data = $mov->getDataListAccountMovementsDB();
     foreach ($data as $row) {
       $sub_array = array();
-      $sub_array['id'] = $row['am_id'];
-      $sub_array['cate'] = $row['amt_name'];
-      $sub_array['date'] = $row['am_date'];
-      $sub_array['a_id'] = $row['ac_id'];
-      $sub_array['account'] = $row['a_name'];
-      $sub_array['entity'] = is_null($row['client']) ? $row['supplier'] : $row['client'];
-      $sub_array['movement'] = $row['am_name'];
-      $sub_array['amount'] = number_format($row['am_amount'], 2);
-      $sub_array['status'] = $row['am_status'];
+      $sub_array['id'] = $row['im_id'];
+      $sub_array['company'] = $row['c_name'];
+      $sub_array['type'] = $row['im_type'];
+      $sub_array['category'] = $row['imt_name'];
+      $sub_array['partner'] = $row['bp_name'];
+      $sub_array['date'] = $row['im_date'];
+      $sub_array['movement'] = $row['im_description'];
+      $sub_array['status'] = $row['im_status'];
+      $sub_array['amount'] = number_format($row['im_amount'], 2);
+      $sub_array['rate'] = number_format($row['im_rate'], 2);
+      $sub_array['change'] = number_format($row['im_change'], 2);
       $dato[] = $sub_array;
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
@@ -82,20 +85,20 @@ switch ($_GET["op"]) {
     $dato = array();
     $data = $mov->deleteDataAccountMovementDB($id);
     $movement = $mov->getDataAccountMovementDB($id);
-    $items = $mov->getDataAccountMovementItemsByMovementDB($id);
+    //$items = $mov->getDataAccountMovementItemsByMovementDB($id);
 
-    $nid = uniqid();
+    $id = uniqid();
     $date = date('Y-m-d');
-    $cate = ($movement[0]['ac_id'] == 1) ? 6 : 7;
+    $category = ($movement[0]['im_type'] == 1) ? 6 : 7;
     if ($data) {
-      $ope = $mov->createDataAccountMovementDB($nid, $cate, $date, $movement[0]['e_id'], $movement[0]['a_id'], 'DEV. ' . $movement[0]['am_name'], $movement[0]['am_amount'], $movement[0]['am_rate'], $movement[0]['am_change']);
+      $ope = $mov->createDataAccountMovementDB($id, $movement[0]['im_company'], $category, $date, $movement[0]['im_rtype'], $movement[0]['im_rate'], $movement[0]['im_partner'], $movement[0]['im_amount'], $movement[0]['im_change'], 'DEV. ' . $movement[0]['im_description']);
       if ($ope) {
-        foreach ($items as $row) {
+        /* foreach ($items as $row) {
           $dataitems = $mov->createDataAccountMovementItemsDB($nid, $row['ami_product'], $row['ami_rate'], $row['ami_amount'], $row['ami_quantity'], $row['ami_total']);
           if ($dataitems) {
             $products->addQuantityByProductDB($row['ami_product'], $row['ami_quantity']);
           }
-        }
+        }  */
         $dato['status'] = true;
         $dato['error'] = '200';
         $dato['message'] = "El Movimiento Fue Eliminado Satisfactoriamente \n";
@@ -107,7 +110,7 @@ switch ($_GET["op"]) {
     } else {
       $dato['status'] = false;
       $dato['error'] = '500';
-      $dato['message'] = "Error Al Eliminar La Cuenta, Por Favor Intente Nuevamente \n";
+      $dato['message'] = "Error Al Eliminar La Cuenta, Por Favor Intente Nuevamente parte 1 \n";
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;

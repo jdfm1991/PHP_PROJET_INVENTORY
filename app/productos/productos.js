@@ -328,7 +328,7 @@ $(document).ready(function () {
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-          url: 'productos_controller.php?op=delete_preoduct',
+          url: 'productos_controller.php?op=delete_product',
           method: 'POST',
           dataType: 'json',
           data: { id: id },
