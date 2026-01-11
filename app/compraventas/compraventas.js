@@ -65,7 +65,7 @@ $(document).ready(function () {
       ]
     });
   }
-  /* Funcion Para Cargar El Contenido del Selectores del Modal "newAccountMovementModal" */
+  /* Funcion Para Cargar El Contenido del Selectores del Modal "newRegisterModal" */
   $('#newExpense').click(function (e) {
     e.preventDefault();
     loadDataRateTypes();
@@ -194,7 +194,7 @@ $(document).ready(function () {
       }
     });
   });
-  /* Funcion Para Cargar El Contenido del Selectores del Modal "newAccountMovementModal" */
+  /* Funcion Para Cargar El Contenido del Selectores del Modal "newRegisterModal" */
   $('#b_add_p').click(function (e) {
     e.preventDefault();
     id = $('#p_search').val().split(' - ')[1];
@@ -338,7 +338,8 @@ $(document).ready(function () {
           });
           $('#expense_table').DataTable().ajax.reload();
           $('#formmovementaccount')[0].reset();
-          $('#newAccountMovementModal').modal('hide');
+          $('#newRegisterModal').modal('hide');
+          items = [];
           $('#content_item3').empty();
         } else {
           if (response.error === '400') {

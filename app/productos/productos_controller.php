@@ -56,11 +56,11 @@ switch ($_GET["op"]) {
       }
       if ($data) {
         $dato['status'] = true;
-        $dato['error'] = '200';
+        $dato['code'] = '200';
         $dato['message'] = "La Cuenta de Gasto " . $name . " Fue Creada Satisfactoriamente \n";
       } else {
         $dato['status'] = false;
-        $dato['error'] = '500';
+        $dato['code'] = '500';
         $dato['message'] = "Error Al Crear La Cuenta de Gasto" . $name . ", Por Favor Intente Nuevamente \n";
       }
     } else {
@@ -77,11 +77,11 @@ switch ($_GET["op"]) {
       }
       if ($data) {
         $dato['status'] = true;
-        $dato['error'] = '200';
+        $dato['code'] = '200';
         $dato['message'] = "La Cuenta de Gastol " . $name . " Fue Actiualizado Satisfactoriamente \n";
       } else {
         $dato['status'] = false;
-        $dato['error'] = '500';
+        $dato['code'] = '500';
         $dato['message'] = "Error Al Actualizar La Cuenta de Gasto" . $name . ", Por Favor Intente Nuevamente \n";
       }
     }
@@ -101,7 +101,7 @@ switch ($_GET["op"]) {
       $sub_array['acronym'] = $row['pu_acronym'];
       $sub_array['aumontp'] = number_format($row['p_price_p'], 2);
       $sub_array['aumonts'] = number_format($row['p_price_s'], 2);
-      $sub_array['quan'] = number_format($row['p_quantity'], 2);
+      $sub_array['quan'] = number_format($row['p_existence'], 2);
       $dato[] = $sub_array;
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
@@ -194,22 +194,22 @@ switch ($_GET["op"]) {
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
   case 'delete_product':
-    /* $valided = $movements->validateAccountMovementsDB($id);
+    $valided = $movements->validateProductMovementsDB($id);
     if ($valided > 0) {
       $dato['status'] = false;
-      $dato['error'] = '500';
-      $dato['message'] = "No Puede Eliminiar Esta Cuenta, Ya que Tiene Relacion Con Uno o Mas Movimientos de Cuenta, Por Favor Intente Con Una Cuenta Diferente \n";
+      $dato['code'] = '500';
+      $dato['message'] = "No Puede Eliminiar Este Producto, Ya que Tiene Relacion Con Uno o Mas Movimientos, Por Favor Intente Con Un Producto Diferente \n";
       echo json_encode($dato, JSON_UNESCAPED_UNICODE);
       return;
-    } */
+    }
     $data = $products->deleteDataProductDB($id);
     if ($data) {
       $dato['status'] = true;
-      $dato['error'] = '200';
+      $dato['code'] = '200';
       $dato['message'] = "La Cuenta Fue Eliminado Satisfactoriamente \n";
     } else {
       $dato['status'] = false;
-      $dato['error'] = '500';
+      $dato['code'] = '500';
       $dato['message'] = "Error Al Elminar La Cuenta, Por Favor Intente Nuevamente \n";
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
@@ -218,11 +218,11 @@ switch ($_GET["op"]) {
     $data = $products->deleteDataItemRecipeDB($id, $code);
     if ($data) {
       $dato['status'] = true;
-      $dato['error'] = '200';
+      $dato['code'] = '200';
       $dato['message'] = "La Cuenta Fue Eliminado Satisfactoriamente \n";
     } else {
       $dato['status'] = false;
-      $dato['error'] = '500';
+      $dato['code'] = '500';
       $dato['message'] = "Error Al Elminar La Cuenta, Por Favor Intente Nuevamente \n";
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);

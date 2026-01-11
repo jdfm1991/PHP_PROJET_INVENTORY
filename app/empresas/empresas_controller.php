@@ -1,9 +1,11 @@
 <?php
 require_once("../../config/abrir_sesion.php");
 require_once("../../config/conexion.php");
+require_once(PATH_APP . "/compraventas/compraventas_module.php");
 require_once("empresas_module.php");
 
 $empresa = new Empresas();
+$movements = new Movements();
 
 $id = (isset($_POST['id'])) ? $_POST['id'] : '';
 $name = (isset($_POST['name'])) ? $_POST['name'] : '';
@@ -63,14 +65,14 @@ switch ($_GET["op"]) {
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
   case 'delete_company':
-    /* $valided = $movements->validateAccountMovementsByEntityDB($id);
+    $valided = $movements->validateCompanyMovementsDB($id);
     if ($valided > 0) {
       $dato['status'] = false;
       $dato['error'] = '500';
-      $dato['message'] = "No Puede Eliminiar Este Cliente, Ya que Tiene Relacion Con Uno o Mas Movimientos de Cuenta, Por Favor Intente Con Un Cliente Diferente \n";
+      $dato['message'] = "No Puede Eliminiar Esta Empresa, Ya que Tiene Relacion Con Uno o Mas Movimientos, Por Favor Intente Con Una Empresa Diferente \n";
       echo json_encode($dato, JSON_UNESCAPED_UNICODE);
       return;
-    }  */
+    }
     $data = $empresa->deleteDataCompanyDB($id);
     if ($data) {
       $dato['status'] = true;
@@ -79,7 +81,7 @@ switch ($_GET["op"]) {
     } else {
       $dato['status'] = false;
       $dato['error'] = '500';
-      $dato['message'] = "Error Al Cliente La Empresa, Por Favor Intente Nuevamente \n";
+      $dato['message'] = "Error Al Eliminar La Empresa, Por Favor Intente Nuevamente \n";
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;

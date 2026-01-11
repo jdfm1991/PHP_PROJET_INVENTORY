@@ -84,11 +84,11 @@ switch ($_GET["op"]) {
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
   case 'delete_client':
-    $valided = $movements->validateAccountMovementsByEntityDB($id);
+    $valided = $movements->validatePartnerMovementsDB($id);
     if ($valided > 0) {
       $dato['status'] = false;
       $dato['error'] = '500';
-      $dato['message'] = "No Puede Eliminiar Este Cliente, Ya que Tiene Relacion Con Uno o Mas Movimientos de Cuenta, Por Favor Intente Con Un Cliente Diferente \n";
+      $dato['message'] = "No Puede Eliminiar Este Socio, Ya que Tiene Relacion Con Uno o Mas Movimientos, Por Favor Intente Con Un Socio Diferente \n";
       echo json_encode($dato, JSON_UNESCAPED_UNICODE);
       return;
     }

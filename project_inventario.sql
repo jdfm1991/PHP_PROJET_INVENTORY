@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 11-01-2026 a las 17:33:50
+-- Tiempo de generación: 11-01-2026 a las 22:41:24
 -- Versión del servidor: 8.0.19
 -- Versión de PHP: 8.3.24
 
@@ -44,7 +44,7 @@ CREATE TABLE `bp_data_table` (
 
 INSERT INTO `bp_data_table` (`bp_id`, `bp_type`, `bp_name`, `bp_indentity`, `bp_numphone`, `bp_address`, `bp_balance`, `bp_status`) VALUES
 ('695a544e6d1f1', 2, 'jose', 'V-25123587', '01254', 'su propia casa pues', 0.0000, 1),
-('695a5479a7d80', 1, 'juan', 'V-25', '25', 'vasa', 0.0000, 1);
+('695a5479a7d80', 1, 'juan', 'V-25', '25', 'vasa', 0.0000, 0);
 
 -- --------------------------------------------------------
 
@@ -157,16 +157,42 @@ CREATE TABLE `inventory_movements_data_table` (
 --
 
 INSERT INTO `inventory_movements_data_table` (`im_id`, `im_company`, `im_type`, `im_date`, `im_partner`, `im_description`, `im_amount`, `im_rate`, `im_rtype`, `im_change`, `im_datereg`, `im_status`) VALUES
-('6963b4ce4916a', '1', '1', '2026-01-11', '695a544e6d1f1', 'PRUEBA DE MOVIMIENTO', 0.0000, 330.3800, 1, 0.0000, '2026-01-11', 0),
-('6963b524c36e8', '1', '2', '2026-01-11', '695a5479a7d80', 'OTRA MAS', 0.0000, 330.3800, 1, 0.0000, '2026-01-11', 0),
-('6963b6740de25', '1', '1', '2026-01-11', '695a544e6d1f1', 'MAS DE LAS PRUEBAS', 3.0000, 330.3800, 1, 991.1400, '2026-01-11', 0),
-('6963b772ec96c', '1', '2', '2026-01-11', '695a544e6d1f1', 'NUEVA PRUEBA', 0.0000, 330.3800, 1, 0.0000, '2026-01-11', 0),
-('6963d9e8b880c', '1', '6', '2026-01-11', '695a544e6d1f1', 'DEV. PRUEBA DE MOVIMIENTO', 0.0000, 330.3800, 1, 0.0000, '2026-01-11', 1),
-('6963da403ce53', '1', '6', '2026-01-11', '695a544e6d1f1', 'DEV. PRUEBA DE MOVIMIENTO', 0.0000, 330.3800, 1, 0.0000, '2026-01-11', 1),
-('6963dbf666330', '1', '6', '2026-01-11', '695a544e6d1f1', 'DEV. MAS DE LAS PRUEBAS', 3.0000, 330.3800, 1, 991.1400, '2026-01-11', 1),
-('6963dc026f576', '1', '7', '2026-01-11', '695a5479a7d80', 'DEV. OTRA MAS', 0.0000, 330.3800, 1, 0.0000, '2026-01-11', 1),
-('6963dc5b12c3b', '1', '7', '2026-01-11', '695a544e6d1f1', 'DEV. NUEVA PRUEBA', 0.0000, 330.3800, 1, 0.0000, '2026-01-11', 1),
-('6963dc61dcb5c', '1', '6', '2026-01-11', '695a544e6d1f1', 'DEV. PRUEBA DE MOVIMIENTO', 0.0000, 330.3800, 1, 0.0000, '2026-01-11', 1);
+('69641e792871a', '1', '2', '2026-01-11', '695a544e6d1f1', 'UNO', 10.0000, 330.3800, 1, 3303.8000, '2026-01-11', 0),
+('69641ed8ce59c', '1', '7', '2026-01-11', '695a544e6d1f1', 'DEV. UNO', 10.0000, 330.3800, 1, 3303.8000, '2026-01-11', 1),
+('69641f1fbddbf', '1', '1', '2026-01-11', '695a544e6d1f1', 'PRUEBA DE VENTAS', 38.5000, 330.3800, 1, 12719.6300, '2026-01-11', 0),
+('69641f2f80978', '1', '6', '2026-01-11', '695a544e6d1f1', 'DEV. PRUEBA DE VENTAS', 38.5000, 330.3800, 1, 12719.6300, '2026-01-11', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `inventory_movement_items_data_table`
+--
+
+CREATE TABLE `inventory_movement_items_data_table` (
+  `imi_id` int NOT NULL,
+  `imi_movement` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `imi_date` date NOT NULL,
+  `imi_product` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `imi_type` int NOT NULL,
+  `imi_unit` int NOT NULL,
+  `imi_amount` decimal(28,4) NOT NULL,
+  `imi_quantity` decimal(28,4) NOT NULL,
+  `imi_total` decimal(28,4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `inventory_movement_items_data_table`
+--
+
+INSERT INTO `inventory_movement_items_data_table` (`imi_id`, `imi_movement`, `imi_date`, `imi_product`, `imi_type`, `imi_unit`, `imi_amount`, `imi_quantity`, `imi_total`) VALUES
+(1, '69641e792871a', '2026-01-11', '695af4626efe7', 1, 2, 2.0000, 5.0000, 10.0000),
+(2, '69641ed8ce59c', '2026-01-11', '695af4626efe7', 1, 2, 2.0000, 5.0000, 10.0000),
+(3, '69641f1fbddbf', '2026-01-11', '695af4626efe7', 1, 2, 1.5000, 5.0000, 7.5000),
+(4, '69641f1fbddbf', '2026-01-11', '695af4845358e', 1, 1, 1.2000, 5.0000, 6.0000),
+(5, '69641f1fbddbf', '2026-01-11', '696023870dfed', 2, 3, 5.0000, 5.0000, 25.0000),
+(6, '69641f2f80978', '2026-01-11', '695af4626efe7', 1, 2, 1.5000, 5.0000, 7.5000),
+(7, '69641f2f80978', '2026-01-11', '695af4845358e', 1, 1, 1.2000, 5.0000, 6.0000),
+(8, '69641f2f80978', '2026-01-11', '696023870dfed', 2, 3, 5.0000, 5.0000, 25.0000);
 
 -- --------------------------------------------------------
 
@@ -284,10 +310,10 @@ CREATE TABLE `product_data_table` (
 --
 
 INSERT INTO `product_data_table` (`p_id`, `pc_id`, `p_code`, `p_name`, `p_unit`, `p_price_p`, `p_price_s`, `p_existence`, `p_status`) VALUES
-('695af4626efe7', 1, 'PROD-01', 'ARROZ', 2, 2.0000, 1.5000, 0, 1),
-('695af4845358e', 1, 'PROD-02', 'POLLO', 1, 1.0000, 1.2000, 0, 1),
+('695af4626efe7', 1, 'PROD-01', 'ARROZ', 2, 2.0000, 1.5000, 20, 1),
+('695af4845358e', 1, 'PROD-02', 'POLLO', 1, 1.0000, 1.2000, 20, 1),
 ('696021c7954f0', 2, 'RECE-01', 'ARRROZ CON POLLO', 3, 3.8000, 5.0000, 0, 0),
-('696023870dfed', 2, 'RECE-02', 'ARROZ CON POLLO', 3, 3.3000, 5.0000, 0, 1);
+('696023870dfed', 2, 'RECE-02', 'ARROZ CON POLLO', 3, 3.3000, 5.0000, 20, 1);
 
 -- --------------------------------------------------------
 
@@ -476,6 +502,12 @@ ALTER TABLE `inventory_movements_data_table`
   ADD PRIMARY KEY (`im_id`);
 
 --
+-- Indices de la tabla `inventory_movement_items_data_table`
+--
+ALTER TABLE `inventory_movement_items_data_table`
+  ADD PRIMARY KEY (`imi_id`);
+
+--
 -- Indices de la tabla `inventory_movement_types_data_table`
 --
 ALTER TABLE `inventory_movement_types_data_table`
@@ -568,6 +600,12 @@ ALTER TABLE `company_data_table`
 --
 ALTER TABLE `container_model_data_table`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de la tabla `inventory_movement_items_data_table`
+--
+ALTER TABLE `inventory_movement_items_data_table`
+  MODIFY `imi_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `inventory_movement_types_data_table`

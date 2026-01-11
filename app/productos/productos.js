@@ -201,7 +201,6 @@ $(document).ready(function () {
     getTotalMovement();
   })
 
-
   /* Accion para Guardar o Actualizar Informacion de los Gastos en la Base de Datos */
   $('#formproduct').submit(function (e) {
     e.preventDefault();
@@ -333,6 +332,8 @@ $(document).ready(function () {
           dataType: 'json',
           data: { id: id },
           success: function (response) {
+            console.log(response);
+            
             if (response.status == true) {
               Swal.fire({
                 icon: "success",

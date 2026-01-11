@@ -63,7 +63,7 @@ class Products extends Conectar
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->prepare("SELECT A.p_id, B.pc_name, p_code, p_name, pu_name, p_price_p, p_price_s, pu_acronym
+    $stmt = $conectar->prepare("SELECT A.p_id, B.pc_name, p_code, p_name, pu_name, p_price_p, p_price_s, pu_acronym, p_status, p_existence
                                   FROM product_data_table AS A
                                   INNER JOIN product_category_data_table AS B ON A.pc_id=B.pc_id
                                   INNER JOIN product_units_data_table AS C ON A.p_unit=C.pu_id 
@@ -156,7 +156,7 @@ class Products extends Conectar
   public function addQuantityByProductDB($id, $quantity)
   {
     $conectar = parent::conexion();
-    $stmt = $conectar->prepare("UPDATE product_data_table SET p_quantity = p_quantity + :quantity WHERE p_id = :id");
+    $stmt = $conectar->prepare("UPDATE product_data_table SET p_existence = p_existence + :quantity WHERE p_id = :id");
     $stmt->execute(['quantity' => $quantity, 'id' => $id]);
     return $stmt->rowCount();
   }
@@ -164,7 +164,7 @@ class Products extends Conectar
   public function subtractQuantityByProductDB($id, $quantity)
   {
     $conectar = parent::conexion();
-    $stmt = $conectar->prepare("UPDATE product_data_table SET p_quantity = p_quantity - :quantity WHERE p_id = :id");
+    $stmt = $conectar->prepare("UPDATE product_data_table SET p_existence = p_existence - :quantity WHERE p_id = :id");
     $stmt->execute(['quantity' => $quantity, 'id' => $id]);
     return $stmt->rowCount();
   }
@@ -172,7 +172,7 @@ class Products extends Conectar
   public function matchQuantityByProductDB($id, $quantity)
   {
     $conectar = parent::conexion();
-    $stmt = $conectar->prepare("UPDATE product_data_table SET p_quantity = :quantity WHERE p_id = :id");
+    $stmt = $conectar->prepare("UPDATE product_data_table SET p_existence = :quantity WHERE p_id = :id");
     $stmt->execute(['quantity' => $quantity, 'id' => $id]);
     return $stmt->rowCount();
   }

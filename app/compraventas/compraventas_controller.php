@@ -7,7 +7,7 @@ require_once("compraventas_module.php");
 $mov = new Movements();
 $products = new Products();
 
-$id = (isset($_POST['id'])) ? $_POST['id'] : '';
+$id = (isset($_POST['id'])) ? $_POST['id'] : '6964130eb448f';
 $company = (isset($_POST['company'])) ? $_POST['company'] : '';
 $category = (isset($_POST['category'])) ? $_POST['category'] : '';
 $date = (isset($_POST['date'])) ? $_POST['date'] : '0000-00-00';
@@ -26,15 +26,11 @@ switch ($_GET["op"]) {
       $id = uniqid();
       $data = $mov->createDataAccountMovementDB($id, $company, $category, $date, $rtype, $rate, $partner, $amount, $change, $name);
       if ($data) {
-        /* foreach (json_decode($items, true) as $row) {
-          $dataitems = $mov->createDataAccountMovementItemsDB($id, $row['id'], $rate, $row['amount'], $row['quantity'], $row['total']);
-          if ($cate == 1) {
-            $products->subtractQuantityByProductDB($row['id'], $row['quantity']);
-          };
-          if ($cate == 2) {
-            $products->addQuantityByProductDB($row['id'], $row['quantity']);
-          };
-        } */
+        foreach (json_decode($items, true) as $row) {
+          $dataitems = $mov->createDataMovementItemsDB($id, $date, $row['id'], $row['cate'], $row['unit'], $row['amount'], $row['quantity'], $row['total']);
+          $newqty = ($category== 1) ? $products->subtractQuantityByProductDB($row['id'], $row['quantity']) : $products->addQuantityByProductDB($row['id'], $row['quantity']);
+          //$newtotal = $products->updateTotalByProductDB($row['id'], $row['total']);
+        }
         $dato['status'] = true;
         $dato['error'] = '200';
         $dato['message'] = "El Movimiento Fue Creado Satisfactoriamente \n";
@@ -85,20 +81,17 @@ switch ($_GET["op"]) {
     $dato = array();
     $data = $mov->deleteDataAccountMovementDB($id);
     $movement = $mov->getDataAccountMovementDB($id);
-    //$items = $mov->getDataAccountMovementItemsByMovementDB($id);
-
+    $items = $mov->getDataMovementItemsByMovementDB($id);
     $id = uniqid();
     $date = date('Y-m-d');
     $category = ($movement[0]['im_type'] == 1) ? 6 : 7;
     if ($data) {
       $ope = $mov->createDataAccountMovementDB($id, $movement[0]['im_company'], $category, $date, $movement[0]['im_rtype'], $movement[0]['im_rate'], $movement[0]['im_partner'], $movement[0]['im_amount'], $movement[0]['im_change'], 'DEV. ' . $movement[0]['im_description']);
       if ($ope) {
-        /* foreach ($items as $row) {
-          $dataitems = $mov->createDataAccountMovementItemsDB($nid, $row['ami_product'], $row['ami_rate'], $row['ami_amount'], $row['ami_quantity'], $row['ami_total']);
-          if ($dataitems) {
-            $products->addQuantityByProductDB($row['ami_product'], $row['ami_quantity']);
-          }
-        }  */
+        foreach ($items as $row) {
+          $dataitems = $mov->createDataMovementItemsDB($id, $date, $row['imi_product'], $row['imi_type'], $row['imi_unit'], $row['imi_amount'], $row['imi_quantity'], $row['imi_total']);
+          $newqty = ($category== 7) ? $products->subtractQuantityByProductDB($row['imi_product'], $row['imi_quantity']) : $products->addQuantityByProductDB($row['imi_product'], $row['imi_quantity']);
+        } 
         $dato['status'] = true;
         $dato['error'] = '200';
         $dato['message'] = "El Movimiento Fue Eliminado Satisfactoriamente \n";

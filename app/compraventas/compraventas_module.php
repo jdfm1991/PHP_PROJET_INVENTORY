@@ -56,49 +56,60 @@ class Movements extends Conectar
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->prepare("SELECT A.im_id, A.im_name, B.amt_name, C.ami_quantity 
+    $stmt = $conectar->prepare("SELECT A.im_id, A.im_name, B.amt_name, C.imi_quantity 
                                   FROM inventory_movements_data_table AS A 
                                 INNER JOIN account_movement_types_data_table AS B ON A.ac_id=B.amt_id
-                                INNER JOIN account_movement_items_data_table AS C ON A.im_id=C.ami_movement
-                                WHERE ami_product = :id");
+                                INNER JOIN inventory_movement_items_data_table AS C ON A.im_id=C.imi_movement
+                                WHERE imi_product = :id");
     $stmt->execute(['id' => $id]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function createDataAccountMovementItemsDB($movement, $product, $rate, $amount, $quantity, $total)
+  public function createDataMovementItemsDB($movement, $date, $product, $type,  $unit, $amount, $quantity, $total)
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->prepare("INSERT INTO account_movement_items_data_table (ami_movement, ami_product, ami_rate, ami_amount, ami_quantity, ami_total) VALUES (:movement, :product, :rate, :amount, :quantity, :total)");
-    $stmt->execute(['movement' => $movement, 'product' => $product, 'rate' => $rate, 'amount' => $amount, 'quantity' => $quantity, 'total' => $total]);
+    $stmt = $conectar->prepare("INSERT INTO inventory_movement_items_data_table (imi_movement, imi_date, imi_product, imi_type, imi_unit, imi_amount, imi_quantity, imi_total) VALUES (:movement, :date, :product, :type, :unit, :amount, :quantity, :total)");
+    $stmt->execute(['movement' => $movement, 'date' => $date, 'product' => $product, 'type' => $type, 'unit' => $unit, 'amount' => $amount, 'quantity' => $quantity, 'total' => $total]);
+    return $stmt->rowCount();
+  }
+
+  public function validatePartnerMovementsDB($id)
+  {
+    $conectar = parent::conexion();
+    parent::set_names();
+    $stmt = $conectar->prepare("SELECT * FROM inventory_movements_data_table WHERE im_partner = :partner AND im_status = 1");
+    $stmt->execute(['partner' => $id]);
     return $stmt->rowCount();
   }
 
   
-  public function getDataAccountMovementItemsByMovementDB($id)
+  public function getDataMovementItemsByMovementDB($id)
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->prepare("SELECT * FROM account_movement_items_data_table WHERE ami_movement = :id");
+    $stmt = $conectar->prepare("SELECT * FROM inventory_movement_items_data_table WHERE imi_movement = :id");
     $stmt->execute(['id' => $id]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function validateAccountMovementsDB($id)
+  public function validateProductMovementsDB($id)
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->prepare("SELECT * FROM inventory_movements_data_table WHERE a_id = :account AND im_status = 1");
-    $stmt->execute(['account' => $id]);
+    $stmt = $conectar->prepare("SELECT * FROM inventory_movement_items_data_table WHERE imi_product = :product");
+    $stmt->execute(['product' => $id]);
     return $stmt->rowCount();
   }
 
-  public function validateAccountMovementsByEntityDB($id)
+  public function validateCompanyMovementsDB($id)
   {
     $conectar = parent::conexion();
     parent::set_names();
-    $stmt = $conectar->prepare("SELECT * FROM inventory_movements_data_table WHERE e_id = :entity AND im_status = 1");
-    $stmt->execute(['entity' => $id]);
+    $stmt = $conectar->prepare("SELECT * FROM inventory_movements_data_table WHERE im_company = :company");
+    $stmt->execute(['company' => $id]);
     return $stmt->rowCount();
   }
+
+  
 }
