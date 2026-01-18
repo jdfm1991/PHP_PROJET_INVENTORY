@@ -4,11 +4,11 @@ $(document).ready(function () {
 
   const i_id = document.getElementsByName('pi_id');
   const ci_id = document.getElementsByName('pci_id');
-  const i_code = document.getElementsByName('pi_code');
   const i_name = document.getElementsByName('pi_name');
+  const ui_id = document.getElementsByName('pui_id');
   const i_amount = document.getElementsByName('pi_amount');
   const i_quantity = document.getElementsByName('pi_quantity');
-  const i_quant = document.getElementsByName('pi_quant');
+  const i_existence = document.getElementsByName('pi_existence');
   const i_balance = document.getElementsByName('pi_balance');
   const i_total = document.getElementsByName('pi_total');
 
@@ -52,12 +52,16 @@ $(document).ready(function () {
         dataSrc: "",
       },
       columns: [
-        { data: "cate" },
+        { data: "company" },
+        { data: "category" },
+        { data: "partner" },
         { data: "date" },
-        { data: "account" },
-        { data: "entity" },
-        { data: "movement" },
         { data: "amount" },
+        { data: "change" },
+        {
+          data: "id", render: (data, _, __, meta) =>
+            `<button id="b_view" class="btn btn-outline-primary btn-sm" data-value="${data}" title="Ver Movimento"><i class="fa fa-eye"></i></button>`
+        }
       ]
     });
   }
@@ -65,7 +69,10 @@ $(document).ready(function () {
   $('#newmovement').click(function (e) {
     e.preventDefault();
     loadDataRateTypes();
+    loadDataSelectCompanies();
     $('.modal-title').text('Nuevo Movimiento de Cuenta');
+    $('.table').hide();
+    $('#newInventoryMovementModal').modal('show');
     $('#ac_id3').attr('disabled', false);
     $('#formmovementinventory')[0].reset();
   });
@@ -73,6 +80,9 @@ $(document).ready(function () {
   $("#ac_id3").change(function () {
     $('#content_item2').empty();
     items = []
+    $('.table').hide();
+    counter = 0;
+    
   });
   /* Accion para contar los caracteres de la descripcion */
   $('#im_name').keyup(function (e) {
@@ -116,6 +126,14 @@ $(document).ready(function () {
   /* Funcion Para Cargar El Contenido del Selectores del Modal "newInventoryMovementModal" */
   $('#b_add_p2').click(function (e) {
     e.preventDefault();
+    if (ac_id.value == "") {
+      $(".mr-auto").text("Procesos Fallido");
+      $(".toast").css("background-color", "rgba(148, 16, 224, 0.59)");
+      $(".toast").css("color", "rgba(255, 255, 255, 1)");
+      $("#toastText").text("Debe de Seleccionar Una Categoria Para Continuar");
+      $('.toast').toast('show');
+      return false;
+    }
     id = $('#p_search2').val().split(' - ')[1];
     if (id == undefined) {
       $(".mr-auto").text("Procesos Fallido");
@@ -131,9 +149,6 @@ $(document).ready(function () {
       dataType: 'json',
       data: { id: id },
       success: function (response) {
-        i_id.forEach(input => {
-          items.push(input.value);
-        })
         if (items.includes(response.id)) {
           $(".mr-auto").text("Procesos Fallido");
           $(".toast").css("background-color", "rgba(16, 113, 224, 0.43)");
@@ -141,22 +156,34 @@ $(document).ready(function () {
           $("#toastText").text("Producto Seleccionado ya se Encuentra en el Listado");
           $('.toast').toast('show');
           return false;
-        }
+        }        
         $("#content_item2").append(
-          `<div name="item" id="cont_${counter}" class="row justify-content-between">
+          `<tr name="item" id="cont_${counter}">
+            <td>
             <input type="hidden" name="pi_id" id="pi_id_${counter}" value="${response.id}">
             <input type="hidden" name="pci_id" id="pci_id_${counter}" value="${response.cate}">
-            <button id="b_trash" type="button" class="col-md-1 btn btn-outline-danger btn-group-sm" data-value="${counter}" title="Eliminar Item"><i class="bi bi-dash"></i></button>
-            <input name="pi_code" id="pi_code_${counter}" type="text" class="form-control col-md-2" value="${response.code}" disabled>
-            <input name="pi_name" id="pi_name_${counter}" type="text" class="form-control col-md-2" value="${response.name}" disabled>
-            <input name="pi_amount" id="pi_amount_${counter}" type="text" class="form-control col-md-1" value="${response.aumonts}" disabled>
-            <input name="pi_quantity" id="pi_quantity_${counter}" type="number" class="form-control col-md-1" step="0.1">
-            <input name="pi_quant" id="pi_quant_${counter}" type="text" class="form-control col-md-1" value="${response.quan}" disabled>
-            <input name="pi_balance" id="pi_balance_${counter}" type="text" class="form-control col-md-1" disabled>
-            <input name="pi_total" id="pi_total_${counter}" type="text" class="form-control col-md-1" disabled>
-          </div>`
+            <input type="hidden" name="pui_id" id="pui_id_${counter}" value="${response.unit}">
+            <button id="b_trash" type="button" class="btn btn-outline-danger" data-value="${counter}" data-product="${response.id}"><i class="bi bi-dash"></i></button>
+            </td>
+            <td>${response.name}
+            <input type="hidden" name="pi_name" id="pi_name_${counter}" value="${response.name}">
+            </td>
+            <td>${response.aumonts}
+            <input type="hidden" name="pi_amount" id="pi_amount_${counter}" value="${response.aumonts}">
+            </td>
+            <td><input name="pi_quantity" id="pi_quantity_${counter}" type="text" class="form-control"></td>
+            <td>${response.existence}
+            <input  type="hidden" name="pi_existence" id="pi_existence_${counter}" value="${response.existence}">
+            </td>
+            <td>${response.acronym}</td>
+            <td><input name="pi_balance" id="pi_balance_${counter}" type="text" class="form-control" disabled></td>
+            <td><input name="pi_total" id="pi_total_${counter}" type="text" class="form-control" disabled></td>
+          </tr>`
         );
+        items.push(response.id);
+        $('.table').show();
         counter++;
+
         $('#p_search2').val('');
         for (let i = 0; i < counter; i++) {
           let balance = 0;
@@ -166,18 +193,21 @@ $(document).ready(function () {
           if (element) {
             element.addEventListener('keyup', function () {
               quantity = $(element).val();
+              if (quantity == "") {
+                quantity = 0;
+              }
               price = $(`#pi_amount_${i}`).val();
-              quant = $(`#pi_quant_${i}`).val();
+              existence = $(`#pi_existence_${i}`).val();
               if (ac_id.value == 3) {
-                balance = Number.parseFloat(quant) + Number.parseFloat(quantity);
+                balance = Number.parseFloat(existence) + Number.parseFloat(quantity);
                 total = Number.parseFloat(quantity) * Number.parseFloat(price);
               }
               if (ac_id.value == 4) {
-                balance = Number.parseFloat(quant) - Number.parseFloat(quantity);
+                balance = Number.parseFloat(existence) - Number.parseFloat(quantity);
                 total = Number.parseFloat(quantity) * Number.parseFloat(price);
               }
               if (ac_id.value == 5) {
-                balance = Number.parseFloat(quantity) - Number.parseFloat(quant);
+                balance = Number.parseFloat(quantity) - Number.parseFloat(existence);
                 total = Number.parseFloat(balance) * Number.parseFloat(price);
               }
 
@@ -196,31 +226,37 @@ $(document).ready(function () {
     e.preventDefault();
     let infoitems = [];
     id = $('#im_id').val();
-    cate = $('#ac_id3').val();
+    company = $('#am_company2').val();
+    category = $('#ac_id3').val();
     date = $('#im_date').val();
+    rtype = $('input[name="rtype"]:checked').val();
+    rate = $('#im_rate').val();
     name = $('#im_name').val().toUpperCase();
     amount = $('#im_amount').val();
-    rate = $('#im_rate').val();
     change = $('#im_change').val();
     for (let i = 0; i < item.length; i++) {
       const id = i_id[i].value;
-      const cate = ci_id[i].value;
-      const code = i_code[i].value;
       const name = i_name[i].value;
+      const cate = ci_id[i].value;
+      const unit = ui_id[i].value;
       const amount = i_amount[i].value;
       const quantity = i_quantity[i].value;
-      const quant = i_quant[i].value;
+      const existence = i_existence[i].value;
       const balance = i_balance[i].value;
       const total = i_total[i].value;
-      infoitems.push({ id: id, cate: cate, code: code, name: name, amount: amount, quantity: quantity, quant: quant, balance: balance, total: total });
+      infoitems.push({ id: id, name: name, cate: cate, unit: unit, amount: amount, quantity: quantity, existence: existence, balance: balance, total: total });
     }
+   // console.log({id: id, company: company, category: category, date: date, rtype: rtype, rate: rate, name: name, amount: amount, change: change, items: infoitems});
+    
     dato = new FormData();
     dato.append('id', id);
-    dato.append('cate', cate);
+    dato.append('company', company);
+    dato.append('category', category);
     dato.append('date', date);
+    dato.append('rtype', rtype);
+    dato.append('rate', rate);
     dato.append('name', name);
     dato.append('amount', amount);
-    dato.append('rate', rate);
     dato.append('change', change);
     dato.append('items', JSON.stringify(infoitems));
     $.ajax({
@@ -330,9 +366,15 @@ $(document).ready(function () {
 
   $(document).on('click', '#b_trash', function () {
     const id = $(this).data('value');
+    var product = $(this).data('product');
+    var indice = items.indexOf(product)
+    items.splice(indice, 1)
     const container = document.getElementById('cont_' + id)
     container.remove();
-    const del_container = document.getElementById('cont_' + id);
+    const del_container = document.getElementById('cont_' + id);   
+    if (items.length === 0) {
+      $('.table').hide();
+    }
     if (del_container == null) {
       $(".mr-auto").text("Procesos Exitoso");
       $(".toast").css("z-index", "1000");
@@ -352,9 +394,16 @@ $(document).ready(function () {
     }
     getTotalMovement();
   })
-  $(document).on('click', 'input[name="opcion"]', function () {
+
+  $('#im_date').change(function (e) {
+    e.preventDefault();
+    rtype = $('input[name="rtype"]:checked').val();
+    loadDataRateByDate(rtype);
+
+  });
+  $(document).on('click', 'input[name="rtype"]', function () {
     const id = $(this).attr('value');
-    loadDataRateToday(id);
+    loadDataRateByDate(id);
   })
   function getTotalMovement() {
     let sum = 0;
@@ -380,35 +429,47 @@ $(document).ready(function () {
       success: function (response) {
         $('#cont_opcion2').empty();
         $.each(response, function (idx, opt) {
+          $('#cont_opcion2').append(`
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="rtype" id="${opt.id}" value="${opt.id}">
+              <label class="form-check-label" for="${opt.id}">${opt.acr}</label>
+            </div>`
+          );
           if (opt.id == 1) {
-            $('#cont_opcion2').append(`
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="opcion" id="${opt.id}" value="${opt.id}">
-                <label class="form-check-label" for="${opt.id}">${opt.acr}</label>
-              </div>`
-            );
-            loadDataRateToday(opt.id);
+            loadDataRateByDate(opt.id);
             document.getElementById(opt.id).checked = true;
           }
         })
       }
     });
   }
-  function loadDataRateToday(id) {
+
+  function loadDataSelectCompanies(id) {
+    $.ajax({
+      url: URI + 'empresas/empresas_controller.php?op=get_list_companies',
+      method: 'POST',
+      dataType: 'json',
+      success: function (response) {
+        $("#am_company2").empty();
+        $("#am_company2").append('<option value="">_-_Seleccione_-_</option>');
+        $.each(response, function (idx, opt) {
+          $("#am_company2").append((opt.id == id) ?
+            '<option value="' + opt.id + '" selected>' + opt.name + "</option>" :
+            '<option value="' + opt.id + '">' + opt.name + "</option>"
+          );
+        });
+      }
+    });
+  }
+  function loadDataRateByDate(type) {
+    let date = $('#im_date').val();
     $.ajax({
       url: URI + 'tasacambiaria/tasacambiaria_controller.php?op=get_data_rate',
       method: 'POST',
       dataType: 'json',
+      data: { type: type, date: date },
       success: function (response) {
-        if (id == 1) {
-          $('#im_rate').val(response.dollar);
-        }
-        if (id == 2) {
-          $('#im_rate').val(response.euro);
-        }
-        if (id == 3) {
-          $('#im_rate').val(response.pref);
-        }
+        $('#im_rate').val(response.rate);
         getTotalMovement();
       }
     });

@@ -146,8 +146,8 @@ $(document).ready(function () {
             <input type="hidden" name="pi_id" id="pi_id_${counter}" value="${response.id}">
             <button id="b_trash" type="button" class="col-md-1 btn btn-danger btn-group-sm" data-value="${counter}" title="Eliminar Item"><i class="bi bi-dash"></i></button>
             <input name="pi_name" id="pi_name_${counter}" type="text" class="form-control col-md-4" value="${response.name}" disabled>
-            <input name="pi_amount" id="pi_amount_${counter}" type="text" class="form-control col-md-2" value="${ac_id.value == 1 ? response.aumonts : response.aumontp}" disabled>
-            <input name="pi_quantity" id="pi_quantity_${counter}" type="number" class="form-control col-md-2" step="0.1">
+            <input name="pi_amount" id="pi_amount_${counter}" type="text" class="form-control col-md-2" value="${ response.aumontp}" disabled>
+            <input name="pi_quantity" id="pi_quantity_${counter}" type="text" class="form-control col-md-2" step="0.1">
             <input name="pi_unit" id="pi_unit_${counter}" type="text" class="form-control col-md-1" value="${response.acronym}" disabled>
             <input name="pi_total" id="pi_total_${counter}" type="text" class="form-control col-md-2" value="" disabled></div>`
         );

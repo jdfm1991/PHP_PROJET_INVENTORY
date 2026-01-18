@@ -34,12 +34,13 @@ require_once(PATH_APP . "/head.php");
                 <table id="inventory_table" class="table table-striped table-bordered" style="width:100%">
                   <thead>
                     <tr>
-                      <th>Categoria</th>
+                      <th>Empresa</th>
+                      <th>Movimiento</th>
+                      <th>Cliente o Proveedor</th>
                       <th>Fecha</th>
-                      <th>Cuenta</th>
-                      <th>Sujeto o Entidad</th>
-                      <th>Concepto</th>
-                      <th>Monto</th>
+                      <th>Monto $</th>
+                      <th>Monto Bs</th>
+                      <th>Accion</th>
                     </tr>
                   </thead>
                   <tbody>

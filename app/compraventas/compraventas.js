@@ -266,6 +266,9 @@ $(document).ready(function () {
           if (element) {
             element.addEventListener('keyup', function () {
               quantity = $(element).val();
+              if (quantity == '') {
+                quantity = 0;
+              }
               price = $(`#pi_amount_${i}`).val();
               total = Number.parseFloat(quantity) * Number.parseFloat(price);
               $(`#pi_total_${i}`).val(total.toFixed(2));

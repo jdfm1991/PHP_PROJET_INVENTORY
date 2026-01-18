@@ -29,7 +29,6 @@ switch ($_GET["op"]) {
         foreach (json_decode($items, true) as $row) {
           $dataitems = $mov->createDataMovementItemsDB($id, $date, $row['id'], $row['cate'], $row['unit'], $row['amount'], $row['quantity'], $row['total']);
           $newqty = ($category== 1) ? $products->subtractQuantityByProductDB($row['id'], $row['quantity']) : $products->addQuantityByProductDB($row['id'], $row['quantity']);
-          //$newtotal = $products->updateTotalByProductDB($row['id'], $row['total']);
         }
         $dato['status'] = true;
         $dato['error'] = '200';

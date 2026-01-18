@@ -583,7 +583,13 @@ Modal Nuevo Usuario
         <form id="formmovementinventory">
           <input type="hidden" id="im_id">
           <div class="form-row">
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
+              <label for="am_company2" class="form-label">Empresa</label>
+              <select class="form-control" id="am_company2" required>
+                <!-- Se carga a Traves de Archivo JS con arrow function "loadDataSelectCompany" -->
+              </select>
+            </div>
+            <div class="form-group col-md-2">
               <label for="ac_id3" class="form-label">Categorias</label>
               <select class="form-control" id="ac_id3" required>
                 <option value="">Tipo</option>
@@ -592,27 +598,28 @@ Modal Nuevo Usuario
                 <option value="5">AJUSTES</option>
               </select>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-2">
               <label for="im_date" class="form-label">Fec. del Mov.</label>
               <input type="date" class="form-control" id="im_date" max="<?php echo date('Y-m-d'); ?>"
                 value="<?php echo date('Y-m-d'); ?>" required>
             </div>
-            <div id="cont_opcion2" class="form-group col-md-4">
+            <div id="cont_opcion2" class="form-group col-md-2">
               <!-- Se carga a Traves de Archivo JS con function "loadDataRateTypes" -->
             </div>
-            <div class="form-group col-md-4">
-              <label for="im_amount">Monto Total $</label>
-              <input type="text" class="form-control" id="im_amount" name="onlynumber" required disabled>
-            </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-2">
               <label for="im_rate">tasa de cambio</label>
               <input type="text" class="form-control" id="im_rate" name="onlynumber" required disabled>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-2">
+              <label for="im_amount">Monto Total $</label>
+              <input type="text" class="form-control" id="im_amount" name="onlynumber" required disabled>
+            </div>
+            
+            <div class="form-group col-md-2">
               <label for="im_change">Cambio Bolivares</label>
               <input type="text" class="form-control" id="im_change" name="onlynumber" required disabled>
             </div>
-            <div class="form-group col-md-8">
+            <div class="form-group col-md-5">
               <label for="im_name">Detalle</label>
               <textarea id="im_name" class="form-control" rows="2"
                 placeholder="Ingrese el Detalle del Movimiento a realizar"
@@ -621,7 +628,7 @@ Modal Nuevo Usuario
                 realizar</small>
               <label id="count" class="float-right"></label>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
               <label for="p_search2" class="form-label">Buscar Producto</label>
               <div class="d-flex">
                 <input type="search2" id="p_search2" class="form-control d-inline" list="listproducts2">
@@ -634,7 +641,23 @@ Modal Nuevo Usuario
           </div>
           <!-- Inicio de contenedor de los Items Movimiento -->
           <div class="card mb-2">
-            <div id="content_item2" class="card-body">
+            <table class="table table-striped table-bordered table-sm table-hover table-responsive m-0" style="width:100%">
+              <thead>
+                <tr class="table-active text-center text-white bg-primary">
+                  <th scope="col-sm-1" >Acciones</th>
+                  <th style="width:300px">Producto</th>
+                  <th style="width:100px">Costo</th>
+                  <th scope="col-sm-1">Cantidad</th>
+                  <th scope="col-sm-1">Existencia</th>
+                  <th scope="col-sm-1">Unidad</th>
+                  <th scope="col-sm-1">Ajuste</th>
+                  <th scope="col-sm-1">Costo Total</th>
+                </tr>
+              </thead>
+              <tbody id="content_item2">
+              </tbody>
+            </table>
+            <div id="content_ite" class="m-0">
 
             </div>
           </div>
