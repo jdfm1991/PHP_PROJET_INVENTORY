@@ -1,3 +1,77 @@
+.contenedor {
+  display: flex; /* ¡Esto activa Flexbox! */
+  flex-direction: row; /* Por defecto, alinea en fila */
+  justify-content: center; /* Centra los ítems horizontalmente */
+  align-items: center; /* Centra los ítems verticalmente */
+  gap: 10px; /* Espacio entre los ítems */
+  height: 300px; /* Altura para ver el centrado vertical */
+  background-color: #f0f0f0;
+}
+
+.item2 {
+  background-color: #007bff;
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+
+.contenedor-tabla {
+    display: table; /* Similar a un contenedor flex */
+    width: 100%;
+    border-collapse: collapse; /* Para tablas */
+}
+
+.item {
+    display: table-cell; /* Similar a los ítems flex */
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+/* Si necesitas que se alineen como flex-row */
+.contenedor-tabla-row {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.item-row {
+    display: table-cell;
+    vertical-align: middle; /* Para centrar verticalmente si es necesario */
+}
+
+
+
+.contenedor-flotante {
+    /* No display:flex; */
+    overflow: hidden; /* Para contener los flotantes */
+}
+
+.item-flotante {
+    float: left; /* Alinea a la izquierda */
+    width: 33%; /* Ocupa un tercio del contenedor */
+    box-sizing: border-box; /* Incluye padding y border en el width */
+    padding: 10px;
+}
+
+.item-flotante:nth-child(3n+1) { /* Para que se organicen en filas */
+    clear: left; /* Inicia una nueva fila */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .details {
   max-height: 200px;
   overflow-y: auto;
