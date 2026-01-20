@@ -1,6 +1,6 @@
 <?php
-
-use Mpdf\Tag\P;
+date_default_timezone_set('America/Caracas');
+setlocale(LC_TIME, 'es_ES');
 
 require_once("../../config/const.php");
 require_once(PATH_APP . "/empresas/empresas_module.php");
@@ -9,6 +9,9 @@ require_once(PATH_VENDOR . "/autoload.php");
 $pdf = new PdfGenerator();
 $html = new HtmlGenerator();
 $empresas = new Empresas();
+
+use Carbon\Carbon;
+Carbon::setLocale('es');
 
 $company = (isset($_POST['company'])) ? $_POST['company'] : 1;
 
@@ -25,10 +28,9 @@ class PdfGenerator
       'margin_footer' => 15,
       'margin_left' => 10,
       'margin_right' => 10,
-      'margin_top' => 65,
+      'margin_top' => 40,
       'margin_bottom' => 15
     ]);
-    //$mpdf->SetDisplayMode('fullpage');
     $mpdf->SetHTMLHeader($header);
     $mpdf->WriteHTML($stylesheet, \Mpdf\HTMLParserMode::HEADER_CSS);
     $mpdf->WriteHTML($html, \Mpdf\HTMLParserMode::HTML_BODY);
@@ -44,9 +46,9 @@ class HtmlGenerator
   public function generateHeaderHtml($empresas, $company)
   {
     $data = $empresas->getDataCompanyDB($company);
-    $html = '<h1>Empresa: ' . $data[0]['c_name'] . '</h1>';
-    $html .= '<h2>Direccion: ' . $data[0]['c_address'] . '</h2>';
-    $html .= '<h3>Telefono: ' . $data[0]['c_phone'] . '</h3>';
+    $html = '';
+    $name = explode(",", $data[0]['c_name']);
+    $html .= '<h1 style="margin:0">' . $name[0] . '</h1><p style="margin:0">' . $name[1] . '<br>' . $data[0]['c_address'] . '<br>' . $data[0]['c_identity'] .  '</p>';
     return $html;
   }
 }
@@ -54,15 +56,20 @@ class HtmlGenerator
 
 
 $stylesheet = file_get_contents(PATH_ASSETS . '/css/style-custom.css');
+$logo = PATH_ASSETS . '/img/logo.png';
 $dataheader = $html->generateHeaderHtml($empresas, $company);
 
 $header = '<div class="contenedor-flotante">
+  <div class="img-flotante"><img src="'.$logo.'" alt="imagen"></div>
   <div class="item-flotante">'.$dataheader.'</div>
-  <div class="item-flotante">'.$dataheader.'</div>
+  <div class="time-flotante">'.Carbon::now().'<br> {PAGENO}/{nbpg}</div>
 </div>';
 
 
 $pdf->generatePdf($stylesheet, $header,'<h1>PDF</h1>');
+
+
+
 //echo '<link  href="' . URL_ASSETS . '/css/style-custom.css" rel="stylesheet">';
 
 /* 

@@ -50,9 +50,31 @@
 
 .item-flotante {
     float: left; /* Alinea a la izquierda */
-    width: 33%; /* Ocupa un tercio del contenedor */
+    width: 65%; /* Ocupa un tercio del contenedor */
     box-sizing: border-box; /* Incluye padding y border en el width */
-    padding: 10px;
+    padding: 5px;
+    text-align: center;
+    font-size: large;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.img-flotante {
+    float: left; /* Alinea a la izquierda */
+    width: 15%; /* Ocupa un tercio del contenedor */
+    box-sizing: border-box; /* Incluye padding y border en el width */
+    padding: 5px;
+}
+.time-flotante {
+    float: left; /* Alinea a la izquierda */
+    width: 15%; /* Ocupa un tercio del contenedor */
+    box-sizing: border-box; /* Incluye padding y border en el width */
+    padding: 5px;
+    font-size: 12px;
+    text-align: right;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
 }
 
 .item-flotante:nth-child(3n+1) { /* Para que se organicen en filas */
